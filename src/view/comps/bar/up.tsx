@@ -5,7 +5,7 @@ import { Badge, IconButton } from "@mui/material";
 
 import { Row } from "@/common/ui/comps/row";
 
-export default function UpBar() {
+export function UpBar() {
   return (
     <Row
       sx={{

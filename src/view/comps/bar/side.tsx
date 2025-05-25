@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  Dashboard as DashboardIcon,
   Discount as DiscountsIcon,
   Inventory as ProductsIcon,
   LocalShipping as ShippingIcon,
@@ -12,26 +11,25 @@ import {
   Warehouse as InventoryIcon,
 } from "@mui/icons-material";
 import {
-  Box,
+  Card,
   Divider,
-  Drawer,
   List,
   ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Toolbar,
   Typography,
 } from "@mui/material";
 
-const menuItems = [
+import { Col } from "@/common/ui/comps/col";
+import { Row } from "@/common/ui/comps/row";
+import { Text } from "@/common/ui/comps/text";
+
+const items = [
   { id: "products", label: "Products", icon: ProductsIcon },
   { id: "orders", label: "Orders", icon: OrdersIcon },
   { id: "customers", label: "Customers", icon: CustomersIcon },
   { id: "inventory", label: "Inventory", icon: InventoryIcon },
-];
-
-const secondaryItems = [
   { id: "analytics", label: "Analytics", icon: AnalyticsIcon },
   { id: "shipping", label: "Shipping", icon: ShippingIcon },
   { id: "discounts", label: "Discounts", icon: DiscountsIcon },
@@ -43,14 +41,22 @@ type SidebarProps = {
   setActiveView: (view: string) => void;
 };
 
-export default function Sidebar({ activeView, setActiveView }: SidebarProps) {
-  const drawer = (
-    <>
-      <Typography>SELLER</Typography>
+export function Sidebar({ activeView, setActiveView }: SidebarProps) {
+  return (
+    <Card sx={{ width: 200 }}>
+      <Col
+        sx={{
+          alignItems: "center",
+          padding: 2,
+        }}
+      >
+        <Text ellipsis>SELLER</Text>
+      </Col>
+
       <Divider />
 
       <List>
-        {menuItems.map((item) => {
+        {items.map((item) => {
           const Icon = item.icon;
           return (
             <ListItem key={item.id} disablePadding>
@@ -67,29 +73,6 @@ export default function Sidebar({ activeView, setActiveView }: SidebarProps) {
           );
         })}
       </List>
-
-      <Divider sx={{ my: 2 }} />
-
-      <List>
-        {secondaryItems.map((item) => {
-          const Icon = item.icon;
-          return (
-            <ListItem key={item.id} disablePadding>
-              <ListItemButton
-                selected={activeView === item.id}
-                onClick={() => setActiveView(item.id)}
-              >
-                <ListItemIcon>
-                  <Icon />
-                </ListItemIcon>
-                <ListItemText primary={item.label} />
-              </ListItemButton>
-            </ListItem>
-          );
-        })}
-      </List>
-    </>
+    </Card>
   );
-
-  return <Box component="nav">{drawer}</Box>;
 }

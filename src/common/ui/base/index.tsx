@@ -1,46 +1,61 @@
-import { Badge, BadgeProps, Box, styled, Typography } from "@mui/material";
-
 export const Sx = {
-  Main: styled(Box)({
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-between",
-    height: "inherit",
-  }),
-  MainPadding: styled(Box)({
-    padding: 8,
-  }),
+  color: {
+    primary: "#3F51B5FF",
+    secondary: "#9FA8DAFF",
+    tertiary: "#FFE082FF",
 
-  Box: styled(Box)({
-    display: "flex",
-  }),
+    info: "#1565C0FF",
+    success: "#2E7D32FF",
+    successVar: "#A5D6A7FF",
+    warning: "#EF6C00FF",
+    error: "#C62828FF",
 
-  Div: styled(Box)({}),
+    surface: "#FAFAFA",
 
-  Text: styled(Typography)({
-    wordWrap: "break-word",
-  }),
+    none: "none",
+  },
+  fontWidth: {
+    thin: 100,
+    extraLight: 200,
+    light: 300,
+    normal: 400,
+    medium: 500,
+    semiBold: 600,
+    bold: 700,
+    extraBold: 800,
+    heavy: 900,
+    extraHeavy: 950,
+  },
+  fontFamily: {
+    primary: "Poppins, sans-serif",
+  },
+  fontSize: {
+    h1: "1.5rem",
+    h2: "1.25rem",
+    h3: "1rem",
 
-  Strong: styled("strong")({
-    color: "black",
-  }),
-
-  StyledBadge: styled(Badge)<BadgeProps>(({ theme }) => ({
-    "& .MuiBadge-badge": {
-      right: -4,
-      top: 4,
-      border: `2px solid ${theme.palette.background.paper}`,
-      padding: "0 4px",
-    },
-  })),
-
-  StickyNavigationTop: styled(Box)({
-    position: "sticky",
-    top: 0,
-  }),
-
-  StickyNavigationBottom: styled(Box)({
-    position: "sticky",
-    bottom: 0,
-  }),
+    p: "0.75rem",
+  },
+  boxShadow: {
+    small: "0 0 4px #808080FF",
+    medium: "0 0 6px #808080FF",
+    large: "0 0 8px #808080FF",
+  },
+  padding: {
+    page: 3,
+  },
+  borderRadius: {
+    extraSmall: 2,
+    small: 4,
+    medium: 8,
+    large: 12,
+    extraLarge: 16,
+  },
+  breakpoint: {
+    xs: 0,
+    sm: 600,
+    md: 900,
+    lg: 1200,
+    xl: 1536,
+  },
 };

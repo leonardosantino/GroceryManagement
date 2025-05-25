@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 
-import { Sx } from "@/common/ui/base/vars";
+import { Sx } from "@/common/ui/base";
 
 export const appViewport: Viewport = {
   themeColor: Sx.color.background,
