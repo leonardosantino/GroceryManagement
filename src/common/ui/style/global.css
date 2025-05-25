@@ -1,0 +1,13 @@
+@import "swiper/swiper.min.css";
+@import "swiper/css/pagination";
+
+.swiper {
+  width: 100%;
+  padding: 1px;
+  border-radius: 4px;
+  z-index: 0;
+}
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+}
