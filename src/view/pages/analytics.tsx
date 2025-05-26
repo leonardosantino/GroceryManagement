@@ -84,10 +84,11 @@ export default function Analytics() {
       <Row
         sx={{
           justifyContent: "space-between",
+          flexWrap: "wrap",
           gap: 1,
         }}
       >
-        <Col>
+        <Col sx={{ gap: 1 }}>
           <Billing />
           <AnalyticsOrders />
         </Col>

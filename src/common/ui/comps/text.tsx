@@ -12,23 +12,31 @@ type Props = {
 export function Text({ children, sx, variant, ellipsis = false }: Props) {
   if (ellipsis) {
     return (
-      <Typography
-        sx={{
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-
-          ...sx,
-        }}
-        variant={variant}
-      >
+      <TextWithEllipsis sx={sx} variant={variant}>
         {children}
-      </Typography>
+      </TextWithEllipsis>
     );
   }
   return (
     <Typography
       sx={{
         wordWrap: "break-word",
+        ...sx,
+      }}
+      variant={variant}
+    >
+      {children}
+    </Typography>
+  );
+}
+
+function TextWithEllipsis({ children, sx, variant }: Props) {
+  return (
+    <Typography
+      sx={{
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+
         ...sx,
       }}
       variant={variant}

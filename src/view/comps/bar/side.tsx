@@ -18,11 +18,10 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Typography,
 } from "@mui/material";
 
 import { Col } from "@/common/ui/comps/col";
-import { Row } from "@/common/ui/comps/row";
+import { Paper } from "@/common/ui/comps/paper";
 import { Text } from "@/common/ui/comps/text";
 
 const items = [
@@ -43,10 +42,11 @@ type SidebarProps = {
 
 export function Sidebar({ activeView, setActiveView }: SidebarProps) {
   return (
-    <Card sx={{ width: 200 }}>
+    <Paper variant={"elevation"}>
       <Col
         sx={{
           alignItems: "center",
+          width: 200,
           padding: 2,
         }}
       >
@@ -73,6 +73,6 @@ export function Sidebar({ activeView, setActiveView }: SidebarProps) {
           );
         })}
       </List>
-    </Card>
+    </Paper>
   );
 }

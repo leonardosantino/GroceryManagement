@@ -1,11 +1,17 @@
-import { Paper } from "@mui/material";
+import { Paper as MUIPaper, SxProps, Theme } from "@mui/material";
+import { OverridableStringUnion } from "@mui/types";
 import { ReactNode } from "react";
 
 type Props = {
   children: ReactNode;
-  variant?: "elevation" | "outlined";
+  sx?: SxProps<Theme>;
+  variant?: OverridableStringUnion<"elevation" | "outlined">;
 };
 
-export function Surface({ children, variant = "outlined" }: Props) {
-  return <Paper variant={variant}>{children}</Paper>;
+export function Paper({ children, variant = "outlined", sx }: Props) {
+  return (
+    <MUIPaper variant={variant} sx={sx}>
+      {children}
+    </MUIPaper>
+  );
 }

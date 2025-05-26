@@ -1,14 +1,15 @@
-import { Box, Card, Divider, Typography } from "@mui/material";
+import { Box, Divider, Typography } from "@mui/material";
 
 import { Sx } from "@/common/ui/base";
 import { Col } from "@/common/ui/comps/col";
+import { Paper } from "@/common/ui/comps/paper";
 import { Row } from "@/common/ui/comps/row";
 import { Text } from "@/common/ui/comps/text";
 
 export function BestSellers() {
   return (
-    <Card variant={"outlined"} sx={{ flexGrow: 1 }}>
-      <Col sx={{ padding: 2 }}>
+    <Paper sx={{ flexGrow: 1 }}>
+      <Col sx={{ padding: 1 }}>
         <Row sx={{ gap: 1 }}>
           <Box
             sx={{
@@ -45,7 +46,7 @@ export function BestSellers() {
           ))}
         </Box>
       </Col>
-    </Card>
+    </Paper>
   );
 }
 
