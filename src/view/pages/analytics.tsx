@@ -3,31 +3,10 @@ import {
   Inventory,
   People,
   ShoppingCart,
-  SvgIconComponent,
-  TrendingDown,
-  TrendingUp,
 } from "@mui/icons-material";
-import {
-  Avatar,
-  Box,
-  Card,
-  CardContent,
-  Chip,
-  Divider,
-  LinearProgress,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-} from "@mui/material";
 
-import { Sx } from "@/common/ui/base";
 import { Col } from "@/common/ui/comps/col";
 import { Row } from "@/common/ui/comps/row";
-import { Text } from "@/common/ui/comps/text";
 import { Billing } from "@/view/comps/analytics/billing";
 import { Metric } from "@/view/comps/analytics/metric";
 import { AnalyticsOrders } from "@/view/comps/analytics/orders";

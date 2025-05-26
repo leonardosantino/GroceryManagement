@@ -265,7 +265,7 @@ export default function Inventory() {
                     <TableCell>
                       <Chip
                         label={getStatusLabel(item.status)}
-                        color={getStatusColor(item.status) as any}
+                        color={getStatusColor(item.status)}
                         size="small"
                       />
                     </TableCell>

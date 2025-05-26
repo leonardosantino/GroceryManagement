@@ -1,43 +1,41 @@
 "use client";
 
-import type React from "react";
-
-import { useState } from "react";
 import {
+  Add as AddIcon,
+  Block as BlockIcon,
+  Edit as EditIcon,
+  Email as EmailIcon,
+  FilterList as FilterIcon,
+  MoreVert as MoreVertIcon,
+  Search as SearchIcon,
+  Visibility as ViewIcon,
+} from "@mui/icons-material";
+import {
+  Avatar,
   Box,
-  Typography,
+  Button,
   Card,
   CardContent,
+  Chip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Grid,
+  IconButton,
+  InputAdornment,
+  Menu,
+  MenuItem,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  Chip,
-  Avatar,
-  IconButton,
-  Menu,
-  MenuItem,
   TextField,
-  InputAdornment,
-  Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Grid,
+  Typography,
 } from "@mui/material";
-import {
-  MoreVert as MoreVertIcon,
-  Search as SearchIcon,
-  FilterList as FilterIcon,
-  Visibility as ViewIcon,
-  Edit as EditIcon,
-  Block as BlockIcon,
-  Email as EmailIcon,
-  Add as AddIcon,
-} from "@mui/icons-material";
+import { useState } from "react";
 
 const customers = [
   {
@@ -248,7 +246,7 @@ export default function Customers() {
                     <TableCell>
                       <Chip
                         label={customer.status}
-                        color={getStatusColor(customer.status) as any}
+                        color={getStatusColor(customer.status)}
                         size="small"
                         sx={{ textTransform: "capitalize" }}
                       />
@@ -339,7 +337,7 @@ export default function Customers() {
                   <strong>Status:</strong>
                   <Chip
                     label={selectedCustomerData.status}
-                    color={getStatusColor(selectedCustomerData.status) as any}
+                    color={getStatusColor(selectedCustomerData.status)}
                     size="small"
                     sx={{ ml: 1, textTransform: "capitalize" }}
                   />

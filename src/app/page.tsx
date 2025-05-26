@@ -8,7 +8,7 @@ import { Sidebar } from "@/view/comps/bar/side";
 import { UpBar } from "@/view/comps/bar/up";
 import { Entry } from "@/view/pages/entry";
 
-export default function Home() {
+export default function App() {
   const [view, setView] = useState("");
 
   return (

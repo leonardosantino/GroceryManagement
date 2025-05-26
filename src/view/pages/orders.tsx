@@ -227,7 +227,7 @@ export default function Orders() {
                     <TableCell>
                       <Chip
                         label={order.status}
-                        color={getStatusColor(order.status) as any}
+                        color={getStatusColor(order.status)}
                         size="small"
                         sx={{ textTransform: "capitalize" }}
                       />
@@ -235,9 +235,7 @@ export default function Orders() {
                     <TableCell>
                       <Chip
                         label={order.paymentStatus}
-                        color={
-                          getPaymentStatusColor(order.paymentStatus) as any
-                        }
+                        color={getPaymentStatusColor(order.paymentStatus)}
                         size="small"
                         variant="outlined"
                         sx={{ textTransform: "capitalize" }}
@@ -328,7 +326,7 @@ export default function Orders() {
                   <strong>Status:</strong>
                   <Chip
                     label={selectedOrderData.status}
-                    color={getStatusColor(selectedOrderData.status) as any}
+                    color={getStatusColor(selectedOrderData.status)}
                     size="small"
                     sx={{ ml: 1, textTransform: "capitalize" }}
                   />

@@ -124,7 +124,7 @@ const getStatusLabel = (status: string) => {
 
 export default function Products() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [selectedProduct, setSelectedProduct] = useState<number | null>(null);
+  const [, setSelectedProduct] = useState<number | null>(null);
   const [openDialog, setOpenDialog] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -248,7 +248,7 @@ export default function Products() {
                     <TableCell>
                       <Chip
                         label={getStatusLabel(product.status)}
-                        color={getStatusColor(product.status) as any}
+                        color={getStatusColor(product.status)}
                         size="small"
                       />
                     </TableCell>

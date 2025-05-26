@@ -11,7 +11,6 @@ import {
   Warehouse as InventoryIcon,
 } from "@mui/icons-material";
 import {
-  Card,
   Divider,
   List,
   ListItem,
