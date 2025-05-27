@@ -22,6 +22,7 @@ import {
 import { Col } from "@/common/ui/comps/col";
 import { Paper } from "@/common/ui/comps/paper";
 import { Text } from "@/common/ui/comps/text";
+import { useViewState } from "@/state/view";
 
 const items = [
   { id: "products", label: "Products", icon: ProductsIcon },
@@ -34,22 +35,15 @@ const items = [
   { id: "settings", label: "Settings", icon: SettingsIcon },
 ];
 
-type SidebarProps = {
-  activeView: string;
-  setActiveView: (view: string) => void;
-};
+export function Sidebar() {
+  const { view, setView } = useViewState();
 
-export function Sidebar({ activeView, setActiveView }: SidebarProps) {
   return (
-    <Paper variant={"elevation"}>
-      <Col
-        sx={{
-          alignItems: "center",
-          width: 200,
-          padding: 2,
-        }}
-      >
-        <Text ellipsis>SELLER</Text>
+    <Paper variant={"elevation"} sx={{ width: 200 }}>
+      <Col sx={{ justifyContent: "center", padding: 1, height: 50 }}>
+        <Text maxLength={20} sx={{ textAlign: "center" }}>
+          Opção Supermercado
+        </Text>
       </Col>
 
       <Divider />
@@ -60,8 +54,8 @@ export function Sidebar({ activeView, setActiveView }: SidebarProps) {
           return (
             <ListItem key={item.id} disablePadding>
               <ListItemButton
-                selected={activeView === item.id}
-                onClick={() => setActiveView(item.id)}
+                selected={view == item.id}
+                onClick={() => setView(item.id)}
               >
                 <ListItemIcon>
                   <Icon />

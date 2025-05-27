@@ -6,42 +6,46 @@ type Props = {
   children: string;
   sx?: SxProps<Theme>;
   variant?: OverridableStringUnion<Variant>;
-  ellipsis?: boolean;
+  noWrap?: boolean;
+  maxLength: number;
 };
 
-export function Text({ children, sx, variant, ellipsis = false }: Props) {
-  if (ellipsis) {
-    return (
-      <TextWithEllipsis sx={sx} variant={variant}>
-        {children}
-      </TextWithEllipsis>
-    );
+export function Text({
+  children,
+  sx,
+  variant,
+  noWrap = false,
+  maxLength = 0,
+}: Props) {
+  const str = getStr();
+
+  function getStr() {
+    if (maxLength) {
+      return strConcat(children);
+    }
+    return children;
   }
+
+  function strConcat(str: string) {
+    if (maxLength < str.length) return getSubStr(str).concat(" ...");
+
+    return str;
+  }
+
+  function getSubStr(str: string) {
+    return str.substring(0, maxLength);
+  }
+
   return (
     <Typography
+      noWrap={noWrap}
       sx={{
         wordWrap: "break-word",
         ...sx,
       }}
       variant={variant}
     >
-      {children}
-    </Typography>
-  );
-}
-
-function TextWithEllipsis({ children, sx, variant }: Props) {
-  return (
-    <Typography
-      sx={{
-        overflow: "hidden",
-        textOverflow: "ellipsis",
-
-        ...sx,
-      }}
-      variant={variant}
-    >
-      {children}
+      {str}
     </Typography>
   );
 }
