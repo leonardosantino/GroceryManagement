@@ -1,10 +1,10 @@
-import "@/common/ui/style/global.css";
+import "@/app/global.css";
 
 import { ReactNode } from "react";
 
 import { RootLayoutProvider } from "@/common/provider";
-import { defaultFont } from "@/common/ui/font";
 import { ViewStateProvider } from "@/state/view";
+import { defaultFont } from "@/common/ui/style/theme";
 
 export default function RootLayout({
   children,

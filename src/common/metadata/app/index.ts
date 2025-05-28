@@ -3,7 +3,7 @@ import type { Metadata, Viewport } from "next";
 import { Sx } from "@/common/ui/base";
 
 export const appViewport: Viewport = {
-  themeColor: Sx.color.background,
+  themeColor: Sx.color.primary,
 };
 
 export const appMetadata: Metadata = {
