@@ -122,7 +122,7 @@ const getStatusLabel = (status: string) => {
   }
 };
 
-export default function Products() {
+export function Products() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [, setSelectedProduct] = useState<number | null>(null);
   const [openDialog, setOpenDialog] = useState(false);

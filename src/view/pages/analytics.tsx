@@ -12,7 +12,7 @@ import { Metric } from "@/view/comps/analytics/metric";
 import { AnalyticsOrders } from "@/view/comps/analytics/orders";
 import { BestSellers } from "@/view/comps/analytics/sales";
 
-export default function Analytics() {
+export function Analytics() {
   return (
     <Col
       sx={{

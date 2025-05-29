@@ -1,13 +1,13 @@
-import { SxProps, Theme, Typography } from "@mui/material";
-import { Variant } from "@mui/material/styles/createTypography";
+import { SxProps, Theme, Typography, TypographyVariant } from "@mui/material";
 import { OverridableStringUnion } from "@mui/types";
 
 type Props = {
   children: string;
   sx?: SxProps<Theme>;
-  variant?: OverridableStringUnion<Variant>;
+  variant?: OverridableStringUnion<TypographyVariant>;
+  userSelect?: "none" | "auto";
   noWrap?: boolean;
-  maxLength: number;
+  maxLength?: number;
 };
 
 export function Text({
@@ -15,6 +15,7 @@ export function Text({
   sx,
   variant,
   noWrap = false,
+  userSelect = "none",
   maxLength = 0,
 }: Props) {
   const str = getStr();
@@ -41,6 +42,7 @@ export function Text({
       noWrap={noWrap}
       sx={{
         wordWrap: "break-word",
+        userSelect: userSelect,
         ...sx,
       }}
       variant={variant}

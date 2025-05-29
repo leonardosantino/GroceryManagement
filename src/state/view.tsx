@@ -9,14 +9,7 @@ import React, {
   useState,
 } from "react";
 
-export enum ViewPath {
-  Products = "products",
-  Orders = "orders",
-  Customers = "customers",
-  Inventory = "inventory",
-  Settings = "settings",
-  Analytics = "analytics",
-}
+import { ViewPath } from "@/routes";
 
 type ViewState = {
   view: ViewPath;

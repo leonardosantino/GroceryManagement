@@ -121,7 +121,7 @@ const getPaymentStatusColor = (status: string) => {
   }
 };
 
-export default function Orders() {
+export function Orders() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedOrder, setSelectedOrder] = useState<string | null>(null);
   const [openDialog, setOpenDialog] = useState(false);

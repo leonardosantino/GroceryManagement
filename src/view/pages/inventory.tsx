@@ -131,7 +131,7 @@ const getStatusLabel = (status: string) => {
   }
 };
 
-export default function Inventory() {
+export function Inventory() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedItem, setSelectedItem] = useState<number | null>(null);
   const [openDialog, setOpenDialog] = useState(false);

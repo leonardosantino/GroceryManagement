@@ -25,7 +25,7 @@ import {
   Typography,
 } from "@mui/material";
 
-export default function Settings() {
+export function Settings() {
   return (
     <Box>
       <Typography variant="h4" sx={{ mb: 3, fontWeight: 600 }}>

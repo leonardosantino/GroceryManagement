@@ -1,70 +1,101 @@
 "use client";
 
 import {
-  Discount as DiscountsIcon,
+  ExpandLess,
+  ExpandMore,
   Inventory as ProductsIcon,
-  LocalShipping as ShippingIcon,
   People as CustomersIcon,
-  Settings as SettingsIcon,
   ShoppingCart as OrdersIcon,
   TrendingUp as AnalyticsIcon,
-  Warehouse as InventoryIcon,
 } from "@mui/icons-material";
 import {
+  Collapse,
   Divider,
   List,
   ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  ListSubheader,
 } from "@mui/material";
+import { useState } from "react";
 
-import { Col } from "@/common/ui/comps/col";
 import { Paper } from "@/common/ui/comps/paper";
-import { Text } from "@/common/ui/comps/text";
+import { ViewPath } from "@/routes";
 import { useViewState } from "@/state/view";
-
-const items = [
-  { id: "products", label: "Products", icon: ProductsIcon },
-  { id: "orders", label: "Orders", icon: OrdersIcon },
-  { id: "customers", label: "Customers", icon: CustomersIcon },
-  { id: "inventory", label: "Inventory", icon: InventoryIcon },
-  { id: "analytics", label: "Analytics", icon: AnalyticsIcon },
-  { id: "shipping", label: "Shipping", icon: ShippingIcon },
-  { id: "discounts", label: "Discounts", icon: DiscountsIcon },
-  { id: "settings", label: "Settings", icon: SettingsIcon },
-];
 
 export function Sidebar() {
   const { view, setView } = useViewState();
+  const [open, setOpen] = useState(true);
 
   return (
     <Paper variant={"elevation"} sx={{ width: 200 }}>
-      <Col sx={{ justifyContent: "center", padding: 1, height: 50 }}>
-        <Text maxLength={20} sx={{ textAlign: "center" }}>
-          Opção Supermercado
-        </Text>
-      </Col>
+      <List
+        subheader={
+          <ListSubheader
+            sx={{
+              textAlign: "center",
+              lineHeight: 2,
+              padding: 1,
+              userSelect: "none",
+            }}
+          >
+            Opção Supermercado
+          </ListSubheader>
+        }
+      >
+        <Divider />
 
-      <Divider />
+        <ListItemButton
+          selected={view == ViewPath.Analytics}
+          onClick={() => setView(ViewPath.Analytics)}
+        >
+          <ListItemIcon>
+            <AnalyticsIcon />
+          </ListItemIcon>
+          <ListItemText primary={"Análises"} />
+        </ListItemButton>
 
-      <List>
-        {items.map((item) => {
-          const Icon = item.icon;
-          return (
-            <ListItem key={item.id} disablePadding>
+        <ListItemButton onClick={() => setOpen(!open)}>
+          <ListItemIcon>
+            <ProductsIcon />
+          </ListItemIcon>
+          <ListItemText primary={"Produtos"} />
+          {open ? <ExpandLess /> : <ExpandMore />}
+        </ListItemButton>
+
+        <Collapse in={open}>
+          <List>
+            <ListItem>
               <ListItemButton
-                selected={view == item.id}
-                onClick={() => setView(item.id)}
+                selected={view == ViewPath.Products}
+                onClick={() => setView(ViewPath.Products)}
               >
-                <ListItemIcon>
-                  <Icon />
-                </ListItemIcon>
-                <ListItemText primary={item.label} />
+                <ListItemText primary={"Lista de Produtos"} />
               </ListItemButton>
             </ListItem>
-          );
-        })}
+          </List>
+        </Collapse>
+
+        <ListItemButton
+          selected={view == ViewPath.Orders}
+          onClick={() => setView(ViewPath.Orders)}
+        >
+          <ListItemIcon>
+            <OrdersIcon />
+          </ListItemIcon>
+          <ListItemText primary={"Pedidos"} />
+        </ListItemButton>
+
+        <ListItemButton
+          selected={view == ViewPath.Customers}
+          onClick={() => setView(ViewPath.Customers)}
+        >
+          <ListItemIcon>
+            <CustomersIcon />
+          </ListItemIcon>
+          <ListItemText primary={"Clientes"} />
+        </ListItemButton>
       </List>
     </Paper>
   );

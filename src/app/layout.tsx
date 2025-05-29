@@ -3,8 +3,8 @@ import "@/app/global.css";
 import { ReactNode } from "react";
 
 import { RootLayoutProvider } from "@/common/provider";
-import { ViewStateProvider } from "@/state/view";
 import { defaultFont } from "@/common/ui/style/theme";
+import { ViewStateProvider } from "@/state/view";
 
 export default function RootLayout({
   children,

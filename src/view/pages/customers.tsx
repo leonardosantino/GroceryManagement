@@ -110,7 +110,7 @@ const getStatusColor = (status: string) => {
   }
 };
 
-export default function Customers() {
+export function Customers() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedCustomer, setSelectedCustomer] = useState<number | null>(null);
   const [openDialog, setOpenDialog] = useState(false);
