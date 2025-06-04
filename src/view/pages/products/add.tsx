@@ -8,13 +8,9 @@ import {
   Chip,
   Divider,
   InputAdornment,
-  Paper as MuiPaper,
   TextField,
   Typography,
-  useTheme,
 } from "@mui/material";
-import { justifyContent } from "@mui/system";
-import { useState } from "react";
 
 import { Col } from "@/common/ui/comps/col";
 import { Paper } from "@/common/ui/comps/paper";
@@ -22,20 +18,9 @@ import { Row } from "@/common/ui/comps/row";
 import { Text } from "@/common/ui/comps/text";
 
 export function ProductsAdd() {
-  const theme = useTheme();
-  const [activeStep, setActiveStep] = useState(0);
-
-  const sampleCategories = ["Bebidas", "Refrigerante", "Zero Açúcar"];
+  const categories = ["Bebidas", "Refrigerante", "Zero Açúcar"];
 
   const sampleImageUrl = "https://via.placeholder.com/150";
-
-  const steps = [
-    "Informações Básicas",
-    "Categorias",
-    "Imagens",
-    "Unidades",
-    "Revisão",
-  ];
 
   return (
     <Col
@@ -50,7 +35,7 @@ export function ProductsAdd() {
       }}
     >
       <Paper>
-        <Col sx={{ padding: 1, gap: 1 }}>
+        <Col sx={{ padding: 2, gap: 2 }}>
           <Row sx={{ gap: 1 }}>
             <InventoryIcon />
             <Text>Informações Básicas</Text>
@@ -66,7 +51,7 @@ export function ProductsAdd() {
       <Divider />
 
       <Paper>
-        <Col sx={{ padding: 1, gap: 1 }}>
+        <Col sx={{ padding: 2, gap: 2 }}>
           <Row sx={{ gap: 1 }}>
             <CategoryIcon />
             <Text>Categorias</Text>
@@ -85,229 +70,170 @@ export function ProductsAdd() {
           </Row>
 
           <Row sx={{ gap: 1 }}>
-            {sampleCategories.map((category, index) => (
+            {categories.map((category, index) => (
               <Chip key={index} label={category} onDelete={() => {}} />
             ))}
           </Row>
         </Col>
       </Paper>
 
-      <Divider sx={{ my: 2 }} />
+      <Divider />
 
-      {/* Images */}
-      <MuiPaper elevation={2} sx={{ p: 3, borderRadius: 2 }}>
-        <Col sx={{ gap: 2 }}>
-          <Row sx={{ alignItems: "center", gap: 1, mb: 1 }}>
-            <AddPhotoAlternateIcon color="primary" />
-            <Text variant="h6" userSelect="auto" sx={{ fontWeight: "bold" }}>
-              Imagens
-            </Text>
-          </Row>
+      <Col sx={{ padding: 2, gap: 2 }}>
+        <Row sx={{ gap: 1 }}>
+          <AddPhotoAlternateIcon color="primary" />
+          <Text>Imagens</Text>
+        </Row>
 
-          <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-            Adicione imagens de alta qualidade do seu produto. Recomendamos pelo
-            menos 3 imagens de diferentes ângulos.
-          </Typography>
+        <Text variant="caption">
+          Adicione imagens de alta qualidade do seu produto. Recomendamos pelo
+          menos 3 imagens de diferentes ângulos.
+        </Text>
 
-          <Row sx={{ gap: 1 }}>
-            <TextField
-              label="URL da Imagem"
-              variant="outlined"
-              fullWidth
-              placeholder="https://exemplo.com/imagem.jpg"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <AddPhotoAlternateIcon color="action" />
-                  </InputAdornment>
-                ),
+        <Row sx={{ justifyContent: "center" }}>
+          <Paper sx={{ width: 400, height: 200 }}>
+            <AddPhotoAlternateIcon />
+          </Paper>
+        </Row>
+
+        <Divider sx={{ my: 2 }} />
+
+        <Text variant="subtitle2" userSelect="auto" sx={{ mb: 1 }}>
+          Imagens do Produto:
+        </Text>
+
+        <Row sx={{ gap: 2, flexWrap: "wrap" }}>
+          <Paper elevation={2} sx={{ p: 1, position: "relative" }}>
+            <img
+              src={sampleImageUrl}
+              alt="Produto"
+              style={{ width: 150, height: 150, objectFit: "cover" }}
+            />
+            <Button
+              size="small"
+              color="error"
+              variant="contained"
+              sx={{
+                position: "absolute",
+                top: 5,
+                right: 5,
+                minWidth: "auto",
+                width: 30,
+                height: 30,
+                p: 0,
               }}
-            />
-            <Button variant="contained" color="primary" startIcon={<AddIcon />}>
-              Adicionar
+            >
+              ×
             </Button>
-          </Row>
-
-          <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-            Ou arraste e solte imagens aqui
-          </Typography>
-
-          <MuiPaper
-            variant="outlined"
-            sx={{
-              p: 3,
-              mt: 1,
-              bgcolor: theme.palette.grey[50],
-              border: `2px dashed ${theme.palette.grey[300]}`,
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-
-              cursor: "pointer",
-            }}
-          >
-            <AddPhotoAlternateIcon
-              sx={{ fontSize: 40, color: theme.palette.grey[400] }}
-            />
-          </MuiPaper>
-
-          <Divider sx={{ my: 2 }} />
-
-          <Text variant="subtitle2" userSelect="auto" sx={{ mb: 1 }}>
-            Imagens do Produto:
-          </Text>
-
-          <Row sx={{ gap: 2, flexWrap: "wrap" }}>
-            <MuiPaper elevation={2} sx={{ p: 1, position: "relative" }}>
-              <img
-                src={sampleImageUrl}
-                alt="Produto"
-                style={{ width: 150, height: 150, objectFit: "cover" }}
-              />
-              <Button
-                size="small"
-                color="error"
-                variant="contained"
-                sx={{
-                  position: "absolute",
-                  top: 5,
-                  right: 5,
-                  minWidth: "auto",
-                  width: 30,
-                  height: 30,
-                  p: 0,
-                }}
-              >
-                ×
-              </Button>
-            </MuiPaper>
-          </Row>
-        </Col>
-      </MuiPaper>
+          </Paper>
+        </Row>
+      </Col>
 
       <Divider sx={{ my: 2 }} />
 
       {/* Units */}
-      <MuiPaper elevation={2} sx={{ p: 3, borderRadius: 2 }}>
+      <Col sx={{ gap: 2 }}>
+        <Row sx={{ alignItems: "center", gap: 1, mb: 1 }}>
+          <InventoryIcon color="primary" />
+          <Text variant="h6" userSelect="auto" sx={{ fontWeight: "bold" }}>
+            Unidades
+          </Text>
+        </Row>
+
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+          Adicione informações sobre as unidades disponíveis do produto, preços
+          e quantidades
+        </Typography>
+
         <Col sx={{ gap: 2 }}>
-          <Row sx={{ alignItems: "center", gap: 1, mb: 1 }}>
-            <InventoryIcon color="primary" />
-            <Text variant="h6" userSelect="auto" sx={{ fontWeight: "bold" }}>
-              Unidades
-            </Text>
+          <Row sx={{ gap: 2 }}>
+            <TextField
+              label="Nome da Unidade"
+              variant="outlined"
+              fullWidth
+              placeholder="Ex: Garrafa 2L"
+              helperText="Nome da variação do produto"
+            />
+            <TextField
+              label="Descrição da Unidade"
+              variant="outlined"
+              fullWidth
+              placeholder="Ex: Garrafa PET 2 Litros"
+              helperText="Descrição detalhada da unidade"
+            />
           </Row>
 
-          <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-            Adicione informações sobre as unidades disponíveis do produto,
-            preços e quantidades
-          </Typography>
-
-          <Paper variant="outlined" sx={{ p: 3, borderRadius: 1 }}>
-            <Col sx={{ gap: 2 }}>
-              <Row sx={{ gap: 2 }}>
-                <TextField
-                  label="Nome da Unidade"
-                  variant="outlined"
-                  fullWidth
-                  placeholder="Ex: Garrafa 2L"
-                  helperText="Nome da variação do produto"
-                />
-                <TextField
-                  label="Descrição da Unidade"
-                  variant="outlined"
-                  fullWidth
-                  placeholder="Ex: Garrafa PET 2 Litros"
-                  helperText="Descrição detalhada da unidade"
-                />
-              </Row>
-
-              <Row sx={{ gap: 2 }}>
-                <TextField
-                  label="Preço"
-                  variant="outlined"
-                  type="number"
-                  fullWidth
-                  placeholder="9.99"
-                  helperText="Preço em reais"
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">R$</InputAdornment>
-                    ),
-                  }}
-                />
-                <TextField
-                  label="Quantidade"
-                  variant="outlined"
-                  type="number"
-                  fullWidth
-                  placeholder="100"
-                  helperText="Quantidade disponível em estoque"
-                />
-              </Row>
-
-              <Button
-                variant="contained"
-                color="primary"
-                startIcon={<AddIcon />}
-                fullWidth
-              >
-                Adicionar Unidade
-              </Button>
-            </Col>
-          </Paper>
-
-          <MuiPaper
-            variant="outlined"
-            sx={{
-              p: 2,
-              mt: 2,
-              borderLeft: `4px solid ${theme.palette.primary.main}`,
-              bgcolor: theme.palette.background.paper,
-            }}
-          >
-            <Row
-              sx={{
-                justifyContent: "space-between",
-                alignItems: "center",
+          <Row sx={{ gap: 2 }}>
+            <TextField
+              label="Preço"
+              variant="outlined"
+              type="number"
+              fullWidth
+              placeholder="9.99"
+              helperText="Preço em reais"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">R$</InputAdornment>
+                ),
               }}
-            >
-              <Col>
-                <Text
-                  variant="subtitle1"
-                  userSelect="auto"
-                  sx={{ fontWeight: "medium" }}
-                >
-                  Garrafa 2L
-                </Text>
-                <Text
-                  variant="body2"
-                  userSelect="auto"
-                  sx={{ color: theme.palette.text.secondary }}
-                >
-                  Garrafa PET de 2 Litros
-                </Text>
-                <Row sx={{ gap: 3, mt: 1 }}>
-                  <Chip
-                    label="R$ 9,99"
-                    size="small"
-                    color="primary"
-                    variant="outlined"
-                  />
-                  <Chip
-                    label="Estoque: 100"
-                    size="small"
-                    color="success"
-                    variant="outlined"
-                  />
-                </Row>
-              </Col>
-              <Button color="error" variant="outlined" size="small">
-                Remover
-              </Button>
-            </Row>
-          </MuiPaper>
+            />
+            <TextField
+              label="Quantidade"
+              variant="outlined"
+              type="number"
+              fullWidth
+              placeholder="100"
+              helperText="Quantidade disponível em estoque"
+            />
+          </Row>
+
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<AddIcon />}
+            fullWidth
+          >
+            Adicionar Unidade
+          </Button>
         </Col>
-      </MuiPaper>
+
+        <Row
+          sx={{
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Col>
+            <Text
+              variant="subtitle1"
+              userSelect="auto"
+              sx={{ fontWeight: "medium" }}
+            >
+              Garrafa 2L
+            </Text>
+            <Text variant="body2" userSelect="auto">
+              Garrafa PET de 2 Litros
+            </Text>
+            <Row sx={{ gap: 3, mt: 1 }}>
+              <Chip
+                label="R$ 9,99"
+                size="small"
+                color="primary"
+                variant="outlined"
+              />
+              <Chip
+                label="Estoque: 100"
+                size="small"
+                color="success"
+                variant="outlined"
+              />
+            </Row>
+          </Col>
+          <Button color="error" variant="outlined" size="small">
+            Remover
+          </Button>
+        </Row>
+      </Col>
 
       <Row sx={{ justifyContent: "end" }}>
         <Button variant="contained" color="primary" startIcon={<SaveIcon />}>
