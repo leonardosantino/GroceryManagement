@@ -6,11 +6,12 @@ type Props = {
   children: ReactNode;
   sx?: SxProps<Theme>;
   variant?: OverridableStringUnion<"elevation" | "outlined">;
+  elevation?: number;
 };
 
-export function Paper({ children, variant = "outlined", sx }: Props) {
+export function Paper({ children, variant, elevation = 0, sx }: Props) {
   return (
-    <MUIPaper variant={variant} sx={sx}>
+    <MUIPaper variant={variant} elevation={elevation} sx={sx}>
       {children}
     </MUIPaper>
   );

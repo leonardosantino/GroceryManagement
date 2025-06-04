@@ -14,8 +14,9 @@ export const theme = createTheme({
     MuiCssBaseline: {
       styleOverrides: {
         body: {
-          backgroundColor: "#FAFAFA",
+          display: "flex",
           height: "100vh",
+          backgroundColor: "#FAFAFA",
         },
         img: {
           width: "100%",

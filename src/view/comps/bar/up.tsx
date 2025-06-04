@@ -9,19 +9,20 @@ export function UpBar() {
   return (
     <Row
       sx={{
-        justifyContent: "end",
-        padding: 2,
+        alignItems: "start",
         gap: 3,
+        padding: 1,
+        height: "min-content",
       }}
     >
       <IconButton>
-        <Badge badgeContent={4} color="error">
+        <Badge badgeContent={1} color={"error"}>
           <NotificationsRounded />
         </Badge>
       </IconButton>
 
       <IconButton>
-        <Badge badgeContent={4} color="error">
+        <Badge badgeContent={2} color={"error"}>
           <MessageRounded />
         </Badge>
       </IconButton>

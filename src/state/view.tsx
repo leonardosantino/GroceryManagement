@@ -19,7 +19,7 @@ type ViewState = {
 const ViewStateContext = createContext<ViewState>({} as ViewState);
 
 export const ViewStateProvider = ({ children }: { children: ReactNode }) => {
-  const [view, setView] = useState(ViewPath.Analytics);
+  const [view, setView] = useState(ViewPath.Default);
 
   return (
     <ViewStateContext.Provider value={{ view, setView }}>

@@ -23,25 +23,20 @@ export function Sidebar() {
   const { view, setView } = useViewState();
 
   return (
-    <Paper variant={"elevation"} sx={{ width: 200 }}>
+    <Paper elevation={1}>
       <List
         subheader={
           <ListSubheader
             sx={{
               textAlign: "center",
-              lineHeight: 1.5,
-              padding: 1,
+              lineHeight: "normal",
               userSelect: "none",
-              fontSize: 18,
-              color: "text.primary",
             }}
           >
             Opção Supermercado
           </ListSubheader>
         }
-        sx={{
-          padding: 1,
-        }}
+        sx={{ width: 175 }}
       >
         <Divider sx={{ margin: 1 }} />
 
