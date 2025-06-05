@@ -7,13 +7,14 @@ import {
   Save,
 } from "@mui/icons-material";
 import { Button, Chip, Divider, IconButton, TextField } from "@mui/material";
+import { useState } from "react";
 
 import { Box, Col, Img, Paper, Row, Text } from "@/common/ui/comps";
 import { TextFieldCurrency } from "@/view/comps/input/currency";
 import { InputFileUpload } from "@/view/comps/input/file";
 
 export function ProductsAdd() {
-  const categories = ["Bebidas", "Refrigerante", "Zero Açúcar"];
+  const [categories, setCategories] = useState<string[]>([]);
 
   return (
     <Col
@@ -34,15 +35,13 @@ export function ProductsAdd() {
             <Inventory />
             <Text>Informações Básicas</Text>
           </Row>
-          <Text variant="caption">Adicione nome e descrição do produto</Text>
+          <Text variant="caption">Adicione nome e descrição do produto.</Text>
 
           <TextField required placeholder="Nome" />
 
           <TextField multiline rows={4} required placeholder="Descrição" />
         </Col>
       </Paper>
-
-      <Divider />
 
       {/*Category*/}
       <Paper>
@@ -54,15 +53,17 @@ export function ProductsAdd() {
 
           <Text variant="caption">
             Adicione categorias para ajudar os clientes a encontrarem seu
-            produto mais facilmente
+            produto mais facilmente.
           </Text>
 
           <Row sx={{ gap: 1 }}>
             <TextField fullWidth placeholder="Categoria" />
             <Button variant="contained" color="primary" startIcon={<Add />}>
-              Adicionar
+              Adicione
             </Button>
           </Row>
+
+          <Divider />
 
           <Row sx={{ gap: 1 }}>
             {categories.map((category, index) => (
@@ -71,8 +72,6 @@ export function ProductsAdd() {
           </Row>
         </Col>
       </Paper>
-
-      <Divider />
 
       {/*Images*/}
       <Paper>
@@ -109,6 +108,7 @@ export function ProductsAdd() {
             </Box>
           </Row>
 
+          <Divider />
           <Row sx={{ justifyContent: "center" }}>
             <Col sx={{ width: 100 }}>
               <Img
@@ -122,8 +122,6 @@ export function ProductsAdd() {
         </Col>
       </Paper>
 
-      <Divider />
-
       {/*Units*/}
       <Paper>
         <Col sx={{ padding: 2, gap: 3 }}>
@@ -133,8 +131,8 @@ export function ProductsAdd() {
           </Row>
 
           <Text variant="caption">
-            Adicione informações sobre as unidades disponíveis do produto,
-            preços e quantidades
+            Adicione informações sobre as variações disponíveis do produto,
+            preços e quantidades.
           </Text>
 
           <Col sx={{ gap: 1 }}>
@@ -162,15 +160,22 @@ export function ProductsAdd() {
             </Row>
           </Col>
 
+          <Divider />
           <Box>
             <Row
               sx={{
                 justifyContent: "space-between",
                 alignItems: "center",
-                padding: 1,
+                paddingX: 1,
+                paddingY: 2,
               }}
             >
-              <Text variant={"body2"}>Pizza de Calabresa</Text>
+              <Text variant={"body2"} sx={{ fontWeight: "bold" }}>
+                Pizza de Calabresa
+              </Text>
+
+              <Text variant={"body2"}>Grande</Text>
+              <Text variant={"body2"}>8 Fatias</Text>
 
               <Row
                 sx={{
@@ -178,17 +183,7 @@ export function ProductsAdd() {
                   gap: 1,
                 }}
               >
-                <Text sx={{ color: "info.main" }}>Grande</Text>
-                <Text variant={"body2"}>8 Fatias</Text>
-              </Row>
-
-              <Row
-                sx={{
-                  alignItems: "center",
-                  gap: 1,
-                }}
-              >
-                <Text variant={"body2"}>R$</Text>
+                <Text>R$</Text>
                 <Text sx={{ color: "success.main" }}>59,90</Text>
               </Row>
 
@@ -198,7 +193,7 @@ export function ProductsAdd() {
                   gap: 1,
                 }}
               >
-                <Text sx={{ color: "info.main" }}>100</Text>
+                <Text color={"warning"}>100</Text>
                 <Text variant={"body2"}>Unidades</Text>
               </Row>
 
@@ -211,10 +206,14 @@ export function ProductsAdd() {
           </Box>
         </Col>
       </Paper>
-
-      <Row sx={{ justifyContent: "end" }}>
-        <Button variant="contained" color="primary" startIcon={<Save />}>
-          Salvar
+      <Row sx={{ padding: 1, justifyContent: "center" }}>
+        <Button
+          variant="contained"
+          color="success"
+          startIcon={<Save />}
+          sx={{ height: 56, width: 200 }}
+        >
+          Salve
         </Button>
       </Row>
     </Col>

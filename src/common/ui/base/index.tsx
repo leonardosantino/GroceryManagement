@@ -26,24 +26,14 @@ export const Sx = {
     heavy: 900,
     extraHeavy: 950,
   },
-  fontFamily: {
-    primary: "Poppins, sans-serif",
-  },
+
   fontSize: {
     h1: "1.5rem",
     h2: "1.25rem",
     h3: "1rem",
-
     p: "0.75rem",
   },
-  boxShadow: {
-    small: "0 0 4px #808080FF",
-    medium: "0 0 6px #808080FF",
-    large: "0 0 8px #808080FF",
-  },
-  padding: {
-    page: 3,
-  },
+
   borderRadius: {
     extraSmall: 2,
     small: 4,

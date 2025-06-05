@@ -17,6 +17,7 @@ type TextProps = {
   userSelect?: "none" | "auto";
   noWrap?: boolean;
   maxLength?: number;
+  color?: string;
 };
 
 export function Text({
@@ -26,6 +27,7 @@ export function Text({
   noWrap = false,
   userSelect = "none",
   maxLength = 0,
+  color,
 }: TextProps) {
   const str = getStr();
 
@@ -49,6 +51,7 @@ export function Text({
   return (
     <Typography
       noWrap={noWrap}
+      color={color}
       sx={{
         wordWrap: "break-word",
         userSelect: userSelect,
