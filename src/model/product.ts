@@ -2,7 +2,7 @@ export class Product {
   id: string;
   seller: string;
 
-  name: string;
+  name: string = "";
   description: string;
   categories: string[];
   images: string[];

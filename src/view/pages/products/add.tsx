@@ -7,14 +7,57 @@ import {
   Save,
 } from "@mui/icons-material";
 import { Button, Chip, Divider, IconButton, TextField } from "@mui/material";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import { Box, Col, Img, Paper, Row, Text } from "@/common/ui/comps";
 import { TextFieldCurrency } from "@/view/comps/input/currency";
 import { InputFileUpload } from "@/view/comps/input/file";
 
 export function ProductsAdd() {
-  const [categories, setCategories] = useState<string[]>([]);
+  const nameRef = useRef<HTMLInputElement>(null);
+  const [nameError, setNameError] = useState<boolean>(false);
+
+  const descriptionRef = useRef<HTMLInputElement>(null);
+  const [descriptionError, setDescriptionError] = useState<boolean>(false);
+
+  const categoryRef = useRef<HTMLInputElement>(null);
+  const [categoryError, setCategoryError] = useState<boolean>(false);
+
+  const [categories, setCategories] = useState<Set<string>>(new Set());
+
+  function onSave() {
+    const name = !nameRef.current?.checkValidity();
+
+    if (name) {
+      nameRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+    setNameError(name);
+
+    const description = !descriptionRef.current?.checkValidity();
+
+    if (description) {
+      descriptionRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+    setDescriptionError(description);
+
+    const category = categories.size < 1;
+
+    if (category) {
+      categoryRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+    setCategoryError(category);
+  }
+
+  function handleSetCategory() {
+    const validity = categoryRef.current?.checkValidity();
+
+    if (validity) {
+      const category = categoryRef.current?.value as string;
+
+      setCategories(new Set([...categories].concat([category])));
+    }
+    setCategoryError(!validity);
+  }
 
   return (
     <Col
@@ -37,9 +80,21 @@ export function ProductsAdd() {
           </Row>
           <Text variant="caption">Adicione nome e descrição do produto.</Text>
 
-          <TextField required placeholder="Nome" />
+          <TextField
+            required
+            placeholder="Nome"
+            error={nameError}
+            inputRef={nameRef}
+          />
 
-          <TextField multiline rows={4} required placeholder="Descrição" />
+          <TextField
+            required
+            placeholder="Descrição"
+            multiline
+            rows={4}
+            error={descriptionError}
+            inputRef={descriptionRef}
+          />
         </Col>
       </Paper>
 
@@ -57,8 +112,18 @@ export function ProductsAdd() {
           </Text>
 
           <Row sx={{ gap: 1 }}>
-            <TextField fullWidth placeholder="Categoria" />
-            <Button variant="contained" color="primary" startIcon={<Add />}>
+            <TextField
+              required
+              placeholder={"Categoria"}
+              error={categoryError}
+              inputRef={categoryRef}
+            />
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<Add />}
+              onClick={handleSetCategory}
+            >
               Adicione
             </Button>
           </Row>
@@ -66,7 +131,7 @@ export function ProductsAdd() {
           <Divider />
 
           <Row sx={{ gap: 1 }}>
-            {categories.map((category, index) => (
+            {[...categories].map((category, index) => (
               <Chip key={index} label={category} onDelete={() => {}} />
             ))}
           </Row>
@@ -138,6 +203,7 @@ export function ProductsAdd() {
           <Col sx={{ gap: 1 }}>
             <Row sx={{ gap: 2 }}>
               <TextField
+                required
                 placeholder={"Nome"}
                 helperText={"Ex: Grande, média, pequena."}
               />
@@ -211,6 +277,7 @@ export function ProductsAdd() {
           variant="contained"
           color="success"
           startIcon={<Save />}
+          onClick={onSave}
           sx={{ height: 56, width: 200 }}
         >
           Salve

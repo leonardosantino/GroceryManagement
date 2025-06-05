@@ -151,3 +151,16 @@ export function Img({
 }) {
   return <Image src={src} alt={alt} width={width} height={height} />;
 }
+
+type FormProps = {
+  children: ReactNode;
+  sx?: SxProps<Theme>;
+};
+
+export function Form({ children, sx }: FormProps) {
+  return (
+    <MUIBox component={"form"} sx={sx}>
+      {children}
+    </MUIBox>
+  );
+}
