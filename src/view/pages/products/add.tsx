@@ -2,10 +2,11 @@ import {
   Add,
   AddPhotoAlternate,
   Category,
+  Delete,
   Inventory,
   Save,
 } from "@mui/icons-material";
-import { Button, Chip, Divider, TextField } from "@mui/material";
+import { Button, Chip, Divider, IconButton, TextField } from "@mui/material";
 import Image from "next/image";
 
 import { Box } from "@/common/ui/comps/box";
@@ -131,7 +132,7 @@ export function ProductsAdd() {
 
       {/*Units*/}
       <Paper>
-        <Col sx={{ padding: 2, gap: 2 }}>
+        <Col sx={{ padding: 2, gap: 3 }}>
           <Row sx={{ gap: 1 }}>
             <Inventory />
             <Text>Unidades</Text>
@@ -152,7 +153,11 @@ export function ProductsAdd() {
                 placeholder="Descrição"
                 helperText={"Ex: 8 Fatias, 6 Fatias, 4 Fatias"}
               />
-              <Button variant="contained" startIcon={<Add />}>
+              <Button
+                variant="contained"
+                startIcon={<Add />}
+                sx={{ height: 56 }}
+              >
                 Adicione
               </Button>
             </Row>
@@ -163,24 +168,53 @@ export function ProductsAdd() {
             </Row>
           </Col>
 
-          <Row
-            sx={{
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <Col>
-              <Text>Grande</Text>
-              <Text>8 Fatias</Text>
-              <Row>
-                <Chip label="R$ 9,99" size="small" />
-                <Chip label="Estoque: 100" size="small" />
+          <Box>
+            <Row
+              sx={{
+                justifyContent: "space-between",
+                alignItems: "center",
+                padding: 1,
+              }}
+            >
+              <Text variant={"body2"}>Pizza de Calabresa</Text>
+
+              <Row
+                sx={{
+                  alignItems: "center",
+                  gap: 1,
+                }}
+              >
+                <Text sx={{ color: "info.main" }}>Grande</Text>
+                <Text variant={"body2"}>8 Fatias</Text>
               </Row>
-            </Col>
-            <Button color="error" variant="outlined" size="small">
-              Remover
-            </Button>
-          </Row>
+
+              <Row
+                sx={{
+                  alignItems: "center",
+                  gap: 1,
+                }}
+              >
+                <Text variant={"body2"}>R$</Text>
+                <Text sx={{ color: "success.main" }}>59,90</Text>
+              </Row>
+
+              <Row
+                sx={{
+                  alignItems: "center",
+                  gap: 1,
+                }}
+              >
+                <Text sx={{ color: "info.main" }}>100</Text>
+                <Text variant={"body2"}>Unidades</Text>
+              </Row>
+
+              <Col sx={{ justifyContent: "center" }}>
+                <IconButton>
+                  <Delete />
+                </IconButton>
+              </Col>
+            </Row>
+          </Box>
         </Col>
       </Paper>
 

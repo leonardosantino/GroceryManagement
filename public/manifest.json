@@ -1,8 +1,8 @@
 {
   "id": "/",
-  "name": "Seller Admin",
-  "short_name": "Admin",
-  "description": "Seller Admin dash",
+  "name": "Opção Supermercado",
+  "short_name": "Opção",
+  "description": "Sistema de Gerenciamento",
   "theme_color": "#F8F9F9",
   "background_color": "#FFFFFF",
   "display": "standalone",
