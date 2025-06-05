@@ -5,7 +5,6 @@ function VisuallyHiddenInput() {
     <Input
       type="file"
       sx={{
-        clip: "rect(0 0 0 0)",
         clipPath: "inset(50%)",
         height: 1,
         overflow: "hidden",

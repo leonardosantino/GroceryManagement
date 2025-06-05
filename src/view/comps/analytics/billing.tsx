@@ -1,5 +1,4 @@
 import {
-  Box,
   Table,
   TableBody,
   TableCell,
@@ -10,9 +9,7 @@ import {
 } from "@mui/material";
 
 import { Sx } from "@/common/ui/base";
-import { Col } from "@/common/ui/comps/col";
-import { Paper } from "@/common/ui/comps/paper";
-import { Row } from "@/common/ui/comps/row";
+import { Box, Col, Paper, Row } from "@/common/ui/comps";
 
 export function Billing() {
   return (

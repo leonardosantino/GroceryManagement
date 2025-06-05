@@ -1,18 +1,15 @@
 "use client";
 
-import { Main } from "@/common/ui/comps/main";
-import { Row } from "@/common/ui/comps/row";
+import { Row } from "@/common/ui/comps";
 import { Sidebar } from "@/view/comps/bar/side";
 import { UpBar } from "@/view/comps/bar/up";
-import { Entry } from "@/view/pages/entry";
+import { Main } from "@/view/comps/main";
 
 export default function App() {
   return (
     <Row sx={{ height: "inherit" }}>
       <Sidebar />
-      <Main>
-        <Entry />
-      </Main>
+      <Main />
       <UpBar />
     </Row>
   );

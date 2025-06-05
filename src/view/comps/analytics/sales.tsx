@@ -1,10 +1,7 @@
-import { Box, Divider, Typography } from "@mui/material";
+import { Divider } from "@mui/material";
 
 import { Sx } from "@/common/ui/base";
-import { Col } from "@/common/ui/comps/col";
-import { Paper } from "@/common/ui/comps/paper";
-import { Row } from "@/common/ui/comps/row";
-import { Text } from "@/common/ui/comps/text";
+import { Box, Col, Paper, Row, Text } from "@/common/ui/comps";
 
 export function BestSellers() {
   return (
@@ -34,12 +31,10 @@ export function BestSellers() {
                   mb: 1,
                 }}
               >
-                <Typography variant="body2" sx={{ fontWeight: 500 }}>
+                <Text variant="body2" sx={{ fontWeight: 500 }}>
                   {product.name}
-                </Typography>
-                <Typography variant="body2" color="textSecondary">
-                  {product.sales}
-                </Typography>
+                </Text>
+                <Text variant="body2">{product.sales.toString()}</Text>
               </Box>
               <Divider />
             </Box>

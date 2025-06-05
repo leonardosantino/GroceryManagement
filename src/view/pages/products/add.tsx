@@ -7,13 +7,8 @@ import {
   Save,
 } from "@mui/icons-material";
 import { Button, Chip, Divider, IconButton, TextField } from "@mui/material";
-import Image from "next/image";
 
-import { Box } from "@/common/ui/comps/box";
-import { Col } from "@/common/ui/comps/col";
-import { Paper } from "@/common/ui/comps/paper";
-import { Row } from "@/common/ui/comps/row";
-import { Text } from "@/common/ui/comps/text";
+import { Box, Col, Img, Paper, Row, Text } from "@/common/ui/comps";
 import { TextFieldCurrency } from "@/view/comps/input/currency";
 import { InputFileUpload } from "@/view/comps/input/file";
 
@@ -116,12 +111,11 @@ export function ProductsAdd() {
 
           <Row sx={{ justifyContent: "center" }}>
             <Col sx={{ width: 100 }}>
-              <Image
+              <Img
                 src={"/assets/drawable/img.png"}
                 alt={""}
                 width={100}
                 height={50}
-                loading={"lazy"}
               />
             </Col>
           </Row>

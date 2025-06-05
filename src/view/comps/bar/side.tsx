@@ -1,10 +1,10 @@
 "use client";
 
 import {
-  Inventory as ProductsIcon,
-  People as CustomersIcon,
-  ShoppingCart as OrdersIcon,
-  TrendingUp as AnalyticsIcon,
+  Inventory,
+  People,
+  ShoppingCart,
+  TrendingUp,
 } from "@mui/icons-material";
 import {
   Divider,
@@ -15,7 +15,7 @@ import {
   ListSubheader,
 } from "@mui/material";
 
-import { Paper } from "@/common/ui/comps/paper";
+import { Paper } from "@/common/ui/comps";
 import { ViewPath } from "@/routes";
 import { useViewState } from "@/state/view";
 
@@ -45,7 +45,7 @@ export function Sidebar() {
           onClick={() => setView(ViewPath.Analytics)}
         >
           <ListItemIcon>
-            <AnalyticsIcon />
+            <TrendingUp />
           </ListItemIcon>
           <ListItemText primary={"Análises"} />
         </ListItemButton>
@@ -55,7 +55,7 @@ export function Sidebar() {
           onClick={() => setView(ViewPath.Products)}
         >
           <ListItemIcon>
-            <ProductsIcon />
+            <Inventory />
           </ListItemIcon>
           <ListItemText primary={"Produtos"} />
           {/*{open ? <ExpandLess /> : <ExpandMore />}*/}
@@ -79,7 +79,7 @@ export function Sidebar() {
           onClick={() => setView(ViewPath.Orders)}
         >
           <ListItemIcon>
-            <OrdersIcon />
+            <ShoppingCart />
           </ListItemIcon>
           <ListItemText primary={"Pedidos"} />
         </ListItemButton>
@@ -89,7 +89,7 @@ export function Sidebar() {
           onClick={() => setView(ViewPath.Customers)}
         >
           <ListItemIcon>
-            <CustomersIcon />
+            <People />
           </ListItemIcon>
           <ListItemText primary={"Clientes"} />
         </ListItemButton>

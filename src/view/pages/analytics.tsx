@@ -5,8 +5,7 @@ import {
   ShoppingCart,
 } from "@mui/icons-material";
 
-import { Col } from "@/common/ui/comps/col";
-import { Row } from "@/common/ui/comps/row";
+import { Col, Row } from "@/common/ui/comps";
 import { Billing } from "@/view/comps/analytics/billing";
 import { Metric } from "@/view/comps/analytics/metric";
 import { AnalyticsOrders } from "@/view/comps/analytics/orders";
