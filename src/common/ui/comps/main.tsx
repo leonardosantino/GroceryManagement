@@ -1,25 +1,11 @@
-import { Box, SxProps, Theme } from "@mui/material";
 import { ReactNode } from "react";
+
+import { Row } from "@/common/ui/comps/row";
 
 type Props = {
   children: ReactNode;
-  sx?: SxProps<Theme>;
 };
 
-export function Main({ children, sx }: Props) {
-  return (
-    <Box
-      component="main"
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        flexGrow: 1,
-        padding: 1,
-        gap: 1,
-        ...sx,
-      }}
-    >
-      {children}
-    </Box>
-  );
+export function Main({ children }: Props) {
+  return <Row sx={{ flexGrow: 1, justifyContent: "center" }}>{children}</Row>;
 }

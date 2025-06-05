@@ -6,7 +6,6 @@ import {
   FilterList as FilterIcon,
   LocalShipping as ShippingIcon,
   MoreVert as MoreVertIcon,
-  Search as SearchIcon,
   Visibility as ViewIcon,
 } from "@mui/icons-material";
 import {
@@ -22,7 +21,6 @@ import {
   Divider,
   Grid,
   IconButton,
-  InputAdornment,
   Menu,
   MenuItem,
   Table,
@@ -34,7 +32,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { MouseEvent, useState } from "react";
 
 const orders = [
   {
@@ -127,10 +125,7 @@ export function Orders() {
   const [openDialog, setOpenDialog] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const handleMenuClick = (
-    event: React.MouseEvent<HTMLElement>,
-    orderId: string,
-  ) => {
+  const handleMenuClick = (event: MouseEvent<HTMLElement>, orderId: string) => {
     setAnchorEl(event.currentTarget);
     setSelectedOrder(orderId);
   };
@@ -169,13 +164,6 @@ export function Orders() {
               size="small"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
-              }}
               sx={{ flexGrow: 1 }}
             />
             <Button
@@ -298,7 +286,7 @@ export function Orders() {
         <DialogContent>
           {selectedOrderData && (
             <Grid container spacing={3} sx={{ mt: 1 }}>
-              <Grid item xs={12} md={6}>
+              <Grid size={6}>
                 <Typography variant="h6" gutterBottom>
                   Customer Information
                 </Typography>
@@ -312,7 +300,7 @@ export function Orders() {
                   <strong>Order Date:</strong> {selectedOrderData.date}
                 </Typography>
               </Grid>
-              <Grid item xs={12} md={6}>
+              <Grid size={6}>
                 <Typography variant="h6" gutterBottom>
                   Order Summary
                 </Typography>
@@ -332,7 +320,7 @@ export function Orders() {
                   />
                 </Typography>
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Divider sx={{ my: 2 }} />
                 <Typography variant="h6" gutterBottom>
                   Order Items

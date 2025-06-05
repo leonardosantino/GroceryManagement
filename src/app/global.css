@@ -1,13 +1,24 @@
 @import "swiper/swiper.min.css";
 @import "swiper/css/pagination";
 
-.swiper {
-  width: 100%;
+body {
+  height: 100vh;
+}
+
+body img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+body .swiper {
+  max-width: 100%;
   padding: 1px;
   border-radius: 4px;
   z-index: 0;
 }
-.swiper-slide {
+
+body .swiper-slide {
   display: flex;
   justify-content: center;
 }

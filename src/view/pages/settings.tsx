@@ -12,13 +12,11 @@ import {
   Button,
   Card,
   CardContent,
-  Chip,
   FormControlLabel,
   Grid,
   IconButton,
   List,
   ListItem,
-  ListItemSecondaryAction,
   ListItemText,
   Switch,
   TextField,
@@ -34,7 +32,7 @@ export function Settings() {
 
       <Grid container spacing={3}>
         {/* Store Information */}
-        <Grid item xs={12} md={6}>
+        <Grid size={6}>
           <Card>
             <CardContent>
               <Box
@@ -47,7 +45,7 @@ export function Settings() {
               </Box>
 
               <Grid container spacing={2}>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <TextField
                     fullWidth
                     label="Store Name"
@@ -55,7 +53,7 @@ export function Settings() {
                     defaultValue="Medusa Store"
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <TextField
                     fullWidth
                     label="Store Description"
@@ -65,7 +63,7 @@ export function Settings() {
                     defaultValue="Your premium e-commerce store powered by Medusa"
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid size={6}>
                   <TextField
                     fullWidth
                     label="Store Email"
@@ -73,7 +71,7 @@ export function Settings() {
                     defaultValue="store@medusa.com"
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid size={6}>
                   <TextField
                     fullWidth
                     label="Store Phone"
@@ -81,7 +79,7 @@ export function Settings() {
                     defaultValue="+1 (555) 123-4567"
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Button variant="contained" sx={{ mt: 2 }}>
                     Save Changes
                   </Button>
@@ -92,7 +90,7 @@ export function Settings() {
         </Grid>
 
         {/* User Profile */}
-        <Grid item xs={12} md={6}>
+        <Grid size={6}>
           <Card>
             <CardContent>
               <Box
@@ -113,7 +111,7 @@ export function Settings() {
               </Box>
 
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
+                <Grid size={6}>
                   <TextField
                     fullWidth
                     label="First Name"
@@ -121,7 +119,7 @@ export function Settings() {
                     defaultValue="Admin"
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid size={6}>
                   <TextField
                     fullWidth
                     label="Last Name"
@@ -129,7 +127,7 @@ export function Settings() {
                     defaultValue="User"
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <TextField
                     fullWidth
                     label="Email"
@@ -137,7 +135,7 @@ export function Settings() {
                     defaultValue="admin@medusa.com"
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Button variant="contained" sx={{ mt: 2 }}>
                     Update Profile
                   </Button>
@@ -148,7 +146,7 @@ export function Settings() {
         </Grid>
 
         {/* Notifications */}
-        <Grid item xs={12} md={6}>
+        <Grid size={6}>
           <Card>
             <CardContent>
               <Box
@@ -166,36 +164,24 @@ export function Settings() {
                     primary="Order Notifications"
                     secondary="Get notified when new orders are placed"
                   />
-                  <ListItemSecondaryAction>
-                    <Switch defaultChecked />
-                  </ListItemSecondaryAction>
                 </ListItem>
                 <ListItem>
                   <ListItemText
                     primary="Low Stock Alerts"
                     secondary="Receive alerts when products are running low"
                   />
-                  <ListItemSecondaryAction>
-                    <Switch defaultChecked />
-                  </ListItemSecondaryAction>
                 </ListItem>
                 <ListItem>
                   <ListItemText
                     primary="Customer Messages"
                     secondary="Get notified of customer inquiries"
                   />
-                  <ListItemSecondaryAction>
-                    <Switch />
-                  </ListItemSecondaryAction>
                 </ListItem>
                 <ListItem>
                   <ListItemText
                     primary="Marketing Updates"
                     secondary="Receive updates about new features"
                   />
-                  <ListItemSecondaryAction>
-                    <Switch />
-                  </ListItemSecondaryAction>
                 </ListItem>
               </List>
             </CardContent>
@@ -203,7 +189,7 @@ export function Settings() {
         </Grid>
 
         {/* Security */}
-        <Grid item xs={12} md={6}>
+        <Grid size={6}>
           <Card>
             <CardContent>
               <Box
@@ -216,7 +202,7 @@ export function Settings() {
               </Box>
 
               <Grid container spacing={2}>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <TextField
                     fullWidth
                     label="Current Password"
@@ -224,7 +210,7 @@ export function Settings() {
                     type="password"
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <TextField
                     fullWidth
                     label="New Password"
@@ -232,7 +218,7 @@ export function Settings() {
                     type="password"
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <TextField
                     fullWidth
                     label="Confirm New Password"
@@ -240,13 +226,13 @@ export function Settings() {
                     type="password"
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <FormControlLabel
                     control={<Switch />}
                     label="Enable Two-Factor Authentication"
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Button variant="contained" sx={{ mt: 2 }}>
                     Update Password
                   </Button>
@@ -257,7 +243,7 @@ export function Settings() {
         </Grid>
 
         {/* Payment Settings */}
-        <Grid item xs={12} md={6}>
+        <Grid size={6}>
           <Card>
             <CardContent>
               <Box
@@ -275,24 +261,15 @@ export function Settings() {
                     primary="Stripe"
                     secondary="Credit card payments"
                   />
-                  <ListItemSecondaryAction>
-                    <Chip label="Active" color="success" size="small" />
-                  </ListItemSecondaryAction>
                 </ListItem>
                 <ListItem>
                   <ListItemText primary="PayPal" secondary="PayPal payments" />
-                  <ListItemSecondaryAction>
-                    <Chip label="Inactive" color="default" size="small" />
-                  </ListItemSecondaryAction>
                 </ListItem>
                 <ListItem>
                   <ListItemText
                     primary="Bank Transfer"
                     secondary="Direct bank transfers"
                   />
-                  <ListItemSecondaryAction>
-                    <Chip label="Active" color="success" size="small" />
-                  </ListItemSecondaryAction>
                 </ListItem>
               </List>
 
@@ -304,7 +281,7 @@ export function Settings() {
         </Grid>
 
         {/* Shipping Settings */}
-        <Grid item xs={12} md={6}>
+        <Grid size={6}>
           <Card>
             <CardContent>
               <Box
@@ -322,36 +299,24 @@ export function Settings() {
                     primary="Standard Shipping"
                     secondary="5-7 business days - $5.99"
                   />
-                  <ListItemSecondaryAction>
-                    <Switch defaultChecked />
-                  </ListItemSecondaryAction>
                 </ListItem>
                 <ListItem>
                   <ListItemText
                     primary="Express Shipping"
                     secondary="2-3 business days - $12.99"
                   />
-                  <ListItemSecondaryAction>
-                    <Switch defaultChecked />
-                  </ListItemSecondaryAction>
                 </ListItem>
                 <ListItem>
                   <ListItemText
                     primary="Overnight Shipping"
                     secondary="Next business day - $24.99"
                   />
-                  <ListItemSecondaryAction>
-                    <Switch />
-                  </ListItemSecondaryAction>
                 </ListItem>
                 <ListItem>
                   <ListItemText
                     primary="Free Shipping"
                     secondary="Orders over $100"
                   />
-                  <ListItemSecondaryAction>
-                    <Switch defaultChecked />
-                  </ListItemSecondaryAction>
                 </ListItem>
               </List>
 

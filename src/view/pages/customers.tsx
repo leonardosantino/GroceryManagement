@@ -7,7 +7,6 @@ import {
   Email as EmailIcon,
   FilterList as FilterIcon,
   MoreVert as MoreVertIcon,
-  Search as SearchIcon,
   Visibility as ViewIcon,
 } from "@mui/icons-material";
 import {
@@ -23,7 +22,6 @@ import {
   DialogTitle,
   Grid,
   IconButton,
-  InputAdornment,
   Menu,
   MenuItem,
   Table,
@@ -35,7 +33,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { MouseEvent, useState } from "react";
 
 const customers = [
   {
@@ -117,7 +115,7 @@ export function Customers() {
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleMenuClick = (
-    event: React.MouseEvent<HTMLElement>,
+    event: MouseEvent<HTMLElement>,
     customerId: number,
   ) => {
     setAnchorEl(event.currentTarget);
@@ -176,13 +174,6 @@ export function Customers() {
               size="small"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
-              }}
               sx={{ flexGrow: 1 }}
             />
             <Button
@@ -305,7 +296,7 @@ export function Customers() {
         <DialogContent>
           {selectedCustomerData && (
             <Grid container spacing={3} sx={{ mt: 1 }}>
-              <Grid item xs={12} md={6}>
+              <Grid size={6}>
                 <Typography variant="h6" gutterBottom>
                   Personal Information
                 </Typography>
@@ -322,7 +313,7 @@ export function Customers() {
                   <strong>Join Date:</strong> {selectedCustomerData.joinDate}
                 </Typography>
               </Grid>
-              <Grid item xs={12} md={6}>
+              <Grid size={6}>
                 <Typography variant="h6" gutterBottom>
                   Order History
                 </Typography>

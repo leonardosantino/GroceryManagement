@@ -6,7 +6,6 @@ import {
   FilterList as FilterIcon,
   MoreVert as MoreVertIcon,
   Remove as RemoveIcon,
-  Search as SearchIcon,
   Warning as WarningIcon,
 } from "@mui/icons-material";
 import {
@@ -23,7 +22,6 @@ import {
   DialogTitle,
   Grid,
   IconButton,
-  InputAdornment,
   Menu,
   MenuItem,
   Table,
@@ -35,7 +33,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { MouseEvent, useState } from "react";
 
 const inventory = [
   {
@@ -137,10 +135,7 @@ export function Inventory() {
   const [openDialog, setOpenDialog] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const handleMenuClick = (
-    event: React.MouseEvent<HTMLElement>,
-    itemId: number,
-  ) => {
+  const handleMenuClick = (event: MouseEvent<HTMLElement>, itemId: number) => {
     setAnchorEl(event.currentTarget);
     setSelectedItem(itemId);
   };
@@ -192,13 +187,6 @@ export function Inventory() {
               size="small"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
-              }}
               sx={{ flexGrow: 1 }}
             />
             <Button
@@ -323,7 +311,7 @@ export function Inventory() {
         <DialogTitle>Adjust Stock</DialogTitle>
         <DialogContent>
           <Grid container spacing={2} sx={{ mt: 1 }}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <TextField
                 fullWidth
                 label="Current Stock"
@@ -335,7 +323,7 @@ export function Inventory() {
                 }
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <TextField
                 fullWidth
                 label="Adjustment Reason"

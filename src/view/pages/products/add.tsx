@@ -1,26 +1,22 @@
-import AddIcon from "@mui/icons-material/Add";
-import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
-import CategoryIcon from "@mui/icons-material/Category";
-import InventoryIcon from "@mui/icons-material/Inventory";
-import SaveIcon from "@mui/icons-material/Save";
 import {
-  Button,
-  Chip,
-  Divider,
-  InputAdornment,
-  TextField,
-  Typography,
-} from "@mui/material";
+  Add,
+  AddPhotoAlternate,
+  Category,
+  Inventory,
+  Save,
+} from "@mui/icons-material";
+import { Button, Chip, Divider, TextField, Typography } from "@mui/material";
+import Image from "next/image";
 
+import { Box } from "@/common/ui/comps/box";
 import { Col } from "@/common/ui/comps/col";
 import { Paper } from "@/common/ui/comps/paper";
 import { Row } from "@/common/ui/comps/row";
 import { Text } from "@/common/ui/comps/text";
+import { InputFileUpload } from "@/view/comps/input/file";
 
 export function ProductsAdd() {
   const categories = ["Bebidas", "Refrigerante", "Zero Açúcar"];
-
-  const sampleImageUrl = "https://via.placeholder.com/150";
 
   return (
     <Col
@@ -34,10 +30,11 @@ export function ProductsAdd() {
         maxWidth: 900,
       }}
     >
+      {/*Basics*/}
       <Paper>
         <Col sx={{ padding: 2, gap: 2 }}>
           <Row sx={{ gap: 1 }}>
-            <InventoryIcon />
+            <Inventory />
             <Text>Informações Básicas</Text>
           </Row>
           <Text variant="caption">Adicione nome e descrição do produto</Text>
@@ -50,10 +47,11 @@ export function ProductsAdd() {
 
       <Divider />
 
+      {/*Category*/}
       <Paper>
         <Col sx={{ padding: 2, gap: 2 }}>
           <Row sx={{ gap: 1 }}>
-            <CategoryIcon />
+            <Category />
             <Text>Categorias</Text>
           </Row>
 
@@ -64,7 +62,7 @@ export function ProductsAdd() {
 
           <Row sx={{ gap: 1 }}>
             <TextField fullWidth placeholder="Categoria" />
-            <Button variant="contained" color="primary" startIcon={<AddIcon />}>
+            <Button variant="contained" color="primary" startIcon={<Add />}>
               Adicionar
             </Button>
           </Row>
@@ -79,62 +77,59 @@ export function ProductsAdd() {
 
       <Divider />
 
-      <Col sx={{ padding: 2, gap: 2 }}>
-        <Row sx={{ gap: 1 }}>
-          <AddPhotoAlternateIcon color="primary" />
-          <Text>Imagens</Text>
-        </Row>
+      {/*Images*/}
+      <Paper>
+        <Col sx={{ padding: 2, gap: 2 }}>
+          <Row sx={{ gap: 1 }}>
+            <AddPhotoAlternate color="primary" />
+            <Text>Imagens</Text>
+          </Row>
 
-        <Text variant="caption">
-          Adicione imagens de alta qualidade do seu produto. Recomendamos pelo
-          menos 3 imagens de diferentes ângulos.
-        </Text>
+          <Text variant="caption">
+            Adicione imagens de alta qualidade do seu produto. Recomendamos pelo
+            menos 3 imagens de diferentes ângulos.
+          </Text>
 
-        <Row sx={{ justifyContent: "center" }}>
-          <Paper sx={{ width: 400, height: 200 }}>
-            <AddPhotoAlternateIcon />
-          </Paper>
-        </Row>
-
-        <Divider sx={{ my: 2 }} />
-
-        <Text variant="subtitle2" userSelect="auto" sx={{ mb: 1 }}>
-          Imagens do Produto:
-        </Text>
-
-        <Row sx={{ gap: 2, flexWrap: "wrap" }}>
-          <Paper elevation={2} sx={{ p: 1, position: "relative" }}>
-            <img
-              src={sampleImageUrl}
-              alt="Produto"
-              style={{ width: 150, height: 150, objectFit: "cover" }}
-            />
-            <Button
-              size="small"
-              color="error"
-              variant="contained"
+          <Row sx={{ justifyContent: "center" }}>
+            <Box
               sx={{
-                position: "absolute",
-                top: 5,
-                right: 5,
-                minWidth: "auto",
-                width: 30,
-                height: 30,
-                p: 0,
+                width: 400,
+                height: 200,
               }}
             >
-              ×
-            </Button>
-          </Paper>
-        </Row>
-      </Col>
+              <Col
+                sx={{
+                  height: "inherit",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: 3,
+                }}
+              >
+                <AddPhotoAlternate color="primary" fontSize="large" />
 
-      <Divider sx={{ my: 2 }} />
+                <InputFileUpload />
+              </Col>
+            </Box>
+          </Row>
 
-      {/* Units */}
+          <Row sx={{ justifyContent: "center" }}>
+            <Col sx={{ width: 100 }}>
+              <Image
+                src={"/assets/drawable/img.png"}
+                alt={""}
+                width={100}
+                height={100}
+              />
+            </Col>
+          </Row>
+        </Col>
+      </Paper>
+
+      <Divider />
+
       <Col sx={{ gap: 2 }}>
         <Row sx={{ alignItems: "center", gap: 1, mb: 1 }}>
-          <InventoryIcon color="primary" />
+          <Inventory color="primary" />
           <Text variant="h6" userSelect="auto" sx={{ fontWeight: "bold" }}>
             Unidades
           </Text>
@@ -171,11 +166,6 @@ export function ProductsAdd() {
               fullWidth
               placeholder="9.99"
               helperText="Preço em reais"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">R$</InputAdornment>
-                ),
-              }}
             />
             <TextField
               label="Quantidade"
@@ -190,7 +180,7 @@ export function ProductsAdd() {
           <Button
             variant="contained"
             color="primary"
-            startIcon={<AddIcon />}
+            startIcon={<Add />}
             fullWidth
           >
             Adicionar Unidade
@@ -236,7 +226,7 @@ export function ProductsAdd() {
       </Col>
 
       <Row sx={{ justifyContent: "end" }}>
-        <Button variant="contained" color="primary" startIcon={<SaveIcon />}>
+        <Button variant="contained" color="primary" startIcon={<Save />}>
           Salvar
         </Button>
       </Row>
