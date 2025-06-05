@@ -5,7 +5,7 @@ import {
   Inventory,
   Save,
 } from "@mui/icons-material";
-import { Button, Chip, Divider, TextField, Typography } from "@mui/material";
+import { Button, Chip, Divider, TextField } from "@mui/material";
 import Image from "next/image";
 
 import { Box } from "@/common/ui/comps/box";
@@ -13,6 +13,7 @@ import { Col } from "@/common/ui/comps/col";
 import { Paper } from "@/common/ui/comps/paper";
 import { Row } from "@/common/ui/comps/row";
 import { Text } from "@/common/ui/comps/text";
+import { TextFieldCurrency } from "@/view/comps/input/currency";
 import { InputFileUpload } from "@/view/comps/input/file";
 
 export function ProductsAdd() {
@@ -118,7 +119,8 @@ export function ProductsAdd() {
                 src={"/assets/drawable/img.png"}
                 alt={""}
                 width={100}
-                height={100}
+                height={50}
+                loading={"lazy"}
               />
             </Col>
           </Row>
@@ -127,103 +129,60 @@ export function ProductsAdd() {
 
       <Divider />
 
-      <Col sx={{ gap: 2 }}>
-        <Row sx={{ alignItems: "center", gap: 1, mb: 1 }}>
-          <Inventory color="primary" />
-          <Text variant="h6" userSelect="auto" sx={{ fontWeight: "bold" }}>
-            Unidades
+      {/*Units*/}
+      <Paper>
+        <Col sx={{ padding: 2, gap: 2 }}>
+          <Row sx={{ gap: 1 }}>
+            <Inventory />
+            <Text>Unidades</Text>
+          </Row>
+
+          <Text variant="caption">
+            Adicione informações sobre as unidades disponíveis do produto,
+            preços e quantidades
           </Text>
-        </Row>
 
-        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-          Adicione informações sobre as unidades disponíveis do produto, preços
-          e quantidades
-        </Typography>
-
-        <Col sx={{ gap: 2 }}>
-          <Row sx={{ gap: 2 }}>
-            <TextField
-              label="Nome da Unidade"
-              variant="outlined"
-              fullWidth
-              placeholder="Ex: Garrafa 2L"
-              helperText="Nome da variação do produto"
-            />
-            <TextField
-              label="Descrição da Unidade"
-              variant="outlined"
-              fullWidth
-              placeholder="Ex: Garrafa PET 2 Litros"
-              helperText="Descrição detalhada da unidade"
-            />
-          </Row>
-
-          <Row sx={{ gap: 2 }}>
-            <TextField
-              label="Preço"
-              variant="outlined"
-              type="number"
-              fullWidth
-              placeholder="9.99"
-              helperText="Preço em reais"
-            />
-            <TextField
-              label="Quantidade"
-              variant="outlined"
-              type="number"
-              fullWidth
-              placeholder="100"
-              helperText="Quantidade disponível em estoque"
-            />
-          </Row>
-
-          <Button
-            variant="contained"
-            color="primary"
-            startIcon={<Add />}
-            fullWidth
-          >
-            Adicionar Unidade
-          </Button>
-        </Col>
-
-        <Row
-          sx={{
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <Col>
-            <Text
-              variant="subtitle1"
-              userSelect="auto"
-              sx={{ fontWeight: "medium" }}
-            >
-              Garrafa 2L
-            </Text>
-            <Text variant="body2" userSelect="auto">
-              Garrafa PET de 2 Litros
-            </Text>
-            <Row sx={{ gap: 3, mt: 1 }}>
-              <Chip
-                label="R$ 9,99"
-                size="small"
-                color="primary"
-                variant="outlined"
+          <Col sx={{ gap: 1 }}>
+            <Row sx={{ gap: 2 }}>
+              <TextField
+                placeholder={"Nome"}
+                helperText={"Ex: Grande, média, pequena."}
               />
-              <Chip
-                label="Estoque: 100"
-                size="small"
-                color="success"
-                variant="outlined"
+              <TextField
+                placeholder="Descrição"
+                helperText={"Ex: 8 Fatias, 6 Fatias, 4 Fatias"}
               />
+              <Button variant="contained" startIcon={<Add />}>
+                Adicione
+              </Button>
+            </Row>
+
+            <Row sx={{ gap: 2 }}>
+              <TextFieldCurrency />
+              <TextField placeholder="Quantidade" type={"number"} />
             </Row>
           </Col>
-          <Button color="error" variant="outlined" size="small">
-            Remover
-          </Button>
-        </Row>
-      </Col>
+
+          <Row
+            sx={{
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Col>
+              <Text>Grande</Text>
+              <Text>8 Fatias</Text>
+              <Row>
+                <Chip label="R$ 9,99" size="small" />
+                <Chip label="Estoque: 100" size="small" />
+              </Row>
+            </Col>
+            <Button color="error" variant="outlined" size="small">
+              Remover
+            </Button>
+          </Row>
+        </Col>
+      </Paper>
 
       <Row sx={{ justifyContent: "end" }}>
         <Button variant="contained" color="primary" startIcon={<Save />}>
