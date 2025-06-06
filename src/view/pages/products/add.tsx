@@ -9,63 +9,80 @@ import {
 import { Button, Chip, Divider, IconButton, TextField } from "@mui/material";
 import { RefObject, useRef, useState } from "react";
 
-import { Box, Col, Img, Paper, Row, Text } from "@/common/ui/comps";
+import { Box, Col, Form, Img, Paper, Row, Text } from "@/common/ui/comps";
 import { TextFieldCurrency } from "@/view/comps/input/currency";
 import { InputFileUpload } from "@/view/comps/input/file";
 
+type ErrorProps = {
+  name: boolean;
+  description: boolean;
+  category: boolean;
+};
+
 export function ProductsAdd() {
   const nameRef = useRef<HTMLInputElement>(null);
-  const [nameError, setNameError] = useState<boolean>(false);
-
   const descriptionRef = useRef<HTMLInputElement>(null);
-  const [descriptionError, setDescriptionError] = useState<boolean>(false);
-
   const categoryRef = useRef<HTMLInputElement>(null);
-  const [categoryError, setCategoryError] = useState<boolean>(false);
 
-  const [categories, setCategories] = useState<Set<string>>(new Set());
+  const [categories, setCategories] = useState(new Set<string>());
+
+  const [error, setError] = useState({
+    name: false,
+    description: false,
+    category: false,
+  });
 
   function onSave() {
-    const name = handleValidity(nameRef);
-    if (name) {
-      handleScroll(nameRef);
-    }
-    setNameError(name);
+    const err = {
+      name: !refValidity(nameRef),
+      description: !refValidity(descriptionRef),
+      category: categories.size < 1,
+    };
 
-    const description = handleValidity(descriptionRef);
-    if (description) {
-      handleScroll(descriptionRef);
+    if (formValidity(err)) {
+      console.log("FORM SAVED !");
+    } else {
+      console.log("NOT VALID !");
     }
-    setDescriptionError(description);
 
-    const category = categories.size < 1;
-    if (category) {
-      handleScroll(categoryRef);
-    }
-    setCategoryError(category);
+    scroll(err);
+    setError(err);
   }
 
   function handleSetCategory() {
-    const validity = handleValidity(categoryRef);
+    const validity = refValidity(categoryRef);
 
     if (validity) {
-      const category = categoryRef.current?.value as string;
-
+      const category = refValue(categoryRef);
       setCategories(new Set([...categories].concat([category])));
     }
-    setCategoryError(!validity);
+    setError({ ...error, category: !validity });
   }
 
-  function handleScroll(ref: RefObject<HTMLInputElement | null>) {
+  function scroll(err: ErrorProps) {
+    if (err.name) refScroll(nameRef);
+    else if (err.description) refScroll(descriptionRef);
+    else if (err.category) refScroll(categoryRef);
+  }
+
+  function refScroll(ref: RefObject<HTMLInputElement | null>) {
     ref.current?.scrollIntoView({ behavior: "smooth" });
   }
 
-  function handleValidity(ref: RefObject<HTMLInputElement | null>) {
-    return !ref.current?.checkValidity();
+  function refValidity(ref: RefObject<HTMLInputElement | null>): boolean {
+    return ref.current?.checkValidity() ?? false;
+  }
+
+  function refValue(ref: RefObject<HTMLInputElement | null>): string {
+    return ref.current?.value as string;
+  }
+
+  function formValidity(err: ErrorProps) {
+    return !Object.values(err).some((e) => e);
   }
 
   return (
-    <Col
+    <Form
       sx={{
         flexGrow: 1,
         paddingY: 7,
@@ -88,7 +105,7 @@ export function ProductsAdd() {
           <TextField
             required
             placeholder="Nome"
-            error={nameError}
+            error={error.name}
             inputRef={nameRef}
           />
 
@@ -97,7 +114,7 @@ export function ProductsAdd() {
             placeholder="Descrição"
             multiline
             rows={4}
-            error={descriptionError}
+            error={error.description}
             inputRef={descriptionRef}
           />
         </Col>
@@ -120,7 +137,7 @@ export function ProductsAdd() {
             <TextField
               required
               placeholder={"Categoria"}
-              error={categoryError}
+              error={error.category}
               inputRef={categoryRef}
             />
             <Button
@@ -288,6 +305,6 @@ export function ProductsAdd() {
           Salve
         </Button>
       </Row>
-    </Col>
+    </Form>
   );
 }
