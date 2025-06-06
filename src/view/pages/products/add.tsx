@@ -7,7 +7,7 @@ import {
   Save,
 } from "@mui/icons-material";
 import { Button, Chip, Divider, IconButton, TextField } from "@mui/material";
-import { useRef, useState } from "react";
+import { RefObject, useRef, useState } from "react";
 
 import { Box, Col, Img, Paper, Row, Text } from "@/common/ui/comps";
 import { TextFieldCurrency } from "@/view/comps/input/currency";
@@ -26,30 +26,27 @@ export function ProductsAdd() {
   const [categories, setCategories] = useState<Set<string>>(new Set());
 
   function onSave() {
-    const name = !nameRef.current?.checkValidity();
-
+    const name = handleValidity(nameRef);
     if (name) {
-      nameRef.current?.scrollIntoView({ behavior: "smooth" });
+      handleScroll(nameRef);
     }
     setNameError(name);
 
-    const description = !descriptionRef.current?.checkValidity();
-
+    const description = handleValidity(descriptionRef);
     if (description) {
-      descriptionRef.current?.scrollIntoView({ behavior: "smooth" });
+      handleScroll(descriptionRef);
     }
     setDescriptionError(description);
 
     const category = categories.size < 1;
-
     if (category) {
-      categoryRef.current?.scrollIntoView({ behavior: "smooth" });
+      handleScroll(categoryRef);
     }
     setCategoryError(category);
   }
 
   function handleSetCategory() {
-    const validity = categoryRef.current?.checkValidity();
+    const validity = handleValidity(categoryRef);
 
     if (validity) {
       const category = categoryRef.current?.value as string;
@@ -57,6 +54,14 @@ export function ProductsAdd() {
       setCategories(new Set([...categories].concat([category])));
     }
     setCategoryError(!validity);
+  }
+
+  function handleScroll(ref: RefObject<HTMLInputElement | null>) {
+    ref.current?.scrollIntoView({ behavior: "smooth" });
+  }
+
+  function handleValidity(ref: RefObject<HTMLInputElement | null>) {
+    return !ref.current?.checkValidity();
   }
 
   return (
