@@ -6,7 +6,14 @@ import {
   Inventory,
   Save,
 } from "@mui/icons-material";
-import { Button, Chip, Divider, IconButton, TextField } from "@mui/material";
+import {
+  Button,
+  Chip,
+  Divider,
+  IconButton,
+  Stack,
+  TextField,
+} from "@mui/material";
 import { createRef, RefObject, useRef, useState } from "react";
 
 import { Box, Col, Form, Img, Paper, Row, Text } from "@/common/ui/comps";
@@ -33,6 +40,20 @@ export function ProductsAdd() {
   });
 
   const [categories, setCategories] = useState(new Set<string>());
+  const [images, setImages] = useState(new Set<string>());
+
+  function handleFileUpload(files: FileList) {
+    const image = URL.createObjectURL(files[0]);
+
+    images.add(image);
+    setImages(new Set([...images]));
+  }
+
+  function handleDeleteImage(img: string) {
+    URL.revokeObjectURL(img);
+    images.delete(img);
+    setImages(new Set([...images]));
+  }
 
   function onSave() {
     const err = getErrors();
@@ -205,23 +226,35 @@ export function ProductsAdd() {
                 }}
               >
                 <AddPhotoAlternate color="primary" fontSize="large" />
-
-                <InputFileUpload />
+                <InputFileUpload onChange={handleFileUpload} />
               </Col>
             </Box>
           </Row>
 
           <Divider />
-          <Row sx={{ justifyContent: "center", gap: 1, minHeight: 50 }}>
-            {[0, 1, 2].map((e) => (
-              <Img
-                key={e}
-                src={"/assets/drawable/img.png"}
-                alt={""}
-                width={100}
-                height={50}
-                sx={{ width: 100 }}
-              />
+          <Row
+            sx={{
+              justifyContent: "center",
+              gap: 1,
+              minHeight: 100,
+            }}
+          >
+            {[...images].map((img) => (
+              <Col key={img} sx={{ position: "relative" }}>
+                <Img
+                  src={img}
+                  alt={img}
+                  width={200}
+                  height={100}
+                  sx={{ width: 200, height: 100 }}
+                />
+                <IconButton
+                  onClick={() => handleDeleteImage(img)}
+                  sx={{ position: "absolute", right: 0 }}
+                >
+                  <Delete fontSize="small" />
+                </IconButton>
+              </Col>
             ))}
           </Row>
         </Col>
