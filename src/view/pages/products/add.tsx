@@ -24,6 +24,7 @@ export function ProductsAdd() {
     name: createRef<HTMLInputElement>(),
     description: createRef<HTMLInputElement>(),
     category: createRef<HTMLInputElement>(),
+    image: createRef<HTMLInputElement>(),
   }).current;
   const [error, setError] = useState({
     name: false,
@@ -34,11 +35,7 @@ export function ProductsAdd() {
   const [categories, setCategories] = useState(new Set<string>());
 
   function onSave() {
-    const err = {
-      name: !refValidity(ref.name),
-      description: !refValidity(ref.description),
-      category: categories.size < 1,
-    };
+    const err = getErrors();
 
     if (formValidity(err)) {
       console.log("FORM SAVED !");
@@ -50,14 +47,28 @@ export function ProductsAdd() {
     setError(err);
   }
 
+  function getErrors() {
+    return {
+      name: !refValidity(ref.name),
+      description: !refValidity(ref.description),
+      category: categories.size < 1,
+    };
+  }
+
   function handleSetCategory() {
     const validity = refValidity(ref.category);
 
     if (validity) {
       const category = refValue(ref.category);
-      setCategories(new Set([...categories].concat([category])));
+      categories.add(category);
+      setCategories(new Set([...categories]));
     }
     setError({ ...error, category: !validity });
+  }
+
+  function onDeleteCategory(category: string) {
+    categories.delete(category);
+    setCategories(new Set([...categories]));
   }
 
   function scroll(err: ErrorProps) {
@@ -153,9 +164,13 @@ export function ProductsAdd() {
 
           <Divider />
 
-          <Row sx={{ gap: 1 }}>
+          <Row sx={{ gap: 1, minHeight: 32 }}>
             {[...categories].map((category, index) => (
-              <Chip key={index} label={category} onDelete={() => {}} />
+              <Chip
+                key={index}
+                label={category}
+                onDelete={() => onDeleteCategory(category)}
+              />
             ))}
           </Row>
         </Col>
@@ -197,15 +212,17 @@ export function ProductsAdd() {
           </Row>
 
           <Divider />
-          <Row sx={{ justifyContent: "center" }}>
-            <Col sx={{ width: 100 }}>
+          <Row sx={{ justifyContent: "center", gap: 1, minHeight: 50 }}>
+            {[0, 1, 2].map((e) => (
               <Img
+                key={e}
                 src={"/assets/drawable/img.png"}
                 alt={""}
                 width={100}
                 height={50}
+                sx={{ width: 100 }}
               />
-            </Col>
+            ))}
           </Row>
         </Col>
       </Paper>

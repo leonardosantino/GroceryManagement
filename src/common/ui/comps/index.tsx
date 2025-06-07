@@ -93,6 +93,7 @@ export function Row({ children, sx }: RowProps) {
     <MUIBox
       sx={{
         display: "flex",
+        flexWrap: "wrap",
         ...sx,
       }}
     >
@@ -143,13 +144,19 @@ export function Img({
   alt,
   width,
   height,
+  sx,
 }: {
   src: string;
   alt: string;
   width: number;
   height: number;
+  sx?: SxProps<Theme>;
 }) {
-  return <Image src={src} alt={alt} width={width} height={height} />;
+  return (
+    <MUIBox sx={sx}>
+      <Image src={src} alt={alt} width={width} height={height} />
+    </MUIBox>
+  );
 }
 
 type FormProps = {
@@ -159,7 +166,14 @@ type FormProps = {
 
 export function Form({ children, sx }: FormProps) {
   return (
-    <MUIBox component={"form"} sx={sx}>
+    <MUIBox
+      component={"form"}
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        ...sx,
+      }}
+    >
       {children}
     </MUIBox>
   );

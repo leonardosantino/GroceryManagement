@@ -1,5 +1,14 @@
 import { Button, Input } from "@mui/material";
 
+export function InputFileUpload() {
+  return (
+    <Button component="label" variant="outlined">
+      Selecione
+      <VisuallyHiddenInput />
+    </Button>
+  );
+}
+
 function VisuallyHiddenInput() {
   return (
     <Input
@@ -15,14 +24,5 @@ function VisuallyHiddenInput() {
         width: 1,
       }}
     />
-  );
-}
-
-export function InputFileUpload() {
-  return (
-    <Button component="label" variant="outlined">
-      Selecione
-      <VisuallyHiddenInput />
-    </Button>
   );
 }
