@@ -1,19 +1,34 @@
 import { TextField } from "@mui/material";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, Ref, useState } from "react";
 
-export function TextFieldCurrency() {
+export function TextFieldCurrency({
+  inputRef,
+  error,
+  required,
+}: {
+  inputRef: Ref<HTMLInputElement>;
+  error?: boolean;
+  required?: boolean;
+}) {
   const [value, setValue] = useState("");
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue(formatCurrency({ value: e.target.value, maxLength: 9 }));
+    setValue(currencyFromString({ value: e.target.value, maxLength: 9 }));
   };
 
   return (
-    <TextField placeholder="Preço" value={value} onChange={handleChange} />
+    <TextField
+      required={required}
+      placeholder="Preço"
+      value={value}
+      onChange={handleChange}
+      error={error}
+      inputRef={inputRef}
+    />
   );
 }
 
-function formatCurrency({
+function currencyFromString({
   value,
   maxLength,
 }: {
@@ -31,4 +46,8 @@ function formatCurrency({
     currency: "BRL",
     minimumFractionDigits: 2,
   });
+}
+
+export function doubleFromCurrency(str: string) {
+  return Number(str.replace(/R\$/g, "").replace(/\./g, "").replace(",", "."));
 }

@@ -9,9 +9,15 @@ import {
 import { Button, Chip, Divider, IconButton, TextField } from "@mui/material";
 import { createRef, RefObject, useRef, useState } from "react";
 
+import { id } from "@/common/generate/id";
 import { Box, Col, Form, Img, Paper, Row, Text } from "@/common/ui/comps";
-import { TextFieldCurrency } from "@/view/comps/input/currency";
+import { Unit } from "@/model/product";
+import {
+  doubleFromCurrency,
+  TextFieldCurrency,
+} from "@/view/comps/input/currency";
 import { InputFileUpload } from "@/view/comps/input/file";
+import { ProductUnit } from "@/view/comps/products/unit";
 
 type ErrorProps = {
   name: boolean;
@@ -25,15 +31,24 @@ export function ProductsAdd() {
     description: createRef<HTMLInputElement>(),
     category: createRef<HTMLInputElement>(),
     image: createRef<HTMLInputElement>(),
+    unitName: createRef<HTMLInputElement>(),
+    unitDescription: createRef<HTMLInputElement>(),
+    unitPrice: createRef<HTMLInputElement>(),
+    unitQuantity: createRef<HTMLInputElement>(),
   }).current;
   const [error, setError] = useState({
     name: false,
     description: false,
     category: false,
+    unitName: false,
+    unitDescription: false,
+    unitPrice: false,
+    unitQuantity: false,
   });
 
   const [categories, setCategories] = useState(new Set<string>());
   const [images, setImages] = useState(new Set<string>());
+  const [units, setUnits] = useState(new Set<Unit>());
 
   function handleFileUpload(files: FileList) {
     const image = URL.createObjectURL(files[0]);
@@ -66,6 +81,10 @@ export function ProductsAdd() {
       name: !refValidity(ref.name),
       description: !refValidity(ref.description),
       category: categories.size < 1,
+      unitName: !refValidity(ref.unitName),
+      unitDescription: !refValidity(ref.unitDescription),
+      unitPrice: !refValidity(ref.unitPrice),
+      unitQuantity: !refValidity(ref.unitQuantity),
     };
   }
 
@@ -78,6 +97,29 @@ export function ProductsAdd() {
       setCategories(new Set([...categories]));
     }
     setError({ ...error, category: !validity });
+  }
+
+  function handleSetUnit() {
+    const validity = {
+      unitName: !refValidity(ref.unitName),
+      unitDescription: !refValidity(ref.unitDescription),
+      unitPrice: !refValidity(ref.unitPrice),
+      unitQuantity: !refValidity(ref.unitQuantity),
+    };
+
+    if (validity) {
+      const unit = new Unit({
+        id: id(),
+        name: refValue(ref.unitName),
+        description: refValue(ref.unitDescription),
+        price: doubleFromCurrency(refValue(ref.unitPrice)),
+        quantity: Number(refValue(ref.unitQuantity)),
+      });
+
+      units.add(unit);
+      setUnits(new Set([...units]));
+    }
+    setError({ ...error, ...validity });
   }
 
   function onDeleteCategory(category: string) {
@@ -271,70 +313,48 @@ export function ProductsAdd() {
                   required
                   placeholder={"Nome"}
                   helperText={"Ex: Grande, média, pequena."}
+                  error={error.unitName}
+                  inputRef={ref.unitName}
                 />
                 <TextField
+                  required
                   placeholder="Descrição"
                   helperText={"Ex: 8 Fatias, 6 Fatias, 4 Fatias"}
+                  error={error.unitDescription}
+                  inputRef={ref.unitDescription}
                 />
                 <Button
                   variant="contained"
                   startIcon={<Add />}
                   sx={{ height: 56 }}
+                  onClick={handleSetUnit}
                 >
                   Adicione
                 </Button>
               </Row>
 
               <Row sx={{ gap: 2 }}>
-                <TextFieldCurrency />
-                <TextField placeholder="Quantidade" type={"number"} />
+                <TextFieldCurrency
+                  required
+                  inputRef={ref.unitPrice}
+                  error={error.unitPrice}
+                />
+                <TextField
+                  required
+                  placeholder="Quantidade"
+                  type={"number"}
+                  error={error.unitQuantity}
+                  inputRef={ref.unitQuantity}
+                />
               </Row>
             </Col>
 
             <Divider />
-            <Box>
-              <Row
-                sx={{
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  paddingX: 1,
-                  paddingY: 2,
-                }}
-              >
-                <Text variant={"body2"} sx={{ fontWeight: "bold" }}>
-                  Pizza de Calabresa
-                </Text>
-
-                <Text variant={"body2"}>Grande</Text>
-                <Text variant={"body2"}>8 Fatias</Text>
-
-                <Row
-                  sx={{
-                    alignItems: "center",
-                    gap: 1,
-                  }}
-                >
-                  <Text>R$</Text>
-                  <Text sx={{ color: "success.main" }}>59,90</Text>
-                </Row>
-
-                <Row
-                  sx={{
-                    alignItems: "center",
-                    gap: 1,
-                  }}
-                >
-                  <Text color={"warning"}>100</Text>
-                  <Text variant={"body2"}>Unidades</Text>
-                </Row>
-
-                <Col sx={{ justifyContent: "center" }}>
-                  <IconButton>
-                    <Delete />
-                  </IconButton>
-                </Col>
-              </Row>
-            </Box>
+            <Row sx={{ gap: 1 }}>
+              {[0, 1, 2].map((e) => (
+                <ProductUnit key={e} />
+              ))}
+            </Row>
           </Col>
         </Paper>
 
