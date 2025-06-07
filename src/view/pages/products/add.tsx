@@ -7,7 +7,7 @@ import {
   Save,
 } from "@mui/icons-material";
 import { Button, Chip, Divider, IconButton, TextField } from "@mui/material";
-import { RefObject, useRef, useState } from "react";
+import { createRef, RefObject, useRef, useState } from "react";
 
 import { Box, Col, Form, Img, Paper, Row, Text } from "@/common/ui/comps";
 import { TextFieldCurrency } from "@/view/comps/input/currency";
@@ -20,22 +20,23 @@ type ErrorProps = {
 };
 
 export function ProductsAdd() {
-  const nameRef = useRef<HTMLInputElement>(null);
-  const descriptionRef = useRef<HTMLInputElement>(null);
-  const categoryRef = useRef<HTMLInputElement>(null);
-
-  const [categories, setCategories] = useState(new Set<string>());
-
+  const ref = useRef({
+    name: createRef<HTMLInputElement>(),
+    description: createRef<HTMLInputElement>(),
+    category: createRef<HTMLInputElement>(),
+  }).current;
   const [error, setError] = useState({
     name: false,
     description: false,
     category: false,
   });
 
+  const [categories, setCategories] = useState(new Set<string>());
+
   function onSave() {
     const err = {
-      name: !refValidity(nameRef),
-      description: !refValidity(descriptionRef),
+      name: !refValidity(ref.name),
+      description: !refValidity(ref.description),
       category: categories.size < 1,
     };
 
@@ -50,19 +51,19 @@ export function ProductsAdd() {
   }
 
   function handleSetCategory() {
-    const validity = refValidity(categoryRef);
+    const validity = refValidity(ref.category);
 
     if (validity) {
-      const category = refValue(categoryRef);
+      const category = refValue(ref.category);
       setCategories(new Set([...categories].concat([category])));
     }
     setError({ ...error, category: !validity });
   }
 
   function scroll(err: ErrorProps) {
-    if (err.name) refScroll(nameRef);
-    else if (err.description) refScroll(descriptionRef);
-    else if (err.category) refScroll(categoryRef);
+    if (err.name) refScroll(ref.name);
+    else if (err.description) refScroll(ref.description);
+    else if (err.category) refScroll(ref.category);
   }
 
   function refScroll(ref: RefObject<HTMLInputElement | null>) {
@@ -106,7 +107,7 @@ export function ProductsAdd() {
             required
             placeholder="Nome"
             error={error.name}
-            inputRef={nameRef}
+            inputRef={ref.name}
           />
 
           <TextField
@@ -115,7 +116,7 @@ export function ProductsAdd() {
             multiline
             rows={4}
             error={error.description}
-            inputRef={descriptionRef}
+            inputRef={ref.description}
           />
         </Col>
       </Paper>
@@ -138,7 +139,7 @@ export function ProductsAdd() {
               required
               placeholder={"Categoria"}
               error={error.category}
-              inputRef={categoryRef}
+              inputRef={ref.category}
             />
             <Button
               variant="contained"
