@@ -1,10 +1,8 @@
-import { Row } from "@/common/ui/comps";
-import { Entry } from "@/view/pages/entry";
+import { ViewRoutes } from "@/routes";
+import { useViewState } from "@/state/view";
 
 export function Main() {
-  return (
-    <Row sx={{ flexGrow: 1, justifyContent: "center" }}>
-      <Entry />
-    </Row>
-  );
+  const { view } = useViewState();
+
+  return ViewRoutes[view];
 }
