@@ -6,10 +6,9 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "test": "npm run lint && jest",
-    "test:watch": "jest --watch",
-    "lint": "next lint",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "test": "tsc --noEmit && next lint && jest",
+    "test:watch": "jest --watch"
   },
   "dependencies": {
     "@mui/icons-material": "7.1.0",
