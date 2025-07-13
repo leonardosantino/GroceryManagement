@@ -19,11 +19,10 @@
         "name": "next"
       }
     ],
-    "baseUrl": "src",
     "paths": {
-      "@/*": ["./*"],
-      "@/test/*": ["../test/*"],
-      "swiper/*": ["../node_modules/swiper/*"]
+      "@/*": ["./src/*"],
+      "@/test/*": ["./test/*"],
+      "swiper/*": ["./node_modules/swiper/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
