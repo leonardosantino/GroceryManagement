@@ -1,11 +1,11 @@
 import { Delete } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
 
-import { Box, Col, Row, Text } from "@/com/ui";
+import { Col, Deco, Row, Text } from "@/com/ui";
 
 export function ProductUnit() {
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Deco sx={{ flexGrow: 1 }}>
       <Row
         sx={{
           justifyContent: "space-between",
@@ -47,6 +47,6 @@ export function ProductUnit() {
           </IconButton>
         </Col>
       </Row>
-    </Box>
+    </Deco>
   );
 }

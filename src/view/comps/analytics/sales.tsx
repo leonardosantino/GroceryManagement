@@ -1,6 +1,6 @@
 import { Divider } from "@mui/material";
 
-import { Box, Col, Paper, Row, Text } from "@/com/ui";
+import { Col, Deco, Paper, Row, Text } from "@/com/ui";
 import { Sx } from "@/com/ui/style/scheme";
 
 export function BestSellers() {
@@ -8,7 +8,7 @@ export function BestSellers() {
     <Paper sx={{ flexGrow: 1 }}>
       <Col sx={{ padding: 1 }}>
         <Row sx={{ gap: 1 }}>
-          <Box
+          <Deco
             sx={{
               backgroundColor: Sx.color.info,
               borderRadius: 1,
@@ -21,10 +21,10 @@ export function BestSellers() {
           </Text>
         </Row>
 
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+        <Deco sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
           {data.map((product, index) => (
-            <Box key={index}>
-              <Box
+            <Deco key={index}>
+              <Deco
                 sx={{
                   display: "flex",
                   justifyContent: "space-between",
@@ -35,11 +35,11 @@ export function BestSellers() {
                   {product.name}
                 </Text>
                 <Text variant="body2">{product.sales.toString()}</Text>
-              </Box>
+              </Deco>
               <Divider />
-            </Box>
+            </Deco>
           ))}
-        </Box>
+        </Deco>
       </Col>
     </Paper>
   );

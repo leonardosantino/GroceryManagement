@@ -1,3 +1,4 @@
+import { useViewState } from "@/state/view";
 import { Analytics } from "@/view/pages/analytics";
 import { Customers } from "@/view/pages/customers";
 import { Inventory } from "@/view/pages/inventory";
@@ -27,3 +28,5 @@ export const ViewRoutes = {
   [ViewPath.Settings]: <Settings />,
   [ViewPath.Default]: <ProductsAdd />,
 };
+
+export const viewState = useViewState;

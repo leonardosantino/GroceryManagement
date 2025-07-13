@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 
-import { Box, Col, Paper, Row } from "@/com/ui";
+import { Col, Deco, Paper, Row } from "@/com/ui";
 import { Sx } from "@/com/ui/style/scheme";
 
 export function Billing() {
@@ -16,7 +16,7 @@ export function Billing() {
     <Paper>
       <Col sx={{ padding: 1 }}>
         <Row sx={{ gap: 1 }}>
-          <Box
+          <Deco
             sx={{
               backgroundColor: Sx.color.successVar,
               borderRadius: 1,

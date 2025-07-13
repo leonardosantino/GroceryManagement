@@ -1,44 +1,51 @@
 "use client";
 
+import { useState } from "react";
+
 import {
+  Box,
   BusinessRounded,
+  Collapse,
+  Deco,
+  Divider,
   ExpandLess,
   ExpandMore,
-  Inventory,
-  People,
-  ShoppingCart,
-  TrendingUp,
-} from "@mui/icons-material";
-import {
-  Collapse,
-  Divider,
   IconButton,
+  Inventory,
   List,
   ListItem,
   ListItemButton,
   ListItemIcon,
-} from "@mui/material";
-import { useState } from "react";
-
-import { Paper, Row, Text } from "@/com/ui";
-import { ViewPath } from "@/routes";
-import { useViewState } from "@/state/view";
+  Paper,
+  People,
+  Row,
+  ShoppingCart,
+  Sx,
+  Text,
+  TrendingUp,
+} from "@/com/ui";
+import { ViewPath, viewState } from "@/routes";
 
 export function Sidebar() {
-  const { view, setView } = useViewState();
+  const { view, setView } = viewState();
   const [open, setOpen] = useState(false);
 
   return (
     <Paper elevation={1}>
       <List>
-        <Row sx={{ alignItems: "center", justifyContent: "center" }}>
-          <IconButton>
-            <BusinessRounded />
-          </IconButton>
+        <Row
+          sx={{
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 1,
+            padding: 1,
+          }}
+        >
+          <BusinessRounded />
           <Text>Acme Co.</Text>
         </Row>
 
-        <Divider sx={{ margin: 1 }} />
+        <Box sx={{ margin: 2 }} />
 
         <ListItemButton
           selected={view == ViewPath.Analytics}
@@ -47,7 +54,7 @@ export function Sidebar() {
           <ListItemIcon>
             <TrendingUp />
           </ListItemIcon>
-          <Text>Análises</Text>
+          <Text sx={{ fontSize: Sx.fontSize.medium }}>Análises</Text>
         </ListItemButton>
 
         <ListItemButton
@@ -57,7 +64,7 @@ export function Sidebar() {
           <ListItemIcon>
             <Inventory />
           </ListItemIcon>
-          <Text>Produtos</Text>
+          <Text sx={{ fontSize: Sx.fontSize.medium }}>Produtos</Text>
           {open ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
 
@@ -68,7 +75,9 @@ export function Sidebar() {
                 selected={view == ViewPath.Products}
                 onClick={() => setView(ViewPath.Products)}
               >
-                <Text sx={{ fontSize: "small" }}>Lista de produtos</Text>
+                <Text sx={{ fontSize: Sx.fontSize.small }}>
+                  Lista de produtos
+                </Text>
               </ListItemButton>
             </ListItem>
             <ListItem>
@@ -76,7 +85,9 @@ export function Sidebar() {
                 selected={view == ViewPath.ProductsAdd}
                 onClick={() => setView(ViewPath.ProductsAdd)}
               >
-                <Text sx={{ fontSize: "small" }}>Adicionar produtos</Text>
+                <Text sx={{ fontSize: Sx.fontSize.small }}>
+                  Adicionar produtos
+                </Text>
               </ListItemButton>
             </ListItem>
           </List>
@@ -89,7 +100,7 @@ export function Sidebar() {
           <ListItemIcon>
             <ShoppingCart />
           </ListItemIcon>
-          <Text>Pedidos</Text>
+          <Text sx={{ fontSize: Sx.fontSize.medium }}>Pedidos</Text>
         </ListItemButton>
 
         <ListItemButton
@@ -99,7 +110,7 @@ export function Sidebar() {
           <ListItemIcon>
             <People />
           </ListItemIcon>
-          <Text>Clientes</Text>
+          <Text sx={{ fontSize: Sx.fontSize.medium }}>Clientes</Text>
         </ListItemButton>
       </List>
     </Paper>

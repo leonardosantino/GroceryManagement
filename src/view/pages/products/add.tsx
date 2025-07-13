@@ -10,7 +10,7 @@ import { Button, Chip, Divider, IconButton, TextField } from "@mui/material";
 import { createRef, RefObject, useRef, useState } from "react";
 
 import { id } from "@/com/generate/id";
-import { Box, Col, Form, Img, Paper, Row, Text } from "@/com/ui";
+import { Col, Deco, Form, Img, Paper, Row, Text } from "@/com/ui";
 import { Unit } from "@/model/product";
 import {
   doubleFromCurrency,
@@ -245,7 +245,7 @@ export function ProductsAdd() {
             </Text>
 
             <Row sx={{ justifyContent: "center" }}>
-              <Box
+              <Deco
                 sx={{
                   width: 400,
                   height: 200,
@@ -262,7 +262,7 @@ export function ProductsAdd() {
                   <AddPhotoAlternate color="primary" fontSize="large" />
                   <InputFileUpload onChange={handleFileUpload} />
                 </Col>
-              </Box>
+              </Deco>
             </Row>
 
             <Divider />
