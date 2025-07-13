@@ -1,4 +1,4 @@
-export const Scheme = {
+export const Sx = {
   color: {
     primary: "#3F51B5FF",
     secondary: "#9FA8DAFF",
@@ -16,36 +16,35 @@ export const Scheme = {
   },
   fontWidth: {
     thin: 100,
-    extraLight: 200,
+    xLight: 200,
     light: 300,
     normal: 400,
     medium: 500,
     semiBold: 600,
     bold: 700,
-    extraBold: 800,
+    xBold: 800,
     heavy: 900,
-    extraHeavy: 950,
+    xHeavy: 950,
   },
 
   fontSize: {
-    h1: "1.5rem",
-    h2: "1.25rem",
-    h3: "1rem",
-    p: "0.75rem",
+    small: "0.75rem",
+    medium: "0.875rem",
+    large: "1rem",
   },
 
   borderRadius: {
-    extraSmall: 2,
+    xSmall: 2,
     small: 4,
     medium: 8,
     large: 12,
-    extraLarge: 16,
+    xLarge: 16,
   },
   breakpoint: {
-    xs: 0,
-    sm: 600,
-    md: 900,
-    lg: 1200,
-    xl: 1536,
+    xSmall: 0,
+    small: 600,
+    medium: 900,
+    large: 1200,
+    xLarge: 1536,
   },
 };

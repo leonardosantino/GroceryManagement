@@ -1,43 +1,43 @@
 "use client";
 
 import {
+  BusinessRounded,
+  ExpandLess,
+  ExpandMore,
   Inventory,
   People,
   ShoppingCart,
   TrendingUp,
 } from "@mui/icons-material";
 import {
+  Collapse,
   Divider,
+  IconButton,
   List,
+  ListItem,
   ListItemButton,
   ListItemIcon,
-  ListItemText,
-  ListSubheader,
 } from "@mui/material";
+import { useState } from "react";
 
-import { Paper } from "@/com/ui/comps";
+import { Paper, Row, Text } from "@/com/ui";
 import { ViewPath } from "@/routes";
 import { useViewState } from "@/state/view";
 
 export function Sidebar() {
   const { view, setView } = useViewState();
+  const [open, setOpen] = useState(false);
 
   return (
     <Paper elevation={1}>
-      <List
-        subheader={
-          <ListSubheader
-            sx={{
-              textAlign: "center",
-              lineHeight: "normal",
-              userSelect: "none",
-            }}
-          >
-            Opção Supermercado
-          </ListSubheader>
-        }
-        sx={{ width: 175 }}
-      >
+      <List>
+        <Row sx={{ alignItems: "center", justifyContent: "center" }}>
+          <IconButton>
+            <BusinessRounded />
+          </IconButton>
+          <Text>Acme Co.</Text>
+        </Row>
+
         <Divider sx={{ margin: 1 }} />
 
         <ListItemButton
@@ -47,32 +47,40 @@ export function Sidebar() {
           <ListItemIcon>
             <TrendingUp />
           </ListItemIcon>
-          <ListItemText primary={"Análises"} />
+          <Text>Análises</Text>
         </ListItemButton>
 
         <ListItemButton
-          selected={view == ViewPath.Products}
-          onClick={() => setView(ViewPath.Products)}
+          selected={[ViewPath.Products, ViewPath.ProductsAdd].includes(view)}
+          onClick={() => setOpen(!open)}
         >
           <ListItemIcon>
             <Inventory />
           </ListItemIcon>
-          <ListItemText primary={"Produtos"} />
-          {/*{open ? <ExpandLess /> : <ExpandMore />}*/}
+          <Text>Produtos</Text>
+          {open ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
 
-        {/*<Collapse in={open}>*/}
-        {/*  <List>*/}
-        {/*    <ListItem>*/}
-        {/*      <ListItemButton*/}
-        {/*        selected={view == ViewPath.Products}*/}
-        {/*        onClick={() => setView(ViewPath.Products)}*/}
-        {/*      >*/}
-        {/*        <ListItemText primary={"Lista de Produtos"} />*/}
-        {/*      </ListItemButton>*/}
-        {/*    </ListItem>*/}
-        {/*  </List>*/}
-        {/*</Collapse>*/}
+        <Collapse in={open}>
+          <List>
+            <ListItem>
+              <ListItemButton
+                selected={view == ViewPath.Products}
+                onClick={() => setView(ViewPath.Products)}
+              >
+                <Text sx={{ fontSize: "small" }}>Lista de produtos</Text>
+              </ListItemButton>
+            </ListItem>
+            <ListItem>
+              <ListItemButton
+                selected={view == ViewPath.ProductsAdd}
+                onClick={() => setView(ViewPath.ProductsAdd)}
+              >
+                <Text sx={{ fontSize: "small" }}>Adicionar produtos</Text>
+              </ListItemButton>
+            </ListItem>
+          </List>
+        </Collapse>
 
         <ListItemButton
           selected={view == ViewPath.Orders}
@@ -81,7 +89,7 @@ export function Sidebar() {
           <ListItemIcon>
             <ShoppingCart />
           </ListItemIcon>
-          <ListItemText primary={"Pedidos"} />
+          <Text>Pedidos</Text>
         </ListItemButton>
 
         <ListItemButton
@@ -91,7 +99,7 @@ export function Sidebar() {
           <ListItemIcon>
             <People />
           </ListItemIcon>
-          <ListItemText primary={"Clientes"} />
+          <Text>Clientes</Text>
         </ListItemButton>
       </List>
     </Paper>

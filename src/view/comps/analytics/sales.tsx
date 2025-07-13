@@ -1,7 +1,7 @@
 import { Divider } from "@mui/material";
 
-import { Box, Col, Paper, Row, Text } from "@/com/ui/comps";
-import { Scheme } from "@/com/ui/style/scheme";
+import { Box, Col, Paper, Row, Text } from "@/com/ui";
+import { Sx } from "@/com/ui/style/scheme";
 
 export function BestSellers() {
   return (
@@ -10,7 +10,7 @@ export function BestSellers() {
         <Row sx={{ gap: 1 }}>
           <Box
             sx={{
-              backgroundColor: Scheme.color.info,
+              backgroundColor: Sx.color.info,
               borderRadius: 1,
               width: 20,
               height: 30,

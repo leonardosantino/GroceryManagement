@@ -10,7 +10,7 @@ import { Button, Chip, Divider, IconButton, TextField } from "@mui/material";
 import { createRef, RefObject, useRef, useState } from "react";
 
 import { id } from "@/com/generate/id";
-import { Box, Col, Form, Img, Paper, Row, Text } from "@/com/ui/comps";
+import { Box, Col, Form, Img, Paper, Row, Text } from "@/com/ui";
 import { Unit } from "@/model/product";
 import {
   doubleFromCurrency,
