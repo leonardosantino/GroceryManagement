@@ -3,7 +3,7 @@
 import { MessageRounded, NotificationsRounded } from "@mui/icons-material";
 import { Badge, IconButton } from "@mui/material";
 
-import { Row } from "@/common/ui/comps";
+import { Row } from "@/com/ui/comps";
 
 export function UpBar() {
   return (

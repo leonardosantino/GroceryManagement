@@ -2,9 +2,9 @@ import "@/app/global.css";
 
 import { ReactNode } from "react";
 
-import { appMetadata, appViewport } from "@/common/metadata/app";
-import { RootLayoutProvider } from "@/common/provider";
-import { defaultFont } from "@/common/ui/style/theme";
+import { appMetadata, appViewport } from "@/com/metadata/app";
+import { RootLayoutProvider } from "@/com/provider";
+import { defaultFont } from "@/com/ui/style/theme";
 import { ViewStateProvider } from "@/state/view";
 
 export const viewport = appViewport;

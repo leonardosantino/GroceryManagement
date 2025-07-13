@@ -5,7 +5,7 @@ import {
 } from "@mui/icons-material";
 import { Avatar, Box, Card, Typography } from "@mui/material";
 
-import { Col, Row } from "@/common/ui/comps";
+import { Col, Row } from "@/com/ui/comps";
 
 type MetricProps = {
   title: string;

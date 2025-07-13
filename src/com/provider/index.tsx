@@ -2,7 +2,7 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import { ReactNode } from "react";
 
-import { theme } from "@/common/ui/style/theme";
+import { theme } from "@/com/ui/style/theme";
 
 export function RootLayoutProvider({
   children,

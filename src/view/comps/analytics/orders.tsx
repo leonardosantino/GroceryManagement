@@ -8,8 +8,8 @@ import {
   Typography,
 } from "@mui/material";
 
-import { Sx } from "@/common/ui/base";
-import { Box, Col, Paper, Row } from "@/common/ui/comps";
+import { Box, Col, Paper, Row } from "@/com/ui/comps";
+import { Scheme } from "@/com/ui/style/scheme";
 
 export function AnalyticsOrders() {
   return (
@@ -18,7 +18,7 @@ export function AnalyticsOrders() {
         <Row sx={{ gap: 1 }}>
           <Box
             sx={{
-              backgroundColor: Sx.color.secondary,
+              backgroundColor: Scheme.color.secondary,
               borderRadius: 1,
               width: 20,
               height: 30,

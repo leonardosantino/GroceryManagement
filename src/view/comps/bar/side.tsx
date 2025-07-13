@@ -15,7 +15,7 @@ import {
   ListSubheader,
 } from "@mui/material";
 
-import { Paper } from "@/common/ui/comps";
+import { Paper } from "@/com/ui/comps";
 import { ViewPath } from "@/routes";
 import { useViewState } from "@/state/view";
 

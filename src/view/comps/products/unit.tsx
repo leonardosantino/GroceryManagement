@@ -1,7 +1,7 @@
 import { Delete } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
 
-import { Box, Col, Row, Text } from "@/common/ui/comps";
+import { Box, Col, Row, Text } from "@/com/ui/comps";
 
 export function ProductUnit() {
   return (

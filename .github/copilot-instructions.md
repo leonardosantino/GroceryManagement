@@ -18,7 +18,7 @@ When generating code for this application, use exclusively components from the@m
 All styling must be done using mui sx: SxProps.
 Do not use inline styles, CSS modules, styled-components, or other styling approaches.
 
-Always prefer to use the custom components defined in `@/common/ui/comps` instead of basic HTML elements.
+Prefer to use the custom components defined in `@/com/ui/comps` instead of basic HTML elements.
 This ensures consistent styling and behavior across the application.
 
 ## Implementation Approach

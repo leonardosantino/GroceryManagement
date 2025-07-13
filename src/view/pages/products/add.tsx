@@ -9,8 +9,8 @@ import {
 import { Button, Chip, Divider, IconButton, TextField } from "@mui/material";
 import { createRef, RefObject, useRef, useState } from "react";
 
-import { id } from "@/common/generate/id";
-import { Box, Col, Form, Img, Paper, Row, Text } from "@/common/ui/comps";
+import { id } from "@/com/generate/id";
+import { Box, Col, Form, Img, Paper, Row, Text } from "@/com/ui/comps";
 import { Unit } from "@/model/product";
 import {
   doubleFromCurrency,

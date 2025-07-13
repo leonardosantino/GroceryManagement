@@ -1,5 +1,5 @@
 import App from "@/app/page";
-import { RootLayoutProvider } from "@/common/provider";
+import { RootLayoutProvider } from "@/com/provider";
 import { render } from "@/test/setup/library";
 
 describe("App", () => {

@@ -1,6 +1,6 @@
 "use client";
 
-import { Row } from "@/common/ui/comps";
+import { Row } from "@/com/ui/comps";
 import { Sidebar } from "@/view/comps/bar/side";
 import { UpBar } from "@/view/comps/bar/up";
 import { Main } from "@/view/comps/main";

@@ -3,14 +3,6 @@
 import { createTheme } from "@mui/material";
 import { Poppins } from "next/font/google";
 
-declare module "@mui/material/styles" {
-  interface PaletteOptions {
-    container: string;
-    outline: string;
-    surface: string;
-  }
-}
-
 export const defaultFont = Poppins({ weight: "400", subsets: ["latin"] });
 
 export const theme = createTheme({
@@ -30,9 +22,6 @@ export const theme = createTheme({
         background: {
           paper: "#fafafa",
         },
-        surface: "#ffffff",
-        container: "#fafafa",
-        outline: "#c0c0c0",
       },
     },
     // dark: {

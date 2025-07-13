@@ -1,4 +1,4 @@
-export const Sx = {
+export const Scheme = {
   color: {
     primary: "#3F51B5FF",
     secondary: "#9FA8DAFF",
