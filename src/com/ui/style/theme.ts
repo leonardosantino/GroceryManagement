@@ -3,6 +3,8 @@
 import { createTheme } from "@mui/material";
 import { Poppins } from "next/font/google";
 
+import { Sx } from "@/com/ui";
+
 export const defaultFont = Poppins({ weight: "400", subsets: ["latin"] });
 
 export const theme = createTheme({
@@ -14,13 +16,13 @@ export const theme = createTheme({
     light: {
       palette: {
         primary: {
-          main: "#3f51b5",
+          main: Sx.color.primary,
         },
         secondary: {
-          main: "#9fa8da",
+          main: Sx.color.secondary,
         },
         background: {
-          paper: "#fbfcfe",
+          paper: Sx.color.surface,
         },
       },
     },

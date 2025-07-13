@@ -6,11 +6,8 @@ import {
   Box,
   BusinessRounded,
   Collapse,
-  Deco,
-  Divider,
   ExpandLess,
   ExpandMore,
-  IconButton,
   Inventory,
   List,
   ListItem,
@@ -24,14 +21,15 @@ import {
   Text,
   TrendingUp,
 } from "@/com/ui";
-import { ViewPath, viewState } from "@/routes";
+import { ViewPath } from "@/routes";
+import { useViewState } from "@/state/view/view";
 
 export function Sidebar() {
-  const { view, setView } = viewState();
+  const { view, setView } = useViewState();
   const [open, setOpen] = useState(false);
 
   return (
-    <Paper elevation={1}>
+    <Paper>
       <List>
         <Row
           sx={{

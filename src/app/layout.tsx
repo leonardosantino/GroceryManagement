@@ -3,9 +3,9 @@ import "@/app/global.css";
 import { ReactNode } from "react";
 
 import { appMetadata, appViewport } from "@/com/metadata/app";
-import { RootLayoutProvider } from "@/com/provider";
+import { RootLayoutProvider } from "@/com/ui/style/provider";
 import { defaultFont } from "@/com/ui/style/theme";
-import { ViewStateProvider } from "@/state/view";
+import { ViewStateProvider } from "@/state/view/provider";
 
 export const viewport = appViewport;
 export const metadata = appMetadata;

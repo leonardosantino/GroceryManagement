@@ -5,7 +5,7 @@ import React, {
   Dispatch,
   ReactNode,
   SetStateAction,
-  useContext,
+  useMemo,
   useState,
 } from "react";
 
@@ -16,18 +16,16 @@ type ViewState = {
   setView: Dispatch<SetStateAction<ViewPath>>;
 };
 
-const ViewStateContext = createContext<ViewState>({} as ViewState);
+export const ViewStateContext = createContext<ViewState>({} as ViewState);
 
 export const ViewStateProvider = ({ children }: { children: ReactNode }) => {
   const [view, setView] = useState(ViewPath.Default);
 
+  const viewMemo = useMemo(() => ({ view, setView }), [view, setView]);
+
   return (
-    <ViewStateContext.Provider value={{ view, setView }}>
+    <ViewStateContext.Provider value={viewMemo}>
       {children}
     </ViewStateContext.Provider>
   );
-};
-
-export const useViewState = () => {
-  return useContext(ViewStateContext);
 };

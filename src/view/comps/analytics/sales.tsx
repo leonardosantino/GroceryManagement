@@ -11,7 +11,6 @@ export function BestSellers() {
           <Deco
             sx={{
               backgroundColor: Sx.color.info,
-              borderRadius: 1,
               width: 20,
               height: 30,
             }}
@@ -21,34 +20,34 @@ export function BestSellers() {
           </Text>
         </Row>
 
-        <Deco sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-          {data.map((product, index) => (
-            <Deco key={index}>
-              <Deco
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  mb: 1,
-                }}
+        <Col sx={{ gap: 2 }}>
+          {data.map((product) => (
+            <Col key={`best-seller-${product.id}`}>
+              <Row
+                sx={{ justifyContent: "space-between", alignItems: "center" }}
               >
-                <Text variant="body2" sx={{ fontWeight: 500 }}>
-                  {product.name}
-                </Text>
+                <Text sx={{ fontWeight: 500 }}>{product.name}</Text>
                 <Text variant="body2">{product.sales.toString()}</Text>
-              </Deco>
+              </Row>
               <Divider />
-            </Deco>
+            </Col>
           ))}
-        </Deco>
+        </Col>
       </Col>
     </Paper>
   );
 }
 
 const data = [
-  { name: "Wireless Headphones", sales: 245, revenue: "$12,250", progress: 85 },
-  { name: "Smart Watch", sales: 189, revenue: "$9,450", progress: 70 },
-  { name: "Laptop Stand", sales: 156, revenue: "$4,680", progress: 60 },
-  { name: "USB-C Cable", sales: 134, revenue: "$2,010", progress: 45 },
-  { name: "Phone Case", sales: 98, revenue: "$1,470", progress: 35 },
+  { id: 1, name: "Smart Watch", sales: 189, revenue: "$9,450", progress: 70 },
+  { id: 2, name: "Laptop Stand", sales: 156, revenue: "$4,680", progress: 60 },
+  { id: 3, name: "USB-C Cable", sales: 134, revenue: "$2,010", progress: 45 },
+  { id: 4, name: "Phone Case", sales: 98, revenue: "$1,470", progress: 35 },
+  {
+    id: 5,
+    name: "Wireless Headphones",
+    sales: 245,
+    revenue: "$12,250",
+    progress: 85,
+  },
 ];

@@ -5,7 +5,7 @@ import { Badge, IconButton } from "@mui/material";
 
 import { Row } from "@/com/ui";
 
-export function UpBar() {
+export function NotificationBar() {
   return (
     <Row
       sx={{
@@ -13,6 +13,7 @@ export function UpBar() {
         gap: 3,
         padding: 1,
         height: "min-content",
+        flexWrap: "nowrap",
       }}
     >
       <IconButton>

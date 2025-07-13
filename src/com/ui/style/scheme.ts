@@ -10,7 +10,8 @@ export const Sx = {
     warning: "#EF6C00FF",
     error: "#C62828FF",
 
-    surface: "#FAFAFA",
+    surface: "#fbfcfe",
+    outline: "#dddfe2",
 
     none: "none",
   },
