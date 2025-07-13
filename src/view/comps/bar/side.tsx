@@ -29,7 +29,7 @@ export function Sidebar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <Paper>
+    <Paper sx={{ minWidth: 185 }}>
       <List>
         <Row
           sx={{
@@ -43,7 +43,7 @@ export function Sidebar() {
           <Text>Acme Co.</Text>
         </Row>
 
-        <Box sx={{ margin: 2 }} />
+        <Box sx={{ margin: 1.5 }} />
 
         <ListItemButton
           selected={view == ViewPath.Analytics}

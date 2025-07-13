@@ -4,7 +4,7 @@ import {
   Category,
   Delete,
   Inventory,
-  Save,
+  SaveRounded,
 } from "@mui/icons-material";
 import { Button, Chip, Divider, IconButton, TextField } from "@mui/material";
 import { createRef, RefObject, useRef, useState } from "react";
@@ -150,227 +150,223 @@ export function ProductsAdd() {
   }
 
   return (
-    <Row sx={{ height: "inherit", flexGrow: 1, justifyContent: "center" }}>
-      <Form
-        sx={{
-          gap: 2,
-          maxWidth: 900,
-          height: "inherit",
-          overflowY: "scroll",
-          scrollbarWidth: "none",
-        }}
-      >
-        {/*Basics*/}
-        <Paper>
-          <Col sx={{ padding: 2, gap: 2 }}>
-            <Row sx={{ gap: 1 }}>
-              <Inventory />
-              <Text>Informações Básicas</Text>
-            </Row>
-            <Text variant="caption">Adicione nome e descrição do produto.</Text>
+    <Form
+      sx={{
+        padding: 2,
+        gap: 2,
+        maxWidth: 900,
+      }}
+    >
+      {/*Basics*/}
+      <Paper>
+        <Col sx={{ padding: 2, gap: 2 }}>
+          <Row sx={{ gap: 1 }}>
+            <Inventory />
+            <Text>Informações Básicas</Text>
+          </Row>
+          <Text variant="caption">Adicione nome e descrição do produto.</Text>
 
+          <TextField
+            required
+            placeholder="Nome"
+            error={error.name}
+            inputRef={ref.name}
+          />
+
+          <TextField
+            required
+            placeholder="Descrição"
+            multiline
+            rows={4}
+            error={error.description}
+            inputRef={ref.description}
+          />
+        </Col>
+      </Paper>
+
+      {/*Category*/}
+      <Paper>
+        <Col sx={{ padding: 2, gap: 2 }}>
+          <Row sx={{ gap: 1 }}>
+            <Category />
+            <Text>Categorias</Text>
+          </Row>
+
+          <Text variant="caption">
+            Adicione categorias para ajudar os clientes a encontrarem seu
+            produto mais facilmente.
+          </Text>
+
+          <Row sx={{ gap: 1 }}>
             <TextField
               required
-              placeholder="Nome"
-              error={error.name}
-              inputRef={ref.name}
+              placeholder={"Categoria"}
+              error={error.category}
+              inputRef={ref.category}
             />
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<Add />}
+              onClick={handleSetCategory}
+            >
+              Adicione
+            </Button>
+          </Row>
 
-            <TextField
-              required
-              placeholder="Descrição"
-              multiline
-              rows={4}
-              error={error.description}
-              inputRef={ref.description}
-            />
-          </Col>
-        </Paper>
+          <Divider />
 
-        {/*Category*/}
-        <Paper>
-          <Col sx={{ padding: 2, gap: 2 }}>
-            <Row sx={{ gap: 1 }}>
-              <Category />
-              <Text>Categorias</Text>
-            </Row>
+          <Row sx={{ gap: 1, minHeight: 32 }}>
+            {[...categories].map((category, index) => (
+              <Chip
+                key={category.concat(index)}
+                label={category}
+                onDelete={() => onDeleteCategory(category)}
+              />
+            ))}
+          </Row>
+        </Col>
+      </Paper>
 
-            <Text variant="caption">
-              Adicione categorias para ajudar os clientes a encontrarem seu
-              produto mais facilmente.
-            </Text>
+      {/*Images*/}
+      <Paper>
+        <Col sx={{ padding: 2, gap: 2 }}>
+          <Row sx={{ gap: 1 }}>
+            <AddPhotoAlternate color="primary" />
+            <Text>Imagens</Text>
+          </Row>
 
-            <Row sx={{ gap: 1 }}>
+          <Text variant="caption">
+            Adicione imagens de alta qualidade do seu produto. Recomendamos pelo
+            menos 3 imagens de diferentes ângulos.
+          </Text>
+
+          <Row sx={{ justifyContent: "center" }}>
+            <Deco
+              sx={{
+                width: 400,
+                height: 200,
+              }}
+            >
+              <Col
+                sx={{
+                  height: "inherit",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: 3,
+                }}
+              >
+                <AddPhotoAlternate color="primary" fontSize="large" />
+                <InputFileUpload onChange={handleFileUpload} />
+              </Col>
+            </Deco>
+          </Row>
+
+          <Divider />
+          <Row
+            sx={{
+              justifyContent: "center",
+              gap: 1,
+              minHeight: 100,
+            }}
+          >
+            {[...images].map((img) => (
+              <Col key={img} sx={{ position: "relative" }}>
+                <Img
+                  src={img}
+                  alt={img}
+                  width={200}
+                  height={100}
+                  sx={{ width: 200, height: 100 }}
+                />
+                <IconButton
+                  onClick={() => handleDeleteImage(img)}
+                  sx={{ position: "absolute", right: 0 }}
+                >
+                  <Delete fontSize="small" />
+                </IconButton>
+              </Col>
+            ))}
+          </Row>
+        </Col>
+      </Paper>
+
+      {/*Units*/}
+      <Paper>
+        <Col sx={{ padding: 2, gap: 3 }}>
+          <Row sx={{ gap: 1 }}>
+            <Inventory />
+            <Text>Unidades</Text>
+          </Row>
+
+          <Text variant="caption">
+            Adicione informações sobre as variações disponíveis do produto,
+            preços e quantidades.
+          </Text>
+
+          <Col sx={{ gap: 1 }}>
+            <Row sx={{ gap: 2 }}>
               <TextField
                 required
-                placeholder={"Categoria"}
-                error={error.category}
-                inputRef={ref.category}
+                placeholder={"Nome"}
+                helperText={"Ex: Grande, média, pequena."}
+                error={error.unitName}
+                inputRef={ref.unitName}
+              />
+              <TextField
+                required
+                placeholder="Descrição"
+                helperText={"Ex: 8 Fatias, 6 Fatias, 4 Fatias"}
+                error={error.unitDescription}
+                inputRef={ref.unitDescription}
               />
               <Button
                 variant="contained"
-                color="primary"
                 startIcon={<Add />}
-                onClick={handleSetCategory}
+                sx={{ height: 56 }}
+                onClick={handleSetUnit}
               >
                 Adicione
               </Button>
             </Row>
 
-            <Divider />
-
-            <Row sx={{ gap: 1, minHeight: 32 }}>
-              {[...categories].map((category, index) => (
-                <Chip
-                  key={index}
-                  label={category}
-                  onDelete={() => onDeleteCategory(category)}
-                />
-              ))}
+            <Row sx={{ gap: 2 }}>
+              <TextFieldCurrency
+                required
+                inputRef={ref.unitPrice}
+                error={error.unitPrice}
+              />
+              <TextField
+                required
+                placeholder="Quantidade"
+                type={"number"}
+                error={error.unitQuantity}
+                inputRef={ref.unitQuantity}
+              />
             </Row>
           </Col>
-        </Paper>
 
-        {/*Images*/}
-        <Paper>
-          <Col sx={{ padding: 2, gap: 2 }}>
-            <Row sx={{ gap: 1 }}>
-              <AddPhotoAlternate color="primary" />
-              <Text>Imagens</Text>
-            </Row>
+          <Divider />
+          <Row sx={{ gap: 1 }}>
+            {[0, 1, 2].map((e) => (
+              <ProductUnit key={e} />
+            ))}
+          </Row>
+        </Col>
+      </Paper>
 
-            <Text variant="caption">
-              Adicione imagens de alta qualidade do seu produto. Recomendamos
-              pelo menos 3 imagens de diferentes ângulos.
-            </Text>
-
-            <Row sx={{ justifyContent: "center" }}>
-              <Deco
-                sx={{
-                  width: 400,
-                  height: 200,
-                }}
-              >
-                <Col
-                  sx={{
-                    height: "inherit",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    gap: 3,
-                  }}
-                >
-                  <AddPhotoAlternate color="primary" fontSize="large" />
-                  <InputFileUpload onChange={handleFileUpload} />
-                </Col>
-              </Deco>
-            </Row>
-
-            <Divider />
-            <Row
-              sx={{
-                justifyContent: "center",
-                gap: 1,
-                minHeight: 100,
-              }}
-            >
-              {[...images].map((img) => (
-                <Col key={img} sx={{ position: "relative" }}>
-                  <Img
-                    src={img}
-                    alt={img}
-                    width={200}
-                    height={100}
-                    sx={{ width: 200, height: 100 }}
-                  />
-                  <IconButton
-                    onClick={() => handleDeleteImage(img)}
-                    sx={{ position: "absolute", right: 0 }}
-                  >
-                    <Delete fontSize="small" />
-                  </IconButton>
-                </Col>
-              ))}
-            </Row>
-          </Col>
-        </Paper>
-
-        {/*Units*/}
-        <Paper>
-          <Col sx={{ padding: 2, gap: 3 }}>
-            <Row sx={{ gap: 1 }}>
-              <Inventory />
-              <Text>Unidades</Text>
-            </Row>
-
-            <Text variant="caption">
-              Adicione informações sobre as variações disponíveis do produto,
-              preços e quantidades.
-            </Text>
-
-            <Col sx={{ gap: 1 }}>
-              <Row sx={{ gap: 2 }}>
-                <TextField
-                  required
-                  placeholder={"Nome"}
-                  helperText={"Ex: Grande, média, pequena."}
-                  error={error.unitName}
-                  inputRef={ref.unitName}
-                />
-                <TextField
-                  required
-                  placeholder="Descrição"
-                  helperText={"Ex: 8 Fatias, 6 Fatias, 4 Fatias"}
-                  error={error.unitDescription}
-                  inputRef={ref.unitDescription}
-                />
-                <Button
-                  variant="contained"
-                  startIcon={<Add />}
-                  sx={{ height: 56 }}
-                  onClick={handleSetUnit}
-                >
-                  Adicione
-                </Button>
-              </Row>
-
-              <Row sx={{ gap: 2 }}>
-                <TextFieldCurrency
-                  required
-                  inputRef={ref.unitPrice}
-                  error={error.unitPrice}
-                />
-                <TextField
-                  required
-                  placeholder="Quantidade"
-                  type={"number"}
-                  error={error.unitQuantity}
-                  inputRef={ref.unitQuantity}
-                />
-              </Row>
-            </Col>
-
-            <Divider />
-            <Row sx={{ gap: 1 }}>
-              {[0, 1, 2].map((e) => (
-                <ProductUnit key={e} />
-              ))}
-            </Row>
-          </Col>
-        </Paper>
-
-        {/*Save*/}
-        <Row sx={{ padding: 1, justifyContent: "center" }}>
-          <Button
-            variant="contained"
-            color="success"
-            startIcon={<Save />}
-            onClick={onSave}
-            sx={{ height: 56, width: 200 }}
-          >
-            Salve
-          </Button>
-        </Row>
-      </Form>
-    </Row>
+      {/*Save*/}
+      <Row sx={{ padding: 1, justifyContent: "center" }}>
+        <Button
+          variant="contained"
+          color="success"
+          startIcon={<SaveRounded />}
+          onClick={onSave}
+          sx={{ height: 56, width: 200 }}
+        >
+          Salvar
+        </Button>
+      </Row>
+    </Form>
   );
 }

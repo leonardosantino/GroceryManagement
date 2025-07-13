@@ -23,7 +23,6 @@ export function Analytics() {
         sx={{
           justifyContent: "space-between",
           gap: 2,
-          flexWrap: "wrap",
         }}
       >
         <Metric
@@ -62,11 +61,10 @@ export function Analytics() {
       <Row
         sx={{
           justifyContent: "space-between",
-          flexWrap: "wrap",
           gap: 1,
         }}
       >
-        <Col sx={{ gap: 1 }}>
+        <Col sx={{ gap: 1, flexGrow: 1 }}>
           <Billing />
           <AnalyticsOrders />
         </Col>

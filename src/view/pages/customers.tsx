@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  Add as AddIcon,
   Block as BlockIcon,
   Edit as EditIcon,
   Email as EmailIcon,
@@ -148,23 +147,6 @@ export function Customers() {
 
   return (
     <Box>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          mb: 3,
-        }}
-      >
-        <Button
-          variant="contained"
-          startIcon={<AddIcon />}
-          sx={{ borderRadius: 2 }}
-        >
-          Add Customer
-        </Button>
-      </Box>
-
       <Card>
         <CardContent>
           <Box sx={{ display: "flex", gap: 2, mb: 3 }}>

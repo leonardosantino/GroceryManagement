@@ -24,7 +24,7 @@ export function Metric({ title, value, change, Icon, color }: MetricProps) {
           alignItems: "center",
           gap: 2,
           padding: 3,
-          minWidth: 300,
+          minWidth: 250,
         }}
       >
         <Col>

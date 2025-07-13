@@ -7,10 +7,11 @@ export function Entry() {
   return (
     <Row sx={{ height: "inherit", flexWrap: "nowrap" }}>
       <Sidebar />
-      <ScrollCol>
-        <Box sx={{ height: 56 }} />
+      <ScrollCol sx={{ flexGrow: 1, alignItems: "center" }}>
+        <Box sx={{ marginTop: 7 }} />
         <Main />
       </ScrollCol>
+
       <NotificationBar />
     </Row>
   );

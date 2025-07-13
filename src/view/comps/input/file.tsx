@@ -3,9 +3,9 @@ import { ChangeEvent } from "react";
 
 export function InputFileUpload({
   onChange,
-}: {
+}: Readonly<{
   onChange: (files: FileList) => void;
-}) {
+}>) {
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
     onChange(e.target.files as FileList);
     e.target.value = "";
@@ -21,9 +21,9 @@ export function InputFileUpload({
 
 function VisuallyHiddenInput({
   onChange,
-}: {
+}: Readonly<{
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-}) {
+}>) {
   return (
     <Input
       type="file"
