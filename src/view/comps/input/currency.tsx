@@ -1,31 +1,14 @@
-import { TextField } from "@mui/material";
-import { ChangeEvent, Ref, useState } from "react";
+import { TextField, TextFieldProps } from "@mui/material";
+import { ChangeEvent, useState } from "react";
 
-export function TextFieldCurrency({
-  inputRef,
-  error,
-  required,
-}: {
-  inputRef: Ref<HTMLInputElement>;
-  error?: boolean;
-  required?: boolean;
-}) {
+export function TextFieldCurrency(props: TextFieldProps) {
   const [value, setValue] = useState("");
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(currencyFromString({ value: e.target.value, maxLength: 9 }));
   };
 
-  return (
-    <TextField
-      required={required}
-      placeholder="Preço"
-      value={value}
-      onChange={handleChange}
-      error={error}
-      inputRef={inputRef}
-    />
-  );
+  return <TextField value={value} onChange={handleChange} {...props} />;
 }
 
 function currencyFromString({

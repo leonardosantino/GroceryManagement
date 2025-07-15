@@ -1,44 +1,21 @@
-import { Button, Input } from "@mui/material";
-import { ChangeEvent } from "react";
+import { Button, Input, InputProps } from "@mui/material";
 
-export function InputFileUpload({
-  onChange,
-}: Readonly<{
-  onChange: (files: FileList) => void;
-}>) {
-  function handleChange(e: ChangeEvent<HTMLInputElement>) {
-    onChange(e.target.files as FileList);
-    e.target.value = "";
-  }
-
+export function InputFileUpload(props: Readonly<InputProps>) {
   return (
-    <Button component="label" variant="outlined">
+    <Button component="label" variant="outlined" sx={{ width: 100 }}>
       Selecione
-      <VisuallyHiddenInput onChange={handleChange} />
+      <VisuallyHiddenInput {...props} />
     </Button>
   );
 }
 
-function VisuallyHiddenInput({
-  onChange,
-}: Readonly<{
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-}>) {
+function VisuallyHiddenInput(props: Readonly<InputProps>) {
   return (
     <Input
+      {...props}
       type="file"
-      onChange={onChange}
       inputProps={{ accept: "image/*" }}
-      sx={{
-        clipPath: "inset(50%)",
-        height: 1,
-        overflow: "hidden",
-        position: "absolute",
-        bottom: 0,
-        left: 0,
-        whiteSpace: "nowrap",
-        width: 1,
-      }}
+      sx={{ clipPath: "inset(50%)" }}
     />
   );
 }

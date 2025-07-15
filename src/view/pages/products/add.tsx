@@ -7,11 +7,19 @@ import {
   SaveRounded,
 } from "@mui/icons-material";
 import { Button, Chip, Divider, IconButton, TextField } from "@mui/material";
-import { createRef, RefObject, useRef, useState } from "react";
+import { ChangeEvent, useState } from "react";
 
 import { id } from "@/com/generate/id";
 import { Col, Deco, Form, Img, Paper, Row, Text } from "@/com/ui";
+import { refScroll, refValue } from "@/com/utils/element";
+import { useProductFormRef } from "@/hooks/form/product";
 import { Unit } from "@/model/product";
+import {
+  getIssueMessageByPath,
+  ProductForm,
+  ProductFormErrors,
+  ProductSchema,
+} from "@/model/schema/product";
 import {
   doubleFromCurrency,
   TextFieldCurrency,
@@ -19,107 +27,60 @@ import {
 import { InputFileUpload } from "@/view/comps/input/file";
 import { ProductUnit } from "@/view/comps/products/unit";
 
-type ErrorProps = {
-  name: boolean;
-  description: boolean;
-  category: boolean;
-};
-
 export function ProductsAdd() {
-  const ref = useRef({
-    name: createRef<HTMLInputElement>(),
-    description: createRef<HTMLInputElement>(),
-    category: createRef<HTMLInputElement>(),
-    image: createRef<HTMLInputElement>(),
-    unitName: createRef<HTMLInputElement>(),
-    unitDescription: createRef<HTMLInputElement>(),
-    unitPrice: createRef<HTMLInputElement>(),
-    unitQuantity: createRef<HTMLInputElement>(),
-  }).current;
-  const [error, setError] = useState({
-    name: false,
-    description: false,
-    category: false,
-    unitName: false,
-    unitDescription: false,
-    unitPrice: false,
-    unitQuantity: false,
-  });
+  const productRef = useProductFormRef();
 
   const [categories, setCategories] = useState(new Set<string>());
   const [images, setImages] = useState(new Set<string>());
   const [units, setUnits] = useState(new Set<Unit>());
 
-  function handleFileUpload(files: FileList) {
-    const image = URL.createObjectURL(files[0]);
-
-    images.add(image);
-    setImages(new Set([...images]));
-  }
-
-  function handleDeleteImage(img: string) {
-    URL.revokeObjectURL(img);
-    images.delete(img);
-    setImages(new Set([...images]));
-  }
+  const [errors, setErrors] = useState<ProductFormErrors>({});
 
   function onSave() {
-    const err = getErrors();
-
-    if (formValidity(err)) {
-      console.log("FORM SAVED !");
-    } else {
-      console.log("NOT VALID !");
-    }
-
-    scroll(err);
-    setError(err);
-  }
-
-  function getErrors() {
-    return {
-      name: !refValidity(ref.name),
-      description: !refValidity(ref.description),
-      category: categories.size < 1,
-      unitName: !refValidity(ref.unitName),
-      unitDescription: !refValidity(ref.unitDescription),
-      unitPrice: !refValidity(ref.unitPrice),
-      unitQuantity: !refValidity(ref.unitQuantity),
+    const productForm: ProductForm = {
+      name: refValue(productRef.name),
+      description: refValue(productRef.description),
+      categories: categories,
+      images: images,
+      unit: {
+        name: refValue(productRef.unit.name),
+        description: refValue(productRef.unit.description),
+        price: refValue(productRef.unit.price),
+        quantity: Number(refValue(productRef.unit.quantity)),
+      },
     };
+    console.log(categories);
+
+    const data = ProductSchema.safeParse(productForm);
+    const issues = data.error.issues;
+
+    if (data.success) {
+      console.log("SUCCESS");
+      setErrors({});
+    } else {
+      console.log("ERROR");
+      const productFormErrors: ProductFormErrors = {
+        name: getIssueMessageByPath("name", issues),
+        description: getIssueMessageByPath("description", issues),
+        categories: getIssueMessageByPath("categories", issues),
+        images: getIssueMessageByPath("images", issues),
+        unit: {
+          name: getIssueMessageByPath("unit.name", issues),
+          description: getIssueMessageByPath("unit.description", issues),
+          price: getIssueMessageByPath("unit.price", issues),
+          quantity: getIssueMessageByPath("unit.quantity", issues),
+        },
+      };
+      setErrors(productFormErrors);
+      scrollToFirstError(productFormErrors);
+    }
   }
 
   function handleSetCategory() {
-    const validity = refValidity(ref.category);
+    const category = refValue(productRef.category);
 
-    if (validity) {
-      const category = refValue(ref.category);
-      categories.add(category);
-      setCategories(new Set([...categories]));
-    }
-    setError({ ...error, category: !validity });
-  }
-
-  function handleSetUnit() {
-    const validity = {
-      unitName: !refValidity(ref.unitName),
-      unitDescription: !refValidity(ref.unitDescription),
-      unitPrice: !refValidity(ref.unitPrice),
-      unitQuantity: !refValidity(ref.unitQuantity),
-    };
-
-    if (validity) {
-      const unit = new Unit({
-        id: id(),
-        name: refValue(ref.unitName),
-        description: refValue(ref.unitDescription),
-        price: doubleFromCurrency(refValue(ref.unitPrice)),
-        quantity: Number(refValue(ref.unitQuantity)),
-      });
-
-      units.add(unit);
-      setUnits(new Set([...units]));
-    }
-    setError({ ...error, ...validity });
+    categories.add(category);
+    setCategories(new Set([...categories]));
   }
 
   function onDeleteCategory(category: string) {
@@ -127,26 +88,39 @@ export function ProductsAdd() {
     setCategories(new Set([...categories]));
   }
 
-  function scroll(err: ErrorProps) {
-    if (err.name) refScroll(ref.name);
-    else if (err.description) refScroll(ref.description);
-    else if (err.category) refScroll(ref.category);
+  function handleSetUnit() {
+    const unit = {
+      id: id(),
+      name: refValue(productRef.unit.name),
+      description: refValue(productRef.unit.description),
+      price: doubleFromCurrency(refValue(productRef.unit.price)),
+      quantity: Number(refValue(productRef.unit.quantity)),
+    };
+
+    units.add(unit);
+    setUnits(new Set([...units]));
   }
 
-  function refScroll(ref: RefObject<HTMLInputElement | null>) {
-    ref.current?.scrollIntoView({ behavior: "smooth" });
+  function handleFileUpload(e: ChangeEvent<HTMLInputElement>) {
+    const file = e.currentTarget.files?.[0] as File;
+
+    const image = URL.createObjectURL(file);
+    images.add(image);
+    setImages(new Set([...images]));
+
+    e.currentTarget.value = "";
   }
 
-  function refValidity(ref: RefObject<HTMLInputElement | null>): boolean {
-    return ref.current?.checkValidity() ?? false;
+  function handleDeleteFile(img: string) {
+    URL.revokeObjectURL(img);
+    images.delete(img);
+    setImages(new Set([...images]));
   }
 
-  function refValue(ref: RefObject<HTMLInputElement | null>): string {
-    return ref.current?.value as string;
-  }
-
-  function formValidity(err: ErrorProps) {
-    return !Object.values(err).some((e) => e);
+  function scrollToFirstError(formErrors: ProductFormErrors) {
+    if (formErrors.name) refScroll(productRef.name);
+    else if (formErrors.description) refScroll(productRef.description);
+    else if (formErrors.categories) refScroll(productRef.category);
   }
 
   return (
@@ -169,8 +143,9 @@ export function ProductsAdd() {
           <TextField
             required
             placeholder="Nome"
-            error={error.name}
-            inputRef={ref.name}
+            error={!!errors.name}
+            helperText={errors.name}
+            inputRef={productRef.name}
           />
 
           <TextField
@@ -178,8 +153,9 @@ export function ProductsAdd() {
             placeholder="Descrição"
             multiline
             rows={4}
-            error={error.description}
-            inputRef={ref.description}
+            error={!!errors.description}
+            helperText={errors.description}
+            inputRef={productRef.description}
           />
         </Col>
       </Paper>
@@ -201,8 +177,9 @@ export function ProductsAdd() {
             <TextField
               required
               placeholder={"Categoria"}
-              error={error.category}
-              inputRef={ref.category}
+              error={!!errors.categories}
+              helperText={errors.categories}
+              inputRef={productRef.category}
             />
             <Button
               variant="contained"
@@ -219,7 +196,7 @@ export function ProductsAdd() {
           <Row sx={{ gap: 1, minHeight: 32 }}>
             {[...categories].map((category, index) => (
               <Chip
-                key={category.concat(index)}
+                key={category.concat(index.toString())}
                 label={category}
                 onDelete={() => onDeleteCategory(category)}
               />
@@ -257,7 +234,10 @@ export function ProductsAdd() {
                 }}
               >
                 <AddPhotoAlternate color="primary" fontSize="large" />
-                <InputFileUpload onChange={handleFileUpload} />
+                <InputFileUpload
+                  onChange={handleFileUpload}
+                  error={!!errors.images}
+                />
               </Col>
             </Deco>
           </Row>
@@ -280,7 +260,7 @@ export function ProductsAdd() {
                   sx={{ width: 200, height: 100 }}
                 />
                 <IconButton
-                  onClick={() => handleDeleteImage(img)}
+                  onClick={() => handleDeleteFile(img)}
                   sx={{ position: "absolute", right: 0 }}
                 >
                   <Delete fontSize="small" />
@@ -310,15 +290,15 @@ export function ProductsAdd() {
                 required
                 placeholder={"Nome"}
                 helperText={"Ex: Grande, média, pequena."}
-                error={error.unitName}
-                inputRef={ref.unitName}
+                error={!!errors.unit?.name}
+                inputRef={productRef.unit.name}
               />
               <TextField
                 required
                 placeholder="Descrição"
                 helperText={"Ex: 8 Fatias, 6 Fatias, 4 Fatias"}
-                error={error.unitDescription}
-                inputRef={ref.unitDescription}
+                error={!!errors.unit?.description}
+                inputRef={productRef.unit.description}
               />
               <Button
                 variant="contained"
@@ -333,23 +313,25 @@ export function ProductsAdd() {
             <Row sx={{ gap: 2 }}>
               <TextFieldCurrency
                 required
-                inputRef={ref.unitPrice}
-                error={error.unitPrice}
+                inputRef={productRef.unit.price}
+                helperText={errors.unit?.price}
+                error={!!errors.unit?.price}
               />
               <TextField
                 required
                 placeholder="Quantidade"
                 type={"number"}
-                error={error.unitQuantity}
-                inputRef={ref.unitQuantity}
+                error={!!errors.unit?.quantity}
+                helperText={errors.unit?.quantity}
+                inputRef={productRef.unit.quantity}
               />
             </Row>
           </Col>
 
           <Divider />
           <Row sx={{ gap: 1 }}>
-            {[0, 1, 2].map((e) => (
-              <ProductUnit key={e} />
+            {[...units].map((unit) => (
+              <ProductUnit key={unit.id} />
             ))}
           </Row>
         </Col>

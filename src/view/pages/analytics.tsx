@@ -16,7 +16,7 @@ export function Analytics() {
     <Col
       sx={{
         padding: 2,
-        gap: 2,
+        gap: 4,
       }}
     >
       <Row
@@ -61,10 +61,10 @@ export function Analytics() {
       <Row
         sx={{
           justifyContent: "space-between",
-          gap: 1,
+          gap: 2,
         }}
       >
-        <Col sx={{ gap: 1, flexGrow: 1 }}>
+        <Col sx={{ gap: 2, flexGrow: 1 }}>
           <Billing />
           <AnalyticsOrders />
         </Col>
