@@ -9,8 +9,9 @@ import {
 import { Button, Chip, Divider, IconButton, TextField } from "@mui/material";
 import { ChangeEvent, useState } from "react";
 
+import { conditionalRender } from "@/com/conditional/conditional";
 import { id } from "@/com/generate/id";
-import { Col, Deco, Form, Img, Paper, Row, Text } from "@/com/ui";
+import { Col, Deco, Form, Img, Paper, Row, Sx, Text } from "@/com/ui";
 import { refScroll, refValue } from "@/com/utils/element";
 import { useProductFormRef } from "@/hooks/form/product";
 import { Unit } from "@/model/product";
@@ -19,6 +20,7 @@ import {
   ProductForm,
   ProductFormErrors,
   ProductSchema,
+  ZodIssue,
 } from "@/model/schema/product";
 import {
   doubleFromCurrency,
@@ -49,10 +51,9 @@ export function ProductsAdd() {
         quantity: Number(refValue(productRef.unit.quantity)),
       },
     };
-    console.log(categories);
 
     const data = ProductSchema.safeParse(productForm);
-    const issues = data.error.issues;
+    const issues = data.error?.issues as ZodIssue[];
 
     if (data.success) {
       console.log("SUCCESS");
@@ -234,10 +235,11 @@ export function ProductsAdd() {
                 }}
               >
                 <AddPhotoAlternate color="primary" fontSize="large" />
-                <InputFileUpload
-                  onChange={handleFileUpload}
-                  error={!!errors.images}
-                />
+                <InputFileUpload onChange={handleFileUpload} />
+                {conditionalRender(
+                  !!errors.images,
+                  <Text sx={{ color: Sx.color.error }}>{errors.images}</Text>,
+                )}
               </Col>
             </Deco>
           </Row>

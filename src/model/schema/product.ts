@@ -30,9 +30,8 @@ export type ProductFormErrors = {
   };
 };
 
-export function getIssueMessageByPath(
-  path: string,
-  issues: { message?: string; path: string[] }[],
-) {
+export type ZodIssue = { message?: string; path: string[] };
+
+export function getIssueMessageByPath(path: string, issues: ZodIssue[]) {
   return issues.find((issue) => issue.path.join(".") === path)?.message;
 }
