@@ -1,5 +1,6 @@
 import { ChangeEvent, useState } from "react";
 
+import { MarketApi } from "@/api/market";
 import { Conditional } from "@/com/conditional/conditional";
 import {
   Add,
@@ -37,6 +38,8 @@ import {
   ZodIssue,
 } from "@/model/schema/product";
 
+const api = new MarketApi();
+
 export function ProductsAdd() {
   const productRef = useProductFormRef();
 
@@ -47,7 +50,7 @@ export function ProductsAdd() {
 
   const [errors, setErrors] = useState<ProductFormErrors>({});
 
-  function onSave() {
+  async function onSave() {
     const productForm: ProductForm = {
       name: refValue(productRef.name),
       description: refValue(productRef.description),
@@ -65,9 +68,10 @@ export function ProductsAdd() {
     const issues = form.error?.issues as ZodIssue[];
 
     if (form.success) {
-      console.log(productForm);
+      const p = await api.productSave(productForm);
       setIsSaved(true);
       setErrors({});
+      console.log(p);
     } else {
       console.log("ERROR");
       const productFormErrors: ProductFormErrors = {
