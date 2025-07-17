@@ -1,40 +1,49 @@
+import { ChangeEvent, useState } from "react";
+
+import { Conditional } from "@/com/conditional/conditional";
 import {
   Add,
   AddPhotoAlternate,
+  Alert,
+  Button,
   Category,
+  Chip,
+  Close,
+  Col,
+  Collapse,
+  Deco,
   Delete,
+  Divider,
+  Form,
+  IconButton,
+  Img,
+  Input,
+  InputCurrency,
+  InputFile,
   Inventory,
+  Paper,
+  Row,
   SaveRounded,
-} from "@mui/icons-material";
-import { Button, Chip, Divider, IconButton, TextField } from "@mui/material";
-import { ChangeEvent, useState } from "react";
-
-import { conditionalRender } from "@/com/conditional/conditional";
-import { id } from "@/com/generate/id";
-import { Col, Deco, Form, Img, Paper, Row, Sx, Text } from "@/com/ui";
-import { refScroll, refValue } from "@/com/utils/element";
+  Text,
+} from "@/com/ui";
 import { useProductFormRef } from "@/hooks/form/product";
-import { Unit } from "@/model/product";
 import {
   getIssueMessageByPath,
   ProductForm,
   ProductFormErrors,
   ProductSchema,
+  refScroll,
+  refValue,
   ZodIssue,
 } from "@/model/schema/product";
-import {
-  doubleFromCurrency,
-  TextFieldCurrency,
-} from "@/view/comps/input/currency";
-import { InputFileUpload } from "@/view/comps/input/file";
-import { ProductUnit } from "@/view/comps/products/unit";
 
 export function ProductsAdd() {
   const productRef = useProductFormRef();
 
+  const [isSaved, setIsSaved] = useState(false);
+
   const [categories, setCategories] = useState(new Set<string>());
   const [images, setImages] = useState(new Set<string>());
-  const [units, setUnits] = useState(new Set<Unit>());
 
   const [errors, setErrors] = useState<ProductFormErrors>({});
 
@@ -52,11 +61,12 @@ export function ProductsAdd() {
       },
     };
 
-    const data = ProductSchema.safeParse(productForm);
-    const issues = data.error?.issues as ZodIssue[];
+    const form = ProductSchema.safeParse(productForm);
+    const issues = form.error?.issues as ZodIssue[];
 
-    if (data.success) {
-      console.log("SUCCESS");
+    if (form.success) {
+      console.log(productForm);
+      setIsSaved(true);
       setErrors({});
     } else {
       console.log("ERROR");
@@ -87,19 +97,6 @@ export function ProductsAdd() {
   function onDeleteCategory(category: string) {
     categories.delete(category);
     setCategories(new Set([...categories]));
-  }
-
-  function handleSetUnit() {
-    const unit = {
-      id: id(),
-      name: refValue(productRef.unit.name),
-      description: refValue(productRef.unit.description),
-      price: doubleFromCurrency(refValue(productRef.unit.price)),
-      quantity: Number(refValue(productRef.unit.quantity)),
-    };
-
-    units.add(unit);
-    setUnits(new Set([...units]));
   }
 
   function handleFileUpload(e: ChangeEvent<HTMLInputElement>) {
@@ -141,7 +138,7 @@ export function ProductsAdd() {
           </Row>
           <Text variant="caption">Adicione nome e descrição do produto.</Text>
 
-          <TextField
+          <Input
             required
             placeholder="Nome"
             error={!!errors.name}
@@ -149,7 +146,7 @@ export function ProductsAdd() {
             inputRef={productRef.name}
           />
 
-          <TextField
+          <Input
             required
             placeholder="Descrição"
             multiline
@@ -175,7 +172,7 @@ export function ProductsAdd() {
           </Text>
 
           <Row sx={{ gap: 1 }}>
-            <TextField
+            <Input
               required
               placeholder={"Categoria"}
               error={!!errors.categories}
@@ -187,8 +184,9 @@ export function ProductsAdd() {
               color="primary"
               startIcon={<Add />}
               onClick={handleSetCategory}
+              sx={{ height: 56 }}
             >
-              Adicione
+              Adicionar
             </Button>
           </Row>
 
@@ -219,7 +217,7 @@ export function ProductsAdd() {
             menos 3 imagens de diferentes ângulos.
           </Text>
 
-          <Row sx={{ justifyContent: "center" }}>
+          <Col sx={{ alignItems: "center", gap: 2 }}>
             <Deco
               sx={{
                 width: 400,
@@ -235,14 +233,15 @@ export function ProductsAdd() {
                 }}
               >
                 <AddPhotoAlternate color="primary" fontSize="large" />
-                <InputFileUpload onChange={handleFileUpload} />
-                {conditionalRender(
-                  !!errors.images,
-                  <Text sx={{ color: Sx.color.error }}>{errors.images}</Text>,
-                )}
+                <InputFile onChange={handleFileUpload} />
               </Col>
             </Deco>
-          </Row>
+            <Conditional bool={!!errors.images}>
+              <Text color={"error"} fontSize={"small"}>
+                {errors.images}
+              </Text>
+            </Conditional>
+          </Col>
 
           <Divider />
           <Row
@@ -288,38 +287,31 @@ export function ProductsAdd() {
 
           <Col sx={{ gap: 1 }}>
             <Row sx={{ gap: 2 }}>
-              <TextField
+              <Input
                 required
                 placeholder={"Nome"}
                 helperText={"Ex: Grande, média, pequena."}
                 error={!!errors.unit?.name}
                 inputRef={productRef.unit.name}
               />
-              <TextField
+              <Input
                 required
                 placeholder="Descrição"
                 helperText={"Ex: 8 Fatias, 6 Fatias, 4 Fatias"}
                 error={!!errors.unit?.description}
                 inputRef={productRef.unit.description}
               />
-              <Button
-                variant="contained"
-                startIcon={<Add />}
-                sx={{ height: 56 }}
-                onClick={handleSetUnit}
-              >
-                Adicione
-              </Button>
             </Row>
 
             <Row sx={{ gap: 2 }}>
-              <TextFieldCurrency
+              <InputCurrency
                 required
+                placeholder="Preço"
                 inputRef={productRef.unit.price}
                 helperText={errors.unit?.price}
                 error={!!errors.unit?.price}
               />
-              <TextField
+              <Input
                 required
                 placeholder="Quantidade"
                 type={"number"}
@@ -329,28 +321,42 @@ export function ProductsAdd() {
               />
             </Row>
           </Col>
-
-          <Divider />
-          <Row sx={{ gap: 1 }}>
-            {[...units].map((unit) => (
-              <ProductUnit key={unit.id} />
-            ))}
-          </Row>
         </Col>
       </Paper>
 
       {/*Save*/}
-      <Row sx={{ padding: 1, justifyContent: "center" }}>
-        <Button
-          variant="contained"
-          color="success"
-          startIcon={<SaveRounded />}
-          onClick={onSave}
-          sx={{ height: 56, width: 200 }}
-        >
-          Salvar
-        </Button>
-      </Row>
+      <Col sx={{ padding: 1, alignItems: "center" }}>
+        <Collapse in={isSaved}>
+          <Alert
+            action={
+              <IconButton
+                aria-label="close"
+                color="inherit"
+                size="small"
+                onClick={() => {
+                  setIsSaved(false);
+                }}
+              >
+                <Close fontSize="inherit" />
+              </IconButton>
+            }
+            sx={{ mb: 2 }}
+          >
+            Produto salvo com sucesso!
+          </Alert>
+        </Collapse>
+        <Collapse in={!isSaved}>
+          <Button
+            variant="contained"
+            color="success"
+            startIcon={<SaveRounded />}
+            onClick={onSave}
+            sx={{ height: 56, width: 200 }}
+          >
+            Salvar
+          </Button>
+        </Collapse>
+      </Col>
     </Form>
   );
 }

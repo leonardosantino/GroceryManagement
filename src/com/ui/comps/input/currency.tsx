@@ -1,7 +1,7 @@
 import { TextField, TextFieldProps } from "@mui/material";
 import { ChangeEvent, useState } from "react";
 
-export function TextFieldCurrency(props: TextFieldProps) {
+export function InputCurrency(props: TextFieldProps) {
   const [value, setValue] = useState("");
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {

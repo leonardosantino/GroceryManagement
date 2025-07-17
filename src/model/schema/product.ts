@@ -1,3 +1,4 @@
+import { RefObject } from "react";
 import { z } from "zod";
 
 export type ProductForm = z.infer<typeof ProductSchema>;
@@ -34,4 +35,12 @@ export type ZodIssue = { message?: string; path: string[] };
 
 export function getIssueMessageByPath(path: string, issues: ZodIssue[]) {
   return issues.find((issue) => issue.path.join(".") === path)?.message;
+}
+
+export function refScroll(ref: RefObject<HTMLInputElement | null>) {
+  ref.current?.scrollIntoView({ behavior: "smooth" });
+}
+
+export function refValue(ref: RefObject<HTMLInputElement | null>): string {
+  return ref.current?.value as string;
 }

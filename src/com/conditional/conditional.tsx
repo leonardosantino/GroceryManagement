@@ -1,13 +1,12 @@
 import { ReactNode } from "react";
 
-export function conditionalRender(
-  bool: boolean,
-  component: ReactNode,
-  other?: ReactNode,
-) {
-  if (bool) {
-    return component;
-  }
+type Props = {
+  bool: boolean;
+  children: ReactNode;
+};
 
-  return other;
+export function Conditional({ bool, children }: Props) {
+  if (bool) {
+    return children;
+  }
 }

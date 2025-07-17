@@ -29,6 +29,7 @@ export function Text(props: TextProps) {
 
   return (
     <Typography
+      {...props}
       sx={{
         wordWrap: "break-word",
         textWrap: "wrap",
