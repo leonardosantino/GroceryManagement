@@ -25,5 +25,5 @@ export const ViewRoutes = {
   [ViewPath.Customers]: <Customers />,
   [ViewPath.Inventory]: <Inventory />,
   [ViewPath.Settings]: <Settings />,
-  [ViewPath.Default]: <ProductsAdd />,
+  [ViewPath.Default]: <Analytics />,
 };

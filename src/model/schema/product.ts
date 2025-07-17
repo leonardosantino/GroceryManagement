@@ -1,19 +1,17 @@
 import { RefObject } from "react";
 import { z } from "zod";
 
-export type ProductForm = z.infer<typeof ProductSchema>;
-
 export const ProductSchema = z.object({
   name: z.string().min(1, "Nome é obrigatório"),
   description: z.string().min(1, "Descrição é obrigatória"),
   categories: z
-    .set(z.string())
+    .array(z.string())
     .min(1, "Pelo menos uma categoria é obrigatória"),
-  images: z.set(z.string()).min(1, "Pelo menos uma imagem é obrigatória"),
+  images: z.array(z.string()).min(1, "Pelo menos uma imagem é obrigatória"),
   unit: z.object({
     name: z.string().min(1, "Nome da unidade é obrigatório"),
     description: z.string().min(1, "Descrição da unidade é obrigatória"),
-    price: z.string().min(1, "Preço é obrigatório"),
+    price: z.number().min(1, "Preço é obrigatório"),
     quantity: z.number().min(1, "Quantidade é obrigatória"),
   }),
 });
@@ -43,4 +41,19 @@ export function refScroll(ref: RefObject<HTMLInputElement | null>) {
 
 export function refValue(ref: RefObject<HTMLInputElement | null>): string {
   return ref.current?.value as string;
+}
+
+export function getProductFormIssues(issues: ZodIssue[]) {
+  return {
+    name: getIssueMessageByPath("name", issues),
+    description: getIssueMessageByPath("description", issues),
+    categories: getIssueMessageByPath("categories", issues),
+    images: getIssueMessageByPath("images", issues),
+    unit: {
+      name: getIssueMessageByPath("unit.name", issues),
+      description: getIssueMessageByPath("unit.description", issues),
+      price: getIssueMessageByPath("unit.price", issues),
+      quantity: getIssueMessageByPath("unit.quantity", issues),
+    },
+  };
 }

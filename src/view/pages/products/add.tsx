@@ -27,10 +27,11 @@ import {
   SaveRounded,
   Text,
 } from "@/com/ui";
+import { doubleFromCurrency } from "@/com/ui/comps/input/currency";
 import { useProductFormRef } from "@/hooks/form/product";
+import { Product } from "@/model/product";
 import {
-  getIssueMessageByPath,
-  ProductForm,
+  getProductFormIssues,
   ProductFormErrors,
   ProductSchema,
   refScroll,
@@ -51,15 +52,15 @@ export function ProductsAdd() {
   const [errors, setErrors] = useState<ProductFormErrors>({});
 
   async function onSave() {
-    const productForm: ProductForm = {
+    const productForm: Product = {
       name: refValue(productRef.name),
       description: refValue(productRef.description),
-      categories: categories,
-      images: images,
+      categories: [...categories],
+      images: [...images],
       unit: {
         name: refValue(productRef.unit.name),
         description: refValue(productRef.unit.description),
-        price: refValue(productRef.unit.price),
+        price: doubleFromCurrency(refValue(productRef.unit.price)),
         quantity: Number(refValue(productRef.unit.quantity)),
       },
     };
@@ -68,24 +69,11 @@ export function ProductsAdd() {
     const issues = form.error?.issues as ZodIssue[];
 
     if (form.success) {
-      const p = await api.productSave(productForm);
+      await api.productSave(productForm);
       setIsSaved(true);
       setErrors({});
-      console.log(p);
     } else {
-      console.log("ERROR");
-      const productFormErrors: ProductFormErrors = {
-        name: getIssueMessageByPath("name", issues),
-        description: getIssueMessageByPath("description", issues),
-        categories: getIssueMessageByPath("categories", issues),
-        images: getIssueMessageByPath("images", issues),
-        unit: {
-          name: getIssueMessageByPath("unit.name", issues),
-          description: getIssueMessageByPath("unit.description", issues),
-          price: getIssueMessageByPath("unit.price", issues),
-          quantity: getIssueMessageByPath("unit.quantity", issues),
-        },
-      };
+      const productFormErrors: ProductFormErrors = getProductFormIssues(issues);
       setErrors(productFormErrors);
       scrollToFirstError(productFormErrors);
     }
@@ -104,17 +92,19 @@ export function ProductsAdd() {
   }
 
   function handleFileUpload(e: ChangeEvent<HTMLInputElement>) {
-    const file = e.currentTarget.files?.[0] as File;
+    // TODO: const file = e.currentTarget.files?.[0] as File;
 
-    const image = URL.createObjectURL(file);
-    images.add(image);
+    // TODO: const image = URL.createObjectURL(file);
+
+    images.add("/assets/drawable/img.png");
     setImages(new Set([...images]));
 
     e.currentTarget.value = "";
   }
 
   function handleDeleteFile(img: string) {
-    URL.revokeObjectURL(img);
+    // TODO: URL.revokeObjectURL(img);
+
     images.delete(img);
     setImages(new Set([...images]));
   }

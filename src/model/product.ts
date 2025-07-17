@@ -1,18 +1,17 @@
 export class Product {
-  id: string;
-  seller: string;
+  id?: string;
+  seller?: string;
 
-  name: string = "";
+  name: string;
   description: string;
   categories: string[];
   images: string[];
-  units: Unit[];
-
-  createdAt: Date | string;
+  unit: Unit;
+  createdAt?: Date | string;
 }
 
 export class Unit {
-  id: string;
+  id?: string;
   name: string;
   description: string;
   price: number;

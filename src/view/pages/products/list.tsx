@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  Add as AddIcon,
-  FilterList as FilterIcon,
-  MoreVert as MoreVertIcon,
-} from "@mui/icons-material";
+import { Add, FilterList, MoreVert } from "@mui/icons-material";
 import {
   Avatar,
   Box,
@@ -19,25 +15,27 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { useEffect, useState } from "react";
 
-const products = [
-  {
-    id: 1,
-    name: "Pizza de Calabresa",
-    sku: "Delicious Calabresa Pizza",
-    price: "G",
-    stock: "8 Fatias",
-    status: "R$ 69,90",
-    category: "37",
-    image: "/placeholder.svg?height=40&width=40",
-  },
-];
+import { MarketApi } from "@/api/market";
+import { currencyFromDouble } from "@/com/ui/comps/input/currency";
+import { Product } from "@/model/product";
+
+const api = new MarketApi();
 
 export function ProductsList() {
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    api.productFindAll().then((data) => {
+      setProducts(data.items);
+    });
+  }, []);
+
   return (
     <>
       <Box sx={{ display: "flex", gap: 2, mb: 3 }}>
-        <Button variant="contained" startIcon={<AddIcon />} />
+        <Button variant="contained" startIcon={<Add />} />
 
         <TextField
           placeholder="Search products..."
@@ -45,7 +43,7 @@ export function ProductsList() {
           size="small"
           sx={{ flexGrow: 1 }}
         />
-        <Button variant="outlined" startIcon={<FilterIcon />} />
+        <Button variant="outlined" startIcon={<FilterList />} />
       </Box>
 
       <TableContainer>
@@ -54,11 +52,9 @@ export function ProductsList() {
             <TableRow>
               <TableCell>Nome</TableCell>
               <TableCell>Descrição</TableCell>
-              <TableCell>Unidade</TableCell>
-              <TableCell>Descrição da Unidade</TableCell>
+              <TableCell colSpan={2}>Unidade</TableCell>
               <TableCell>Preço</TableCell>
-              <TableCell>Quantidade</TableCell>
-              <TableCell />
+              <TableCell colSpan={2}>Quantidade</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -67,7 +63,7 @@ export function ProductsList() {
                 <TableCell>
                   <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
                     <Avatar
-                      src={product.image}
+                      src={[...product.images][0]}
                       variant="rounded"
                       sx={{ width: 40, height: 40 }}
                     />
@@ -78,26 +74,28 @@ export function ProductsList() {
                 </TableCell>
                 <TableCell>
                   <Typography variant="body2" color="textSecondary">
-                    {product.sku}
+                    {product.description}
                   </Typography>
                 </TableCell>
                 <TableCell>
                   <Typography variant="body2" sx={{ fontWeight: 500 }}>
-                    {product.price}
+                    {product.unit.name}
                   </Typography>
                 </TableCell>
                 <TableCell>
-                  <Typography variant="body2">{product.stock}</Typography>
+                  <Typography variant="body2">
+                    {product.unit.description}
+                  </Typography>
                 </TableCell>
-                <TableCell>{product.status}</TableCell>
+                <TableCell>{currencyFromDouble(product.unit.price)}</TableCell>
                 <TableCell>
                   <Typography variant="body2" color="textSecondary">
-                    {product.category}
+                    {product.unit.quantity}
                   </Typography>
                 </TableCell>
                 <TableCell align="right">
                   <IconButton size="small">
-                    <MoreVertIcon />
+                    <MoreVert />
                   </IconButton>
                 </TableCell>
               </TableRow>
