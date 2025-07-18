@@ -1,64 +1,76 @@
 "use client";
 
-import { Add, FilterList, MoreVert } from "@mui/icons-material";
+import { useQuery } from "@tanstack/react-query";
+
+import { MarketApi } from "@/api/market";
 import {
   Avatar,
   Box,
   Button,
+  Col,
+  FilterList,
   IconButton,
+  Input,
+  MoreVert,
+  Pagination,
+  Row,
+  Sx,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { useEffect, useState } from "react";
-
-import { MarketApi } from "@/api/market";
+  Text,
+} from "@/com/ui";
 import { currencyFromDouble } from "@/com/ui/comps/input/currency";
 import { Product } from "@/model/product";
 
 const api = new MarketApi();
 
 export function ProductsList() {
-  const [products, setProducts] = useState<Product[]>([]);
+  const { data: products } = useQuery<Product[]>({
+    queryKey: ["products-y4i8"],
+    queryFn: async () => await api.productFindAll().then((data) => data.items),
+  });
 
-  useEffect(() => {
-    api.productFindAll().then((data) => {
-      setProducts(data.items);
-    });
-  }, []);
+  console.log(products);
 
   return (
-    <>
-      <Box sx={{ display: "flex", gap: 2, mb: 3 }}>
-        <Button variant="contained" startIcon={<Add />} />
-
-        <TextField
-          placeholder="Search products..."
-          variant="outlined"
-          size="small"
-          sx={{ flexGrow: 1 }}
-        />
-        <Button variant="outlined" startIcon={<FilterList />} />
+    <Col
+      sx={{
+        padding: 2,
+        gap: 2,
+        flexGrow: 1,
+      }}
+    >
+      {/*Filter*/}
+      <Box sx={{ gap: 2 }}>
+        <Input placeholder="Pesquisar produtos..." sx={{ flexGrow: 1 }} />
+        <Button variant="outlined" startIcon={<FilterList />}>
+          Filtro
+        </Button>
       </Box>
 
-      <TableContainer>
+      {/*Table*/}
+      <TableContainer sx={{ flexGrow: 1 }}>
         <Table>
-          <TableHead>
+          <TableHead
+            sx={{ backgroundColor: Sx.color.surface, borderRadius: 50 }}
+          >
             <TableRow>
               <TableCell>Nome</TableCell>
               <TableCell>Descrição</TableCell>
-              <TableCell colSpan={2}>Unidade</TableCell>
+              <TableCell colSpan={2} align={"center"}>
+                Unidade
+              </TableCell>
               <TableCell>Preço</TableCell>
-              <TableCell colSpan={2}>Quantidade</TableCell>
+              <TableCell>Quantidade</TableCell>
+              <TableCell />
             </TableRow>
           </TableHead>
           <TableBody>
-            {products.map((product) => (
+            {products?.map((product: Product) => (
               <TableRow key={product.id} hover>
                 <TableCell>
                   <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
@@ -67,31 +79,29 @@ export function ProductsList() {
                       variant="rounded"
                       sx={{ width: 40, height: 40 }}
                     />
-                    <Typography variant="body2" sx={{ fontWeight: 500 }}>
+                    <Text variant="body2" sx={{ fontWeight: 500 }}>
                       {product.name}
-                    </Typography>
+                    </Text>
                   </Box>
                 </TableCell>
                 <TableCell>
-                  <Typography variant="body2" color="textSecondary">
+                  <Text variant="body2" color="textSecondary">
                     {product.description}
-                  </Typography>
+                  </Text>
                 </TableCell>
                 <TableCell>
-                  <Typography variant="body2" sx={{ fontWeight: 500 }}>
+                  <Text variant="body2" sx={{ fontWeight: 500 }}>
                     {product.unit.name}
-                  </Typography>
+                  </Text>
                 </TableCell>
                 <TableCell>
-                  <Typography variant="body2">
-                    {product.unit.description}
-                  </Typography>
+                  <Text variant="body2">{product.unit.description}</Text>
                 </TableCell>
                 <TableCell>{currencyFromDouble(product.unit.price)}</TableCell>
                 <TableCell>
-                  <Typography variant="body2" color="textSecondary">
+                  <Text variant="body2" color="textSecondary">
                     {product.unit.quantity}
-                  </Typography>
+                  </Text>
                 </TableCell>
                 <TableCell align="right">
                   <IconButton size="small">
@@ -103,6 +113,9 @@ export function ProductsList() {
           </TableBody>
         </Table>
       </TableContainer>
-    </>
+      <Row sx={{ padding: 2, justifyContent: "center" }}>
+        <Pagination count={10} />
+      </Row>
+    </Col>
   );
 }

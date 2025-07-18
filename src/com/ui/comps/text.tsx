@@ -33,7 +33,6 @@ export function Text(props: TextProps) {
       sx={{
         wordWrap: "break-word",
         textWrap: "wrap",
-        userSelect: "none",
         ...props.sx,
       }}
     >

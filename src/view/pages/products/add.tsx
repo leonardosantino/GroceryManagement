@@ -1,3 +1,5 @@
+"use client";
+
 import { ChangeEvent, useState } from "react";
 
 import { MarketApi } from "@/api/market";
@@ -7,7 +9,6 @@ import {
   AddPhotoAlternate,
   Alert,
   Button,
-  Category,
   Chip,
   Close,
   Col,
@@ -25,6 +26,7 @@ import {
   Paper,
   Row,
   SaveRounded,
+  Sx,
   Text,
 } from "@/com/ui";
 import { doubleFromCurrency } from "@/com/ui/comps/input/currency";
@@ -69,6 +71,7 @@ export function ProductsAdd() {
     const issues = form.error?.issues as ZodIssue[];
 
     if (form.success) {
+      console.log(productForm);
       await api.productSave(productForm);
       setIsSaved(true);
       setErrors({});
@@ -130,7 +133,9 @@ export function ProductsAdd() {
             <Inventory />
             <Text>Informações Básicas</Text>
           </Row>
-          <Text variant="caption">Adicione nome e descrição do produto.</Text>
+          <Text sx={{ fontSize: Sx.fontSize.medium }}>
+            Adicione nome e descrição do produto.
+          </Text>
 
           <Input
             required
@@ -152,15 +157,57 @@ export function ProductsAdd() {
         </Col>
       </Paper>
 
+      {/*Units*/}
+      <Paper>
+        <Col sx={{ padding: 2, gap: 3 }}>
+          <Text sx={{ fontSize: Sx.fontSize.medium }}>
+            Adicione informações sobre as variações disponíveis do produto,
+            preços e quantidades.
+          </Text>
+
+          <Col sx={{ gap: 1 }}>
+            <Row sx={{ gap: 2 }}>
+              <Input
+                required
+                placeholder={"Nome"}
+                helperText={"Ex: Grande, média, pequena."}
+                error={!!errors.unit?.name}
+                inputRef={productRef.unit.name}
+              />
+              <Input
+                required
+                placeholder="Descrição"
+                helperText={"Ex: 8 Fatias, 6 Fatias, 4 Fatias"}
+                error={!!errors.unit?.description}
+                inputRef={productRef.unit.description}
+              />
+            </Row>
+
+            <Row sx={{ gap: 2 }}>
+              <InputCurrency
+                required
+                placeholder="Preço"
+                inputRef={productRef.unit.price}
+                helperText={errors.unit?.price}
+                error={!!errors.unit?.price}
+              />
+              <Input
+                required
+                placeholder="Quantidade"
+                type={"number"}
+                error={!!errors.unit?.quantity}
+                helperText={errors.unit?.quantity}
+                inputRef={productRef.unit.quantity}
+              />
+            </Row>
+          </Col>
+        </Col>
+      </Paper>
+
       {/*Category*/}
       <Paper>
         <Col sx={{ padding: 2, gap: 2 }}>
-          <Row sx={{ gap: 1 }}>
-            <Category />
-            <Text>Categorias</Text>
-          </Row>
-
-          <Text variant="caption">
+          <Text sx={{ fontSize: Sx.fontSize.medium }}>
             Adicione categorias para ajudar os clientes a encontrarem seu
             produto mais facilmente.
           </Text>
@@ -178,7 +225,6 @@ export function ProductsAdd() {
               color="primary"
               startIcon={<Add />}
               onClick={handleSetCategory}
-              sx={{ height: 56 }}
             >
               Adicionar
             </Button>
@@ -206,7 +252,7 @@ export function ProductsAdd() {
             <Text>Imagens</Text>
           </Row>
 
-          <Text variant="caption">
+          <Text sx={{ fontSize: Sx.fontSize.medium }}>
             Adicione imagens de alta qualidade do seu produto. Recomendamos pelo
             menos 3 imagens de diferentes ângulos.
           </Text>
@@ -266,58 +312,6 @@ export function ProductsAdd() {
         </Col>
       </Paper>
 
-      {/*Units*/}
-      <Paper>
-        <Col sx={{ padding: 2, gap: 3 }}>
-          <Row sx={{ gap: 1 }}>
-            <Inventory />
-            <Text>Unidades</Text>
-          </Row>
-
-          <Text variant="caption">
-            Adicione informações sobre as variações disponíveis do produto,
-            preços e quantidades.
-          </Text>
-
-          <Col sx={{ gap: 1 }}>
-            <Row sx={{ gap: 2 }}>
-              <Input
-                required
-                placeholder={"Nome"}
-                helperText={"Ex: Grande, média, pequena."}
-                error={!!errors.unit?.name}
-                inputRef={productRef.unit.name}
-              />
-              <Input
-                required
-                placeholder="Descrição"
-                helperText={"Ex: 8 Fatias, 6 Fatias, 4 Fatias"}
-                error={!!errors.unit?.description}
-                inputRef={productRef.unit.description}
-              />
-            </Row>
-
-            <Row sx={{ gap: 2 }}>
-              <InputCurrency
-                required
-                placeholder="Preço"
-                inputRef={productRef.unit.price}
-                helperText={errors.unit?.price}
-                error={!!errors.unit?.price}
-              />
-              <Input
-                required
-                placeholder="Quantidade"
-                type={"number"}
-                error={!!errors.unit?.quantity}
-                helperText={errors.unit?.quantity}
-                inputRef={productRef.unit.quantity}
-              />
-            </Row>
-          </Col>
-        </Col>
-      </Paper>
-
       {/*Save*/}
       <Col sx={{ padding: 1, alignItems: "center" }}>
         <Collapse in={isSaved}>
@@ -345,7 +339,7 @@ export function ProductsAdd() {
             color="success"
             startIcon={<SaveRounded />}
             onClick={onSave}
-            sx={{ height: 56, width: 200 }}
+            size={"large"}
           >
             Salvar
           </Button>

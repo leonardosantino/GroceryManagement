@@ -11,6 +11,7 @@ export { Form } from "@/com/ui/comps/form";
 export { Input } from "@/com/ui/comps/input/input";
 export { InputFile } from "@/com/ui/comps/input/file";
 export { InputCurrency } from "@/com/ui/comps/input/currency";
+export { Button } from "@/com/ui/comps/button";
 
 // MUI Components
 export {
@@ -21,9 +22,16 @@ export {
   ListItem,
   ListItemButton,
   ListItemIcon,
-  Button,
   Chip,
   Alert,
+  Avatar,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Pagination,
 } from "@mui/material";
 
 // MUI Icons
@@ -35,10 +43,12 @@ export {
   People,
   ShoppingCart,
   TrendingUp,
-  Add,
   AddPhotoAlternate,
   Category,
   Delete,
   SaveRounded,
   Close,
+  Add,
+  FilterList,
+  MoreVert,
 } from "@mui/icons-material";

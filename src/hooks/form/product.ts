@@ -1,3 +1,5 @@
+"use client";
+
 import { createRef, useRef } from "react";
 
 export function useProductFormRef() {

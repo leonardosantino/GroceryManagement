@@ -1,5 +1,9 @@
-import { TextField, TextFieldProps } from "@mui/material";
+"use client";
+
+import { TextFieldProps } from "@mui/material";
 import { ChangeEvent, useState } from "react";
+
+import { Input } from "@/com/ui";
 
 export function InputCurrency(props: TextFieldProps) {
   const [value, setValue] = useState("");
@@ -8,7 +12,7 @@ export function InputCurrency(props: TextFieldProps) {
     setValue(currencyFromString({ value: e.target.value, maxLength: 9 }));
   };
 
-  return <TextField value={value} onChange={handleChange} {...props} />;
+  return <Input value={value} onChange={handleChange} {...props} />;
 }
 
 function currencyFromString({

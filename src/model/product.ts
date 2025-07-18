@@ -7,7 +7,8 @@ export class Product {
   categories: string[];
   images: string[];
   unit: Unit;
-  createdAt?: Date | string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export class Unit {

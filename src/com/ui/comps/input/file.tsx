@@ -1,8 +1,10 @@
-import { Button, Input, InputProps } from "@mui/material";
+import { Input, InputProps } from "@mui/material";
+
+import { Button } from "@/com/ui";
 
 export function InputFile(props: Readonly<InputProps>) {
   return (
-    <Button component="label" variant="outlined" sx={{ width: 100 }}>
+    <Button variant="outlined" sx={{ position: "relative" }} component="label">
       Selecione
       <VisuallyHiddenInput {...props} />
     </Button>
@@ -12,10 +14,10 @@ export function InputFile(props: Readonly<InputProps>) {
 function VisuallyHiddenInput(props: Readonly<InputProps>) {
   return (
     <Input
-      {...props}
       type="file"
       inputProps={{ accept: "image/*" }}
-      sx={{ clipPath: "inset(50%)" }}
+      sx={{ clipPath: "inset(50%)", position: "absolute" }}
+      {...props}
     />
   );
 }
