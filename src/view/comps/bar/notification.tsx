@@ -9,11 +9,10 @@ export function NotificationBar() {
   return (
     <Row
       sx={{
-        alignItems: "start",
-        gap: 3,
-        padding: 1,
         height: "min-content",
-        flexWrap: "nowrap",
+        gap: 2,
+        paddingY: 2,
+        paddingRight: 2,
       }}
     >
       <IconButton>

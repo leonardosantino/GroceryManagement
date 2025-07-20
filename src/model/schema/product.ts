@@ -11,7 +11,7 @@ export const ProductSchema = z.object({
   unit: z.object({
     name: z.string().min(1, "Nome da unidade é obrigatório"),
     description: z.string().min(1, "Descrição da unidade é obrigatória"),
-    price: z.number().min(1, "Preço é obrigatório"),
+    price: z.number().min(0.1, "Preço é obrigatório"),
     quantity: z.number().min(1, "Quantidade é obrigatória"),
   }),
 });

@@ -1,6 +1,5 @@
 import { Box as Bx, BoxProps } from "@mui/material";
-
-import { Sx } from "@/com/ui";
+import { color } from "@/com/ui/style/scheme";
 
 export function Deco(props: BoxProps) {
   return (
@@ -10,8 +9,8 @@ export function Deco(props: BoxProps) {
         borderStyle: "solid",
         borderWidth: 1,
         borderRadius: 1,
-        borderColor: Sx.color.outline,
-        backgroundColor: Sx.color.surface,
+        borderColor: color.outline,
+        backgroundColor: color.surface,
         ...props.sx,
       }}
     />

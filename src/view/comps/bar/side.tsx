@@ -17,12 +17,12 @@ import {
   People,
   Row,
   ShoppingCart,
-  Sx,
   Text,
   TrendingUp,
 } from "@/com/ui";
 import { ViewPath } from "@/routes";
 import { useViewState } from "@/state/view/view";
+import { fontSize, fontWeight } from "@/com/ui/style/scheme";
 
 export function Sidebar() {
   const { view, setView } = useViewState();
@@ -40,7 +40,9 @@ export function Sidebar() {
           }}
         >
           <BusinessRounded />
-          <Text>Acme Co.</Text>
+          <Text sx={{ fontSize: fontSize.large, fontWeight: fontWeight.bold }}>
+            Acme Co.
+          </Text>
         </Row>
 
         <Box sx={{ margin: 1.5 }} />
@@ -52,7 +54,7 @@ export function Sidebar() {
           <ListItemIcon>
             <TrendingUp />
           </ListItemIcon>
-          <Text sx={{ fontSize: Sx.fontSize.medium }}>Análises</Text>
+          <Text>Análises</Text>
         </ListItemButton>
 
         <ListItemButton
@@ -62,7 +64,7 @@ export function Sidebar() {
           <ListItemIcon>
             <Inventory />
           </ListItemIcon>
-          <Text sx={{ fontSize: Sx.fontSize.medium }}>Produtos</Text>
+          <Text>Produtos</Text>
           {open ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
 
@@ -73,9 +75,7 @@ export function Sidebar() {
                 selected={view == ViewPath.Products}
                 onClick={() => setView(ViewPath.Products)}
               >
-                <Text sx={{ fontSize: Sx.fontSize.small }}>
-                  Lista de produtos
-                </Text>
+                <Text sx={{ fontSize: fontSize.small }}>Lista de produtos</Text>
               </ListItemButton>
             </ListItem>
             <ListItem>
@@ -83,7 +83,7 @@ export function Sidebar() {
                 selected={view == ViewPath.ProductsAdd}
                 onClick={() => setView(ViewPath.ProductsAdd)}
               >
-                <Text sx={{ fontSize: Sx.fontSize.small }}>
+                <Text sx={{ fontSize: fontSize.small }}>
                   Adicionar produtos
                 </Text>
               </ListItemButton>
@@ -98,7 +98,7 @@ export function Sidebar() {
           <ListItemIcon>
             <ShoppingCart />
           </ListItemIcon>
-          <Text sx={{ fontSize: Sx.fontSize.medium }}>Pedidos</Text>
+          <Text>Pedidos</Text>
         </ListItemButton>
 
         <ListItemButton
@@ -108,7 +108,7 @@ export function Sidebar() {
           <ListItemIcon>
             <People />
           </ListItemIcon>
-          <Text sx={{ fontSize: Sx.fontSize.medium }}>Clientes</Text>
+          <Text>Clientes</Text>
         </ListItemButton>
       </List>
     </Paper>

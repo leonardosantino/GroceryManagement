@@ -14,17 +14,16 @@ import {
   MoreVert,
   Pagination,
   Row,
-  Sx,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  Text,
 } from "@/com/ui";
-import { currencyFromDouble } from "@/com/ui/comps/input/currency";
 import { Product } from "@/model/product";
+import { color, fontWeight } from "@/com/ui/style/scheme";
+import { currencyFromDouble } from "@/com/format";
 
 const api = new MarketApi();
 
@@ -33,8 +32,6 @@ export function ProductsList() {
     queryKey: ["products-y4i8"],
     queryFn: async () => await api.productFindAll().then((data) => data.items),
   });
-
-  console.log(products);
 
   return (
     <Col
@@ -45,64 +42,86 @@ export function ProductsList() {
       }}
     >
       {/*Filter*/}
-      <Box sx={{ gap: 2 }}>
-        <Input placeholder="Pesquisar produtos..." sx={{ flexGrow: 1 }} />
+      <Box sx={{ gap: 2, justifyContent: "center" }}>
+        <Input placeholder="Pesquisar produtos..." sx={{ flexGrow: 0.25 }} />
         <Button variant="outlined" startIcon={<FilterList />}>
           Filtro
         </Button>
       </Box>
 
       {/*Table*/}
-      <TableContainer sx={{ flexGrow: 1 }}>
-        <Table>
-          <TableHead
-            sx={{ backgroundColor: Sx.color.surface, borderRadius: 50 }}
-          >
+      <TableContainer>
+        <Table stickyHeader>
+          <TableHead>
             <TableRow>
-              <TableCell>Nome</TableCell>
-              <TableCell>Descrição</TableCell>
-              <TableCell colSpan={2} align={"center"}>
+              <TableCell
+                sx={{
+                  backgroundColor: color.surface,
+                  fontWeight: fontWeight.bold,
+                }}
+              >
+                Nome
+              </TableCell>
+              <TableCell
+                sx={{
+                  backgroundColor: color.surface,
+                  fontWeight: fontWeight.bold,
+                }}
+              >
+                Descrição
+              </TableCell>
+              <TableCell
+                colSpan={2}
+                align={"center"}
+                sx={{
+                  backgroundColor: color.surface,
+                  fontWeight: fontWeight.bold,
+                }}
+              >
                 Unidade
               </TableCell>
-              <TableCell>Preço</TableCell>
-              <TableCell>Quantidade</TableCell>
-              <TableCell />
+              <TableCell
+                sx={{
+                  backgroundColor: color.surface,
+                  fontWeight: fontWeight.bold,
+                }}
+              >
+                Preço
+              </TableCell>
+              <TableCell
+                sx={{
+                  backgroundColor: color.surface,
+                  fontWeight: fontWeight.bold,
+                }}
+              >
+                Quantidade
+              </TableCell>
+              <TableCell sx={{ backgroundColor: color.surface }} />
             </TableRow>
           </TableHead>
+
           <TableBody>
             {products?.map((product: Product) => (
               <TableRow key={product.id} hover>
-                <TableCell>
-                  <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                    <Avatar
-                      src={[...product.images][0]}
-                      variant="rounded"
-                      sx={{ width: 40, height: 40 }}
-                    />
-                    <Text variant="body2" sx={{ fontWeight: 500 }}>
-                      {product.name}
-                    </Text>
-                  </Box>
+                <TableCell
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 1,
+                  }}
+                >
+                  <Avatar
+                    src={[...product.images][0]}
+                    variant="rounded"
+                    sx={{ width: 40, height: 40 }}
+                  />
+                  {product.name}
                 </TableCell>
-                <TableCell>
-                  <Text variant="body2" color="textSecondary">
-                    {product.description}
-                  </Text>
-                </TableCell>
-                <TableCell>
-                  <Text variant="body2" sx={{ fontWeight: 500 }}>
-                    {product.unit.name}
-                  </Text>
-                </TableCell>
-                <TableCell>
-                  <Text variant="body2">{product.unit.description}</Text>
-                </TableCell>
+                <TableCell>{product.description}</TableCell>
+                <TableCell>{product.unit.name}</TableCell>
+                <TableCell>{product.unit.description}</TableCell>
                 <TableCell>{currencyFromDouble(product.unit.price)}</TableCell>
-                <TableCell>
-                  <Text variant="body2" color="textSecondary">
-                    {product.unit.quantity}
-                  </Text>
-                </TableCell>
+                <TableCell align={"center"}>{product.unit.quantity}</TableCell>
                 <TableCell align="right">
                   <IconButton size="small">
                     <MoreVert />
