@@ -23,7 +23,11 @@ import {
 import { Product } from "@/model/product";
 import { color, fontWeight } from "@/com/ui/style/scheme";
 import { currencyFromDouble } from "@/com/format";
-import { useState } from "react";
+import React, { useState } from "react";
+import { isNullOrEmpty } from "@/com/validation";
+import { Menu, MenuItem } from "@mui/material";
+
+import { ContentCopy, Delete, Edit } from "@mui/icons-material";
 
 const api = new MarketApi();
 
@@ -44,20 +48,29 @@ export function ProductsList() {
     return page.products.concat(data?.items ?? []);
   }
 
-  function hasNext() {
-    return data?.last != "";
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+
+  function handleClick(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    setAnchorEl(event.currentTarget);
+  }
+  function handleClose() {
+    setAnchorEl(null);
   }
 
   return (
     <Col sx={{ flexGrow: 1, padding: 2, gap: 2 }}>
       {/*Filter*/}
-      <Box sx={{ gap: 2, justifyContent: "center" }}>
+      <Box sx={{ gap: 2, justifyContent: "center", height: 37 }}>
         <Input placeholder="Pesquisar produtos..." sx={{ flexGrow: 0.25 }} />
         <Button variant="outlined" startIcon={<FilterList />}>
           Filtro
         </Button>
       </Box>
-      <TableContainer component={Paper} sx={{ flexGrow: 1 }}>
+      <TableContainer
+        component={Paper}
+        sx={{ flexGrow: 1, backgroundColor: "transparent" }}
+      >
         <Table stickyHeader>
           <TableHead>
             <TableRow>
@@ -125,9 +138,59 @@ export function ProductsList() {
                 <TableCell>{currencyFromDouble(product.unity.price)}</TableCell>
                 <TableCell align={"center"}>{product.unity.quantity}</TableCell>
                 <TableCell align="right" sx={{ padding: 1 }}>
-                  <IconButton size="small">
+                  <IconButton
+                    id={"button".concat(product.id as string)}
+                    onClick={handleClick}
+                  >
                     <MoreVert />
                   </IconButton>
+                  <Menu
+                    id={"menu".concat(product?.id ?? "")}
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    slotProps={{
+                      paper: {
+                        style: {
+                          boxShadow: "0 0 1px lightgray",
+                        },
+                      },
+                    }}
+                  >
+                    <MenuItem
+                      key={"product-editar"}
+                      sx={{
+                        fontSize: 12,
+                        gap: 1,
+                        justifyContent: "space-between",
+                        padding: 1,
+                      }}
+                    >
+                      Editar <Edit color={"primary"} />
+                    </MenuItem>
+                    <MenuItem
+                      key={"product-duplicate"}
+                      sx={{
+                        fontSize: 12,
+                        gap: 1,
+                        justifyContent: "space-between",
+                        padding: 1,
+                      }}
+                    >
+                      Duplicar <ContentCopy color={"action"} />
+                    </MenuItem>
+                    <MenuItem
+                      key={"product-delete"}
+                      sx={{
+                        fontSize: 12,
+                        gap: 1,
+                        justifyContent: "space-between",
+                        padding: 1,
+                      }}
+                    >
+                      Excluir <Delete color={"error"} />
+                    </MenuItem>
+                  </Menu>
                 </TableCell>
               </TableRow>
             ))}
@@ -138,7 +201,7 @@ export function ProductsList() {
       {/*Pagination*/}
       <Box sx={{ justifyContent: "center" }}>
         <Button
-          disabled={!hasNext()}
+          disabled={isNullOrEmpty(data?.last)}
           variant="outlined"
           color="primary"
           sx={{ width: 120 }}

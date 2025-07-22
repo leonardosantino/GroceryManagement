@@ -16,7 +16,7 @@ export class MarketApi {
   async productFindAll(params: { last: string }): Promise<ProductResponse> {
     const response = await this.get({
       path: "/products",
-      params: { last: params.last, limit: "2" },
+      params: { last: params.last, limit: "10" },
     });
 
     return response;

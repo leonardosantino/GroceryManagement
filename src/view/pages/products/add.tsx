@@ -132,7 +132,7 @@ export function ProductsAdd() {
   }
 
   return (
-    <ScrollCol>
+    <ScrollCol sx={{ flexGrow: 1, alignItems: "center", padding: 2 }}>
       <Snackbar
         open={isSaved}
         onClose={() => setIsSaved(false)}
@@ -145,17 +145,16 @@ export function ProductsAdd() {
       </Snackbar>
       <Form
         sx={{
-          padding: 2,
           gap: 2,
           maxWidth: 900,
         }}
         onSubmit={onSave}
       >
         {/*Save*/}
-        <Row sx={{ padding: 1, justifyContent: "end" }}>
+        <Row sx={{ justifyContent: "end", height: 37 }}>
           <Button
             type={"submit"}
-            variant="contained"
+            variant="outlined"
             startIcon={<SaveRounded />}
             loading={isLoading}
             size={"large"}
