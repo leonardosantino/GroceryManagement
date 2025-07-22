@@ -6,7 +6,7 @@ export class Product {
   description: string;
   categories: string[];
   images: string[];
-  unit: Unit;
+  unity: Unit;
   createdAt?: string;
   updatedAt?: string;
 }

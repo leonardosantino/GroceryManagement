@@ -12,8 +12,7 @@ import {
   IconButton,
   Input,
   MoreVert,
-  Pagination,
-  Row,
+  Paper,
   Table,
   TableBody,
   TableCell,
@@ -24,23 +23,33 @@ import {
 import { Product } from "@/model/product";
 import { color, fontWeight } from "@/com/ui/style/scheme";
 import { currencyFromDouble } from "@/com/format";
+import { useState } from "react";
 
 const api = new MarketApi();
 
 export function ProductsList() {
-  const { data: products } = useQuery<Product[]>({
-    queryKey: ["products-y4i8"],
-    queryFn: async () => await api.productFindAll().then((data) => data.items),
+  const [page, setPage] = useState({
+    key: "products-y4i8",
+    last: "",
+    products: [] as Product[],
   });
 
+  const { data } = useQuery({
+    queryKey: [page.key, page.last],
+    queryFn: async () =>
+      await api.productFindAll({ last: page.last }).then((data) => data),
+  });
+
+  function getProducts() {
+    return page.products.concat(data?.items ?? []);
+  }
+
+  function hasNext() {
+    return data?.last != "";
+  }
+
   return (
-    <Col
-      sx={{
-        padding: 2,
-        gap: 2,
-        flexGrow: 1,
-      }}
-    >
+    <Col sx={{ flexGrow: 1, padding: 2, gap: 2 }}>
       {/*Filter*/}
       <Box sx={{ gap: 2, justifyContent: "center" }}>
         <Input placeholder="Pesquisar produtos..." sx={{ flexGrow: 0.25 }} />
@@ -48,12 +57,15 @@ export function ProductsList() {
           Filtro
         </Button>
       </Box>
-
-      {/*Table*/}
-      <TableContainer>
+      <TableContainer component={Paper} sx={{ flexGrow: 1 }}>
         <Table stickyHeader>
           <TableHead>
             <TableRow>
+              <TableCell
+                sx={{
+                  backgroundColor: color.surface,
+                }}
+              />
               <TableCell
                 sx={{
                   backgroundColor: color.surface,
@@ -101,28 +113,18 @@ export function ProductsList() {
           </TableHead>
 
           <TableBody>
-            {products?.map((product: Product) => (
+            {getProducts().map((product: Product) => (
               <TableRow key={product.id} hover>
-                <TableCell
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 1,
-                  }}
-                >
-                  <Avatar
-                    src={[...product.images][0]}
-                    variant="rounded"
-                    sx={{ width: 40, height: 40 }}
-                  />
-                  {product.name}
+                <TableCell sx={{ padding: 1 }}>
+                  <Avatar src={product.images[0]} variant="rounded" />
                 </TableCell>
+                <TableCell>{product.name}</TableCell>
                 <TableCell>{product.description}</TableCell>
-                <TableCell>{product.unit.name}</TableCell>
-                <TableCell>{product.unit.description}</TableCell>
-                <TableCell>{currencyFromDouble(product.unit.price)}</TableCell>
-                <TableCell align={"center"}>{product.unit.quantity}</TableCell>
-                <TableCell align="right">
+                <TableCell>{product.unity.name}</TableCell>
+                <TableCell>{product.unity.description}</TableCell>
+                <TableCell>{currencyFromDouble(product.unity.price)}</TableCell>
+                <TableCell align={"center"}>{product.unity.quantity}</TableCell>
+                <TableCell align="right" sx={{ padding: 1 }}>
                   <IconButton size="small">
                     <MoreVert />
                   </IconButton>
@@ -132,9 +134,25 @@ export function ProductsList() {
           </TableBody>
         </Table>
       </TableContainer>
-      <Row sx={{ padding: 2, justifyContent: "center" }}>
-        <Pagination count={10} />
-      </Row>
+
+      {/*Pagination*/}
+      <Box sx={{ justifyContent: "center" }}>
+        <Button
+          disabled={!hasNext()}
+          variant="outlined"
+          color="primary"
+          sx={{ width: 120 }}
+          onClick={() => {
+            setPage((prev) => ({
+              key: page.key,
+              last: data?.last ?? "",
+              products: prev.products.concat(data?.items ?? []),
+            }));
+          }}
+        >
+          Mais
+        </Button>
+      </Box>
     </Col>
   );
 }

@@ -63,7 +63,7 @@ export function ProductsAdd() {
       description: refValue(productRef.description),
       categories: [...categories],
       images: [...images],
-      unit: {
+      unity: {
         name: refValue(productRef.unit.name),
         description: refValue(productRef.unit.description),
         price: Number(refValue(productRef.unit.price)),
@@ -132,7 +132,7 @@ export function ProductsAdd() {
   }
 
   return (
-    <ScrollCol sx={{ flexGrow: 1, alignItems: "center" }}>
+    <ScrollCol>
       <Snackbar
         open={isSaved}
         onClose={() => setIsSaved(false)}

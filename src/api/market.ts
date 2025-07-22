@@ -1,7 +1,8 @@
 import { Product } from "@/model/product";
+import { ProductResponse } from "@/model/dto/ProductResponse";
 
 export class MarketApi {
-  private readonly url: string = "http://localhost:3000";
+  private readonly url: string = "http://localhost:8080";
   private readonly headers: HeadersInit = {
     seller: "1",
   };
@@ -12,8 +13,11 @@ export class MarketApi {
     return response;
   }
 
-  async productFindAll(): Promise<{ items: Product[] }> {
-    const response = await this.get({ path: "/products" });
+  async productFindAll(params: { last: string }): Promise<ProductResponse> {
+    const response = await this.get({
+      path: "/products",
+      params: { last: params.last, limit: "2" },
+    });
 
     return response;
   }
@@ -28,12 +32,19 @@ export class MarketApi {
     return response.json();
   }
 
-  private async get({ path }: { path: string }) {
-    const response = await fetch(this.url.concat(path), {
-      method: "GET",
-      headers: this.headers,
-    });
+  private async get(request: {
+    path: string;
+    params: { [key: string]: string };
+  }) {
+    const params = new URLSearchParams(request.params);
 
+    const response = await fetch(
+      this.url.concat(request.path, "?", params.toString()),
+      {
+        method: "GET",
+        headers: this.headers,
+      },
+    );
     return response.json();
   }
 }
