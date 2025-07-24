@@ -18,13 +18,13 @@ import {
   IconButton,
   Img,
   Input,
+  InputAdornment,
   InputFile,
   Inventory,
   Paper,
   Row,
   ScrollCol,
   Text,
-  InputAdornment,
 } from "@/com/ui";
 
 import { useProductFormRef } from "@/hooks/form/product";
@@ -39,13 +39,15 @@ import {
 } from "@/model/schema/product";
 import { fontSize, fontWeight } from "@/com/ui/style/scheme";
 import { isNullOrEmpty } from "@/com/validation";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useViewState } from "@/state/view/view";
+import { Dialog, DialogActions } from "@mui/material";
+import { ViewPath } from "@/routes";
 
 const api = new MarketApi();
 
 export function ProductsEdit() {
-  const { view } = useViewState();
+  const { view, setView } = useViewState();
   const id = view.data.id;
 
   const { data } = useQuery({
@@ -53,10 +55,17 @@ export function ProductsEdit() {
     queryFn: async () => await api.findById(id).then((data) => data),
   });
 
-  const productRef = useProductFormRef();
+  const mutation = useMutation({
+    mutationFn: (product: Product) => api.productUpdate(product),
+    onSuccess: () => setIsSaved(true),
+  });
 
-  const [isSaved, setIsSaved] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const deleteMutation = useMutation({
+    mutationFn: async () => await api.productDelete(id),
+    onSuccess: () => setView({ path: ViewPath.Products, data: {} }),
+  });
+
+  const productRef = useProductFormRef();
 
   const [categories, setCategories] = useState(new Set<string>());
   const [images, setImages] = useState(new Set<string>());
@@ -65,6 +74,14 @@ export function ProductsEdit() {
   const imagesMemo = useMemo(() => data?.images ?? [], [data]);
 
   const [errors, setErrors] = useState<ProductFormErrors>({});
+
+  const [isSaved, setIsSaved] = useState(false);
+
+  const [open, setOpen] = useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   async function onSave(e: FormEvent) {
     e.preventDefault();
@@ -87,10 +104,7 @@ export function ProductsEdit() {
     const issues = form.error?.issues as ZodIssue[];
 
     if (form.success) {
-      await api.productUpdate(productForm);
-
-      setIsLoading(false);
-      setIsSaved(true);
+      mutation.mutate(productForm);
 
       setErrors({});
     } else {
@@ -134,6 +148,10 @@ export function ProductsEdit() {
     setImages(new Set([...images]));
   }
 
+  function handleDeleteProduct() {
+    deleteMutation.mutate();
+  }
+
   function scrollToFirstError(formErrors: ProductFormErrors) {
     if (formErrors.name) refScroll(productRef.name);
     else if (formErrors.description) refScroll(productRef.description);
@@ -166,14 +184,25 @@ export function ProductsEdit() {
           </Col>
 
           <Conditional bool={!isSaved}>
-            <Button
-              type={"submit"}
-              variant="contained"
-              loading={isLoading}
-              size={"large"}
-            >
-              Atualizar
-            </Button>
+            <Row sx={{ gap: 2 }}>
+              <Button
+                type={"submit"}
+                variant="contained"
+                loading={mutation.isPending}
+                size={"large"}
+              >
+                Atualizar
+              </Button>
+
+              <Button
+                variant="outlined"
+                color={"error"}
+                sx={{ padding: 0 }}
+                onClick={() => setOpen(true)}
+              >
+                <Delete />
+              </Button>
+            </Row>
           </Conditional>
 
           <Conditional bool={isSaved}>
@@ -187,6 +216,15 @@ export function ProductsEdit() {
             </Alert>
           </Conditional>
         </Row>
+
+        <Dialog open={open} onClose={handleClose}>
+          <DialogActions>
+            <Button color={"error"} onClick={handleDeleteProduct}>
+              Excluir
+            </Button>
+            <Button onClick={handleClose}>Cancelar</Button>
+          </DialogActions>
+        </Dialog>
 
         {/*Basics*/}
         <Paper>

@@ -9,7 +9,6 @@ import {
   Button,
   Col,
   ContentCopy,
-  Delete,
   Edit,
   FilterList,
   IconButton,
@@ -61,6 +60,12 @@ export function ProductsList() {
   }
   function handleClose() {
     setAnchorEl(null);
+  }
+
+  function hasMoreItems() {
+    if (isNullOrEmpty(data?.last)) return true;
+
+    return (data?.items.length as number) < 10;
   }
 
   return (
@@ -190,17 +195,6 @@ export function ProductsList() {
                     >
                       Duplicar <ContentCopy color={"action"} />
                     </MenuItem>
-                    <MenuItem
-                      key={"product-delete"}
-                      sx={{
-                        fontSize: 12,
-                        gap: 1,
-                        justifyContent: "space-between",
-                        padding: 1,
-                      }}
-                    >
-                      Excluir <Delete color={"error"} />
-                    </MenuItem>
                   </Menu>
                 </TableCell>
               </TableRow>
@@ -212,7 +206,7 @@ export function ProductsList() {
       {/*Pagination*/}
       <Box sx={{ justifyContent: "center" }}>
         <Button
-          disabled={isNullOrEmpty(data?.last)}
+          disabled={hasMoreItems()}
           variant="outlined"
           color="primary"
           sx={{ width: 120 }}
