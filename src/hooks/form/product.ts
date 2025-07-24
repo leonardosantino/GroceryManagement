@@ -8,7 +8,7 @@ export function useProductFormRef() {
     description: createRef<HTMLInputElement>(),
     category: createRef<HTMLInputElement>(),
     image: createRef<HTMLInputElement>(),
-    unit: {
+    unity: {
       name: createRef<HTMLInputElement>(),
       description: createRef<HTMLInputElement>(),
       price: createRef<HTMLInputElement>(),

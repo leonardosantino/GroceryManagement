@@ -50,4 +50,6 @@ export {
   Add,
   FilterList,
   MoreVert,
+  ContentCopy,
+  Edit,
 } from "@mui/icons-material";

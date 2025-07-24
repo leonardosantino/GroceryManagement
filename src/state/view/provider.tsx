@@ -11,15 +11,17 @@ import React, {
 
 import { ViewPath } from "@/routes";
 
+type View = { path: ViewPath; data: Record<string, string> };
+
 type ViewState = {
-  view: ViewPath;
-  setView: Dispatch<SetStateAction<ViewPath>>;
+  view: View;
+  setView: Dispatch<SetStateAction<View>>;
 };
 
 export const ViewStateContext = createContext<ViewState>({} as ViewState);
 
 export const ViewStateProvider = ({ children }: { children: ReactNode }) => {
-  const [view, setView] = useState(ViewPath.Default);
+  const [view, setView] = useState({ path: ViewPath.Default, data: {} });
 
   const viewMemo = useMemo(() => ({ view, setView }), [view, setView]);
 

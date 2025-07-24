@@ -8,6 +8,9 @@ import {
   Box,
   Button,
   Col,
+  ContentCopy,
+  Delete,
+  Edit,
   FilterList,
   IconButton,
   Input,
@@ -26,12 +29,14 @@ import { currencyFromDouble } from "@/com/format";
 import React, { useState } from "react";
 import { isNullOrEmpty } from "@/com/validation";
 import { Menu, MenuItem } from "@mui/material";
-
-import { ContentCopy, Delete, Edit } from "@mui/icons-material";
+import { useViewState } from "@/state/view/view";
+import { ViewPath } from "@/routes";
 
 const api = new MarketApi();
 
 export function ProductsList() {
+  const { setView } = useViewState();
+
   const [page, setPage] = useState({
     key: "products-y4i8",
     last: "",
@@ -127,7 +132,7 @@ export function ProductsList() {
 
           <TableBody>
             {getProducts().map((product: Product) => (
-              <TableRow key={product.id} hover>
+              <TableRow key={product.id} hover sx={{ cursor: "pointer" }}>
                 <TableCell sx={{ padding: 1 }}>
                   <Avatar src={product.images[0]} variant="rounded" />
                 </TableCell>
@@ -165,6 +170,12 @@ export function ProductsList() {
                         justifyContent: "space-between",
                         padding: 1,
                       }}
+                      onClick={() =>
+                        setView({
+                          path: ViewPath.ProductsEdit,
+                          data: { id: product.id as string },
+                        })
+                      }
                     >
                       Editar <Edit color={"primary"} />
                     </MenuItem>

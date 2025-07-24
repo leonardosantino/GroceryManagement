@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react";
 
 import { MarketApi } from "@/api/market";
 import { Conditional } from "@/com/conditional/conditional";
@@ -22,7 +22,6 @@ import {
   Inventory,
   Paper,
   Row,
-  SaveRounded,
   ScrollCol,
   Text,
   InputAdornment,
@@ -38,13 +37,22 @@ import {
   refValue,
   ZodIssue,
 } from "@/model/schema/product";
-import { fontSize } from "@/com/ui/style/scheme";
+import { fontSize, fontWeight } from "@/com/ui/style/scheme";
 import { isNullOrEmpty } from "@/com/validation";
-import { Snackbar } from "@mui/material";
+import { useQuery } from "@tanstack/react-query";
+import { useViewState } from "@/state/view/view";
 
 const api = new MarketApi();
 
-export function ProductsAdd() {
+export function ProductsEdit() {
+  const { view } = useViewState();
+  const id = view.data.id;
+
+  const { data } = useQuery({
+    queryKey: ["product", id],
+    queryFn: async () => await api.findById(id).then((data) => data),
+  });
+
   const productRef = useProductFormRef();
 
   const [isSaved, setIsSaved] = useState(false);
@@ -53,12 +61,16 @@ export function ProductsAdd() {
   const [categories, setCategories] = useState(new Set<string>());
   const [images, setImages] = useState(new Set<string>());
 
+  const categoriesMemo = useMemo(() => data?.categories ?? [], [data]);
+  const imagesMemo = useMemo(() => data?.images ?? [], [data]);
+
   const [errors, setErrors] = useState<ProductFormErrors>({});
 
   async function onSave(e: FormEvent) {
     e.preventDefault();
 
     const productForm: Product = {
+      id: id,
       name: refValue(productRef.name),
       description: refValue(productRef.description),
       categories: [...categories],
@@ -75,20 +87,15 @@ export function ProductsAdd() {
     const issues = form.error?.issues as ZodIssue[];
 
     if (form.success) {
-      setIsLoading(true);
-
-      await api.productSave(productForm);
+      await api.productUpdate(productForm);
 
       setIsLoading(false);
       setIsSaved(true);
 
-      setCategories(new Set([]));
-      setImages(new Set([]));
       setErrors({});
-
-      (e.target as HTMLFormElement).reset();
     } else {
       const productFormErrors: ProductFormErrors = getProductFormIssues(issues);
+
       setErrors(productFormErrors);
       scrollToFirstError(productFormErrors);
     }
@@ -103,6 +110,8 @@ export function ProductsAdd() {
   }
 
   function onDeleteCategory(category: string) {
+    console.log(categories);
+    console.log(category);
     categories.delete(category);
     setCategories(new Set([...categories]));
   }
@@ -131,18 +140,13 @@ export function ProductsAdd() {
     else if (formErrors.categories) refScroll(productRef.category);
   }
 
+  useEffect(() => {
+    setCategories(new Set(categoriesMemo));
+    setImages(new Set(imagesMemo));
+  }, [categoriesMemo, imagesMemo]);
+
   return (
     <ScrollCol sx={{ flexGrow: 1, alignItems: "center", padding: 2 }}>
-      <Snackbar
-        open={isSaved}
-        onClose={() => setIsSaved(false)}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        autoHideDuration={6000}
-      >
-        <Alert severity="success" variant="filled">
-          Produto Salvo!
-        </Alert>
-      </Snackbar>
       <Form
         sx={{
           gap: 2,
@@ -151,16 +155,37 @@ export function ProductsAdd() {
         onSubmit={onSave}
       >
         {/*Save*/}
-        <Row sx={{ justifyContent: "end", height: 37 }}>
-          <Button
-            type={"submit"}
-            variant="outlined"
-            startIcon={<SaveRounded />}
-            loading={isLoading}
-            size={"large"}
-          >
-            Salvar
-          </Button>
+        <Row sx={{ justifyContent: "space-between" }}>
+          <Col>
+            <Text sx={{ fontWeight: fontWeight.bold }}>
+              Atualize as informações do produto
+            </Text>
+            <Text sx={{ fontSize: fontSize.small }}>
+              Última atualização em: 23 de Julho ás 14:30
+            </Text>
+          </Col>
+
+          <Conditional bool={!isSaved}>
+            <Button
+              type={"submit"}
+              variant="contained"
+              loading={isLoading}
+              size={"large"}
+            >
+              Atualizar
+            </Button>
+          </Conditional>
+
+          <Conditional bool={isSaved}>
+            <Alert
+              severity="success"
+              variant="filled"
+              onClose={() => setIsSaved(false)}
+              sx={{ paddingY: 0 }}
+            >
+              Dados alterados!
+            </Alert>
+          </Conditional>
         </Row>
 
         {/*Basics*/}
@@ -175,6 +200,7 @@ export function ProductsAdd() {
             <Input
               id={"product-form-name"}
               placeholder="Nome"
+              defaultValue={data?.name}
               error={!!errors.name}
               helperText={errors.name}
               inputRef={productRef.name}
@@ -182,6 +208,7 @@ export function ProductsAdd() {
 
             <Input
               id={"product-form-description"}
+              defaultValue={data?.description}
               placeholder="Descrição"
               multiline
               rows={4}
@@ -205,6 +232,7 @@ export function ProductsAdd() {
                 <Input
                   id={"product-form-unit-name"}
                   placeholder={"Nome"}
+                  defaultValue={data?.unity.name}
                   helperText={"Ex: Grande, média, pequena."}
                   error={!!errors.unity?.name}
                   inputRef={productRef.unity.name}
@@ -212,6 +240,7 @@ export function ProductsAdd() {
                 <Input
                   id={"product-form-unit-description"}
                   placeholder="Descrição"
+                  defaultValue={data?.unity.description}
                   helperText={"Ex: 8 Fatias, 6 Fatias, 4 Fatias"}
                   error={!!errors.unity?.description}
                   inputRef={productRef.unity.description}
@@ -222,6 +251,7 @@ export function ProductsAdd() {
                 <Input
                   id={"product-form-unit-price"}
                   placeholder="Preço"
+                  defaultValue={data?.unity.price}
                   type={"number"}
                   slotProps={{
                     input: {
@@ -241,6 +271,7 @@ export function ProductsAdd() {
                 <Input
                   id={"product-form-unit-quantity"}
                   placeholder="Quantidade"
+                  defaultValue={data?.unity.quantity}
                   type={"number"}
                   error={!!errors.unity?.quantity}
                   helperText={errors.unity?.quantity}
@@ -268,7 +299,7 @@ export function ProductsAdd() {
                 inputRef={productRef.category}
               />
               <Button
-                variant="contained"
+                variant="outlined"
                 color="primary"
                 startIcon={<Add />}
                 onClick={handleSetCategory}
@@ -280,10 +311,10 @@ export function ProductsAdd() {
 
             <Divider />
 
-            <Row sx={{ gap: 1, minHeight: 32 }}>
-              {[...categories].map((category, index) => (
+            <Row sx={{ gap: 1 }}>
+              {[...categories].map((category) => (
                 <Chip
-                  key={category.concat(index.toString())}
+                  key={category}
                   label={category}
                   onDelete={() => onDeleteCategory(category)}
                 />

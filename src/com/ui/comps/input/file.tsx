@@ -4,7 +4,11 @@ import { Button } from "@/com/ui";
 
 export function InputFile(props: Readonly<InputProps>) {
   return (
-    <Button variant="outlined" sx={{ position: "relative" }} component="label">
+    <Button
+      component="label"
+      variant={"outlined"}
+      sx={{ position: "relative" }}
+    >
       Selecione
       <VisuallyHiddenInput {...props} />
     </Button>

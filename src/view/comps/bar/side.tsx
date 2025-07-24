@@ -48,8 +48,8 @@ export function Sidebar() {
         <Box sx={{ margin: 1.5 }} />
 
         <ListItemButton
-          selected={view == ViewPath.Analytics}
-          onClick={() => setView(ViewPath.Analytics)}
+          selected={view.path == ViewPath.Analytics}
+          onClick={() => setView({ path: ViewPath.Analytics, data: {} })}
         >
           <ListItemIcon>
             <TrendingUp />
@@ -58,7 +58,9 @@ export function Sidebar() {
         </ListItemButton>
 
         <ListItemButton
-          selected={[ViewPath.Products, ViewPath.ProductsAdd].includes(view)}
+          selected={[ViewPath.Products, ViewPath.ProductsAdd].includes(
+            view.path,
+          )}
           onClick={() => setOpen(!open)}
         >
           <ListItemIcon>
@@ -72,16 +74,18 @@ export function Sidebar() {
           <List>
             <ListItem>
               <ListItemButton
-                selected={view == ViewPath.Products}
-                onClick={() => setView(ViewPath.Products)}
+                selected={view.path == ViewPath.Products}
+                onClick={() => setView({ path: ViewPath.Products, data: {} })}
               >
                 <Text sx={{ fontSize: fontSize.small }}>Lista de produtos</Text>
               </ListItemButton>
             </ListItem>
             <ListItem>
               <ListItemButton
-                selected={view == ViewPath.ProductsAdd}
-                onClick={() => setView(ViewPath.ProductsAdd)}
+                selected={view.path == ViewPath.ProductsAdd}
+                onClick={() =>
+                  setView({ path: ViewPath.ProductsAdd, data: {} })
+                }
               >
                 <Text sx={{ fontSize: fontSize.small }}>
                   Adicionar produtos
@@ -92,8 +96,8 @@ export function Sidebar() {
         </Collapse>
 
         <ListItemButton
-          selected={view == ViewPath.Orders}
-          onClick={() => setView(ViewPath.Orders)}
+          selected={view.path == ViewPath.Orders}
+          onClick={() => setView({ path: ViewPath.Orders, data: {} })}
         >
           <ListItemIcon>
             <ShoppingCart />
@@ -102,8 +106,8 @@ export function Sidebar() {
         </ListItemButton>
 
         <ListItemButton
-          selected={view == ViewPath.Customers}
-          onClick={() => setView(ViewPath.Customers)}
+          selected={view.path == ViewPath.Customers}
+          onClick={() => setView({ path: ViewPath.Customers, data: {} })}
         >
           <ListItemIcon>
             <People />

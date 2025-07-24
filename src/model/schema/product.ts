@@ -2,13 +2,14 @@ import { RefObject } from "react";
 import { z } from "zod";
 
 export const ProductSchema = z.object({
+  id: z.string().optional(),
   name: z.string().min(1, "Nome é obrigatório"),
   description: z.string().min(1, "Descrição é obrigatória"),
   categories: z
     .array(z.string())
     .min(1, "Pelo menos uma categoria é obrigatória"),
   images: z.array(z.string()).min(1, "Pelo menos uma imagem é obrigatória"),
-  unit: z.object({
+  unity: z.object({
     name: z.string().min(1, "Nome da unidade é obrigatório"),
     description: z.string().min(1, "Descrição da unidade é obrigatória"),
     price: z.number().min(0.1, "Preço é obrigatório"),
@@ -21,7 +22,7 @@ export type ProductFormErrors = {
   description?: string;
   categories?: string;
   images?: string;
-  unit?: {
+  unity?: {
     name?: string;
     description?: string;
     price?: string;
