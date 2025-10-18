@@ -23,7 +23,7 @@ import {
   TableRow,
 } from "@/com/ui";
 import { Product } from "@/model/product";
-import { color, fontWeight } from "@/com/ui/style/scheme";
+import { ColorTheme, TextTheme } from "@/com/ui/style/scheme";
 import { currencyFromDouble } from "@/com/format";
 import React, { useState } from "react";
 import { isNullOrEmpty } from "@/com/validation";
@@ -69,9 +69,9 @@ export function ProductsList() {
   }
 
   return (
-    <Col sx={{ flexGrow: 1, padding: 2, gap: 2 }}>
+    <Col padding={2} gap={2}>
       {/*Filter*/}
-      <Box sx={{ gap: 2, justifyContent: "center", height: 37 }}>
+      <Box gap={2} justify={"center"} height={37}>
         <Input placeholder="Pesquisar produtos..." sx={{ flexGrow: 0.25 }} />
         <Button variant="outlined" startIcon={<FilterList />}>
           Filtro
@@ -86,21 +86,21 @@ export function ProductsList() {
             <TableRow>
               <TableCell
                 sx={{
-                  backgroundColor: color.surface,
+                  backgroundColor: ColorTheme.surface,
                 }}
               />
               <TableCell
                 sx={{
-                  backgroundColor: color.surface,
-                  fontWeight: fontWeight.bold,
+                  backgroundColor: ColorTheme.surface,
+                  fontWeight: TextTheme.bold,
                 }}
               >
                 Nome
               </TableCell>
               <TableCell
                 sx={{
-                  backgroundColor: color.surface,
-                  fontWeight: fontWeight.bold,
+                  backgroundColor: ColorTheme.surface,
+                  fontWeight: TextTheme.bold,
                 }}
               >
                 Descrição
@@ -109,29 +109,29 @@ export function ProductsList() {
                 colSpan={2}
                 align={"center"}
                 sx={{
-                  backgroundColor: color.surface,
-                  fontWeight: fontWeight.bold,
+                  backgroundColor: ColorTheme.surface,
+                  fontWeight: TextTheme.bold,
                 }}
               >
                 Unidade
               </TableCell>
               <TableCell
                 sx={{
-                  backgroundColor: color.surface,
-                  fontWeight: fontWeight.bold,
+                  backgroundColor: ColorTheme.surface,
+                  fontWeight: TextTheme.bold,
                 }}
               >
                 Preço
               </TableCell>
               <TableCell
                 sx={{
-                  backgroundColor: color.surface,
-                  fontWeight: fontWeight.bold,
+                  backgroundColor: ColorTheme.surface,
+                  fontWeight: TextTheme.bold,
                 }}
               >
                 Quantidade
               </TableCell>
-              <TableCell sx={{ backgroundColor: color.surface }} />
+              <TableCell sx={{ backgroundColor: ColorTheme.surface }} />
             </TableRow>
           </TableHead>
 
@@ -204,7 +204,7 @@ export function ProductsList() {
       </TableContainer>
 
       {/*Pagination*/}
-      <Box sx={{ justifyContent: "center" }}>
+      <Box justify={"center"}>
         <Button
           disabled={hasMoreItems()}
           variant="outlined"

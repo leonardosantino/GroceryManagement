@@ -1,16 +1,15 @@
-import { BoxProps } from "@mui/material";
+import { BoxStyle } from "@/com/ui/comps/box";
 
 import { Col } from "@/com/ui";
 
-export function ScrollCol(props: BoxProps) {
+export function ScrollCol(props: Readonly<BoxStyle>) {
   return (
     <Col
-      {...props}
-      sx={{
+      style={{
         overflow: "scroll",
         scrollbarWidth: "none",
-        ...props.sx,
       }}
+      {...props}
     />
   );
 }

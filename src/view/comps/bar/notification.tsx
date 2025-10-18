@@ -7,14 +7,7 @@ import { Row } from "@/com/ui";
 
 export function NotificationBar() {
   return (
-    <Row
-      sx={{
-        height: "min-content",
-        gap: 2,
-        paddingY: 2,
-        paddingRight: 2,
-      }}
-    >
+    <Row gap={2} paddingY={2} justify={"flex-end"}>
       <IconButton>
         <Badge badgeContent={1} color={"error"}>
           <NotificationsRounded />

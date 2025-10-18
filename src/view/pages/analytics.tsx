@@ -13,18 +13,8 @@ import { BestSellers } from "@/view/comps/analytics/sales";
 
 export function Analytics() {
   return (
-    <Col
-      sx={{
-        padding: 2,
-        gap: 4,
-      }}
-    >
-      <Row
-        sx={{
-          justifyContent: "space-between",
-          gap: 2,
-        }}
-      >
+    <Col padding={2} gap={4}>
+      <Row justify={"space-between"} gap={2}>
         <Metric
           title="Vendas"
           value="R$ 4.231,00"
@@ -58,13 +48,8 @@ export function Analytics() {
         />
       </Row>
 
-      <Row
-        sx={{
-          justifyContent: "space-between",
-          gap: 2,
-        }}
-      >
-        <Col sx={{ gap: 2, flexGrow: 1 }}>
+      <Row justify={"space-between"} gap={2}>
+        <Col gap={2}>
           <Billing />
           <AnalyticsOrders />
         </Col>

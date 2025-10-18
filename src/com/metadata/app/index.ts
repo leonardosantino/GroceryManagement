@@ -1,9 +1,9 @@
 import type { Metadata, Viewport } from "next";
 
-import { color } from "@/com/ui/style/scheme";
+import { ColorTheme } from "@/com/ui/style/scheme";
 
 export const appViewport: Viewport = {
-  themeColor: color.primary,
+  themeColor: ColorTheme.primary,
 };
 
 export const appMetadata: Metadata = {

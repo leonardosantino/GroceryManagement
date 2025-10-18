@@ -1,18 +1,25 @@
-import { Box as Bx, BoxProps } from "@mui/material";
-import { color } from "@/com/ui/style/scheme";
+import { Box, BoxStyle, StyleProps } from "@/com/ui/comps/box";
+import { ColorTheme, ThemeColor } from "@/com/ui/style/scheme";
 
-export function Deco(props: BoxProps) {
-  return (
-    <Bx
-      {...props}
-      sx={{
-        borderStyle: "solid",
-        borderWidth: 1,
-        borderRadius: 1,
-        borderColor: color.outline,
-        backgroundColor: color.surface,
-        ...props.sx,
-      }}
-    />
-  );
+type Props = {
+  borderColor?: ThemeColor;
+  borderRadius?: number;
+  boxColor?: ThemeColor;
+} & BoxStyle;
+
+export function Deco(props: Readonly<Props>) {
+  const { borderColor, borderRadius, boxColor, ...rest } = props;
+
+  const viewStyle: StyleProps = {
+    borderWidth: 0.2,
+    borderRadius: 8,
+    borderColor: ColorTheme.outline,
+  };
+
+  if (boxColor) viewStyle.backgroundColor = ColorTheme[boxColor];
+  if (borderColor) viewStyle.borderColor = ColorTheme[borderColor];
+
+  if (borderRadius) viewStyle.borderRadius = borderRadius;
+
+  return <Box style={viewStyle} {...rest} />;
 }

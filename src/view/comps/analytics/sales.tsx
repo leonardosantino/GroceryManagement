@@ -1,31 +1,22 @@
 import { Divider } from "@mui/material";
 
 import { Col, Deco, Paper, Row, Text } from "@/com/ui";
-import { color } from "@/com/ui/style/scheme";
 
 export function BestSellers() {
   return (
-    <Paper sx={{ flexGrow: 1 }}>
-      <Col sx={{ padding: 1 }}>
-        <Row sx={{ gap: 1 }}>
-          <Deco
-            sx={{
-              backgroundColor: color.info,
-              width: 20,
-              height: 30,
-            }}
-          />
+    <Paper>
+      <Col padding={1}>
+        <Row gap={1}>
+          <Deco />
           <Text variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
             Mais Vendidos
           </Text>
         </Row>
 
-        <Col sx={{ gap: 2 }}>
+        <Col gap={2}>
           {data.map((product) => (
             <Col key={`best-seller-${product.id}`}>
-              <Row
-                sx={{ justifyContent: "space-between", alignItems: "center" }}
-              >
+              <Row justify={"space-between"} align="center">
                 <Text sx={{ fontWeight: 500 }}>{product.name}</Text>
                 <Text variant="body2">{product.sales.toString()}</Text>
               </Row>

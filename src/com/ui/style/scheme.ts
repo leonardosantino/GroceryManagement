@@ -1,43 +1,67 @@
-export const color = {
-  primary: "#3F51B5FF",
-  secondary: "#9FA8DAFF",
-  tertiary: "#FFE082FF",
+export type ThemeColor =
+  | "primary"
+  | "secondary"
+  | "tertiary"
+  | "info"
+  | "success"
+  | "warning"
+  | "error"
+  | "outline"
+  | "surface"
+  | "container"
+  | "none";
 
-  info: "#1565C0FF",
-  success: "#2E7D32FF",
-  successVar: "#A5D6A7FF",
-  warning: "#EF6C00FF",
-  error: "#C62828FF",
+export const ColorTheme = {
+  primary: "#3f51b5",
+  secondary: "#5b5d72",
+  tertiary: "#77536d",
 
-  surface: "#fbfcfe",
-  outline: "#dddfe2",
+  info: "#1565C0",
+  success: "#2E7D32",
+  warning: "#EF6C00",
+  error: "#C62828",
 
-  none: "none",
+  outline: "#767680",
+  surface: "#FEFBFF",
+
+  container: "#f5f5fa",
+
+  none: "#00000000",
 };
-export const fontWeight = {
-  thin: 100,
-  xLight: 200,
-  light: 300,
-  normal: 400,
-  medium: 500,
-  semiBold: 600,
-  bold: 700,
-  xBold: 800,
-  heavy: 900,
-  xHeavy: 950,
+
+export type ThemeTextColor = "secondary" | "tertiary" | "white" | "success";
+export type ThemeTextSize = "xSmall" | "small" | "large" | "xLarge";
+export type ThemeTextWeight = "light" | "bold";
+
+export const TextTheme = {
+  secondary: "#7d7d7d",
+  tertiary: "#969696",
+  white: "#FFFFFF",
+  success: ColorTheme.success,
+
+  xSmall: 10,
+  small: 12,
+  large: 16,
+  xLarge: 20,
+
+  light: "300",
+  bold: "bold",
 };
-export const fontSize = {
-  small: "0.75rem",
-  medium: "0.875rem",
-  large: "1rem",
+
+export type ThemeIconSize = "xSmall" | "small" | "medium" | "large" | "xLarge";
+
+export const IconTheme = {
+  xSmall: 16,
+  small: 24,
+  medium: 32,
+  large: 40,
+  xLarge: 56,
 };
-export const borderRadius = {
-  xSmall: 2,
-  small: 4,
-  medium: 8,
-  large: 12,
-  xLarge: 16,
+
+export const boxShadow = {
+  insetBottom: "inset 0 -9px 9px 0 #F5F5F5FF",
 };
+
 export const breakpoint = {
   xSmall: 0,
   small: 600,

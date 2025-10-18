@@ -38,7 +38,7 @@ import {
   refValue,
   ZodIssue,
 } from "@/model/schema/product";
-import { fontSize } from "@/com/ui/style/scheme";
+
 import { isNullOrEmpty } from "@/com/validation";
 import { Snackbar } from "@mui/material";
 
@@ -99,12 +99,12 @@ export function ProductsAdd() {
     if (isNullOrEmpty(category)) return;
 
     categories.add(category);
-    setCategories(new Set([...categories]));
+    setCategories(new Set(categories));
   }
 
   function onDeleteCategory(category: string) {
     categories.delete(category);
-    setCategories(new Set([...categories]));
+    setCategories(new Set(categories));
   }
 
   function handleFileUpload(e: ChangeEvent<HTMLInputElement>) {
@@ -113,7 +113,7 @@ export function ProductsAdd() {
     // TODO: const image = URL.createObjectURL(file);
 
     images.add("/assets/drawable/img.png");
-    setImages(new Set([...images]));
+    setImages(new Set(images));
 
     e.currentTarget.value = "";
   }
@@ -122,7 +122,7 @@ export function ProductsAdd() {
     // TODO: URL.revokeObjectURL(img);
 
     images.delete(img);
-    setImages(new Set([...images]));
+    setImages(new Set(images));
   }
 
   function scrollToFirstError(formErrors: ProductFormErrors) {
@@ -132,7 +132,7 @@ export function ProductsAdd() {
   }
 
   return (
-    <ScrollCol sx={{ flexGrow: 1, alignItems: "center", padding: 2 }}>
+    <ScrollCol align={"center"} padding={2}>
       <Snackbar
         open={isSaved}
         onClose={() => setIsSaved(false)}
@@ -151,7 +151,7 @@ export function ProductsAdd() {
         onSubmit={onSave}
       >
         {/*Save*/}
-        <Row sx={{ justifyContent: "end", height: 37 }}>
+        <Row justify={"flex-end"} height={37}>
           <Button
             type={"submit"}
             variant="outlined"
@@ -165,10 +165,10 @@ export function ProductsAdd() {
 
         {/*Basics*/}
         <Paper>
-          <Col sx={{ padding: 2, gap: 2 }}>
-            <Row sx={{ gap: 1 }}>
+          <Col padding={2} gap={2}>
+            <Row gap={1}>
               <Inventory />
-              <Text sx={{ fontSize: fontSize.large }}>Informações Básicas</Text>
+              <Text>Informações Básicas</Text>
             </Row>
             <Text>Adicione nome e descrição do produto.</Text>
 
@@ -194,14 +194,14 @@ export function ProductsAdd() {
 
         {/*Units*/}
         <Paper>
-          <Col sx={{ padding: 2, gap: 3 }}>
+          <Col padding={2} gap={2}>
             <Text>
               Adicione informações sobre as variações disponíveis do produto,
               preços e quantidades.
             </Text>
 
-            <Col sx={{ gap: 1 }}>
-              <Row sx={{ gap: 2 }}>
+            <Col gap={1}>
+              <Row gap={2}>
                 <Input
                   id={"product-form-unit-name"}
                   placeholder={"Nome"}
@@ -218,7 +218,7 @@ export function ProductsAdd() {
                 />
               </Row>
 
-              <Row sx={{ gap: 2 }}>
+              <Row gap={2}>
                 <Input
                   id={"product-form-unit-price"}
                   placeholder="Preço"
@@ -253,13 +253,13 @@ export function ProductsAdd() {
 
         {/*Category*/}
         <Paper>
-          <Col sx={{ padding: 2, gap: 2 }}>
+          <Col padding={2} gap={2}>
             <Text>
               Adicione categorias para ajudar os clientes a encontrarem seu
               produto mais facilmente.
             </Text>
 
-            <Row sx={{ gap: 1 }}>
+            <Row gap={1}>
               <Input
                 id={"product-form-category"}
                 placeholder={"Categoria"}
@@ -280,7 +280,7 @@ export function ProductsAdd() {
 
             <Divider />
 
-            <Row sx={{ gap: 1, minHeight: 32 }}>
+            <Row gap={1}>
               {[...categories].map((category, index) => (
                 <Chip
                   key={category.concat(index.toString())}
@@ -294,10 +294,10 @@ export function ProductsAdd() {
 
         {/*Images*/}
         <Paper>
-          <Col sx={{ padding: 2, gap: 2 }}>
-            <Row sx={{ gap: 1 }}>
+          <Col padding={2} gap={2}>
+            <Row gap={1}>
               <AddPhotoAlternate />
-              <Text sx={{ fontSize: fontSize.large }}>Imagens</Text>
+              <Text>Imagens</Text>
             </Row>
 
             <Text>
@@ -305,20 +305,13 @@ export function ProductsAdd() {
               pelo menos 3 imagens de diferentes ângulos.
             </Text>
 
-            <Col sx={{ alignItems: "center", gap: 2 }}>
-              <Deco
-                sx={{
-                  width: 400,
-                  height: 200,
-                }}
-              >
+            <Col align={"center"} gap={2}>
+              <Deco width={400} height={200}>
                 <Col
-                  sx={{
-                    height: "inherit",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    gap: 3,
-                  }}
+                  height={"inherit"}
+                  justify={"center"}
+                  align={"center"}
+                  gap={3}
                 >
                   <AddPhotoAlternate />
                   <InputFile
@@ -333,15 +326,9 @@ export function ProductsAdd() {
             </Col>
 
             <Divider />
-            <Row
-              sx={{
-                justifyContent: "center",
-                gap: 1,
-                minHeight: 100,
-              }}
-            >
+            <Row justify={"center"} gap={1}>
               {[...images].map((img) => (
-                <Col key={img} sx={{ position: "relative" }}>
+                <Col key={img} position={"relative"}>
                   <Img
                     src={img}
                     alt={img}

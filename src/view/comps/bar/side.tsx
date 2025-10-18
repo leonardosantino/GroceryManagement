@@ -22,7 +22,6 @@ import {
 } from "@/com/ui";
 import { ViewPath } from "@/routes";
 import { useViewState } from "@/state/view/view";
-import { fontSize, fontWeight } from "@/com/ui/style/scheme";
 
 export function Sidebar() {
   const { view, setView } = useViewState();
@@ -31,21 +30,12 @@ export function Sidebar() {
   return (
     <Paper sx={{ minWidth: 185 }}>
       <List>
-        <Row
-          sx={{
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 1,
-            padding: 1,
-          }}
-        >
+        <Row align={"center"} justify={"center"} gap={1} padding={1}>
           <BusinessRounded />
-          <Text sx={{ fontSize: fontSize.large, fontWeight: fontWeight.bold }}>
-            Acme Co.
-          </Text>
+          <Text>Acme Co.</Text>
         </Row>
 
-        <Box sx={{ margin: 1.5 }} />
+        <Box margin={1} />
 
         <ListItemButton
           selected={view.path == ViewPath.Analytics}
@@ -77,7 +67,7 @@ export function Sidebar() {
                 selected={view.path == ViewPath.Products}
                 onClick={() => setView({ path: ViewPath.Products, data: {} })}
               >
-                <Text sx={{ fontSize: fontSize.small }}>Lista de produtos</Text>
+                <Text>Lista de produtos</Text>
               </ListItemButton>
             </ListItem>
             <ListItem>
@@ -87,9 +77,7 @@ export function Sidebar() {
                   setView({ path: ViewPath.ProductsAdd, data: {} })
                 }
               >
-                <Text sx={{ fontSize: fontSize.small }}>
-                  Adicionar produtos
-                </Text>
+                <Text>Adicionar produtos</Text>
               </ListItemButton>
             </ListItem>
           </List>

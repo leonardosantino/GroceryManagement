@@ -1,14 +1,14 @@
-import { Box as Bx, BoxProps } from "@mui/material";
+import { BoxStyle, Box, StyleProps } from "@/com/ui/comps/box";
 
-export function Row(props: BoxProps) {
-  return (
-    <Bx
-      {...props}
-      sx={{
-        display: "flex",
-        flexWrap: "wrap",
-        ...props.sx,
-      }}
-    />
-  );
+export function Row(props: Readonly<BoxStyle>) {
+  const { wrap, ...rest } = props;
+
+  const viewStyle: StyleProps = {
+    direction: "row",
+    wrap: "wrap",
+  };
+
+  if (wrap) viewStyle.wrap = wrap;
+
+  return <Box style={viewStyle} {...rest} />;
 }

@@ -18,15 +18,7 @@ type MetricProps = {
 export function Metric({ title, value, change, Icon, color }: MetricProps) {
   return (
     <Card>
-      <Row
-        sx={{
-          justifyContent: "space-between",
-          alignItems: "center",
-          gap: 2,
-          padding: 3,
-          minWidth: 250,
-        }}
-      >
+      <Row justify="space-between" align="center" gap={2} padding={3}>
         <Col>
           <Typography color="textSecondary" gutterBottom variant="body2">
             {title}

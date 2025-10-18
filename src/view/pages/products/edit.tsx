@@ -37,7 +37,7 @@ import {
   refValue,
   ZodIssue,
 } from "@/model/schema/product";
-import { fontSize, fontWeight } from "@/com/ui/style/scheme";
+import { TextTheme } from "@/com/ui/style/scheme";
 import { isNullOrEmpty } from "@/com/validation";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useViewState } from "@/state/view/view";
@@ -120,14 +120,14 @@ export function ProductsEdit() {
     if (isNullOrEmpty(category)) return;
 
     categories.add(category);
-    setCategories(new Set([...categories]));
+    setCategories(new Set(categories));
   }
 
   function onDeleteCategory(category: string) {
     console.log(categories);
     console.log(category);
     categories.delete(category);
-    setCategories(new Set([...categories]));
+    setCategories(new Set(categories));
   }
 
   function handleFileUpload(e: ChangeEvent<HTMLInputElement>) {
@@ -136,7 +136,7 @@ export function ProductsEdit() {
     // TODO: const image = URL.createObjectURL(file);
 
     images.add("/assets/drawable/img.png");
-    setImages(new Set([...images]));
+    setImages(new Set(images));
 
     e.currentTarget.value = "";
   }
@@ -145,7 +145,7 @@ export function ProductsEdit() {
     // TODO: URL.revokeObjectURL(img);
 
     images.delete(img);
-    setImages(new Set([...images]));
+    setImages(new Set(images));
   }
 
   function handleDeleteProduct() {
@@ -164,7 +164,7 @@ export function ProductsEdit() {
   }, [categoriesMemo, imagesMemo]);
 
   return (
-    <ScrollCol sx={{ flexGrow: 1, alignItems: "center", padding: 2 }}>
+    <ScrollCol align={"center"} padding={2}>
       <Form
         sx={{
           gap: 2,
@@ -173,18 +173,16 @@ export function ProductsEdit() {
         onSubmit={onSave}
       >
         {/*Save*/}
-        <Row sx={{ justifyContent: "space-between" }}>
+        <Row justify={"space-between"}>
           <Col>
-            <Text sx={{ fontWeight: fontWeight.bold }}>
+            <Text sx={{ fontWeight: TextTheme.bold }}>
               Atualize as informações do produto
             </Text>
-            <Text sx={{ fontSize: fontSize.small }}>
-              Última atualização em: 23 de Julho ás 14:30
-            </Text>
+            <Text>Última atualização em: 23 de Julho ás 14:30</Text>
           </Col>
 
           <Conditional bool={!isSaved}>
-            <Row sx={{ gap: 2 }}>
+            <Row gap={2}>
               <Button
                 type={"submit"}
                 variant="contained"
@@ -228,10 +226,10 @@ export function ProductsEdit() {
 
         {/*Basics*/}
         <Paper>
-          <Col sx={{ padding: 2, gap: 2 }}>
-            <Row sx={{ gap: 1 }}>
+          <Col padding={2} gap={2}>
+            <Row gap={1}>
               <Inventory />
-              <Text sx={{ fontSize: fontSize.large }}>Informações Básicas</Text>
+              <Text>Informações Básicas</Text>
             </Row>
             <Text>Adicione nome e descrição do produto.</Text>
 
@@ -259,14 +257,14 @@ export function ProductsEdit() {
 
         {/*Units*/}
         <Paper>
-          <Col sx={{ padding: 2, gap: 3 }}>
+          <Col padding={2} gap={1}>
             <Text>
               Adicione informações sobre as variações disponíveis do produto,
               preços e quantidades.
             </Text>
 
-            <Col sx={{ gap: 1 }}>
-              <Row sx={{ gap: 2 }}>
+            <Col gap={1}>
+              <Row gap={2}>
                 <Input
                   id={"product-form-unit-name"}
                   placeholder={"Nome"}
@@ -285,7 +283,7 @@ export function ProductsEdit() {
                 />
               </Row>
 
-              <Row sx={{ gap: 2 }}>
+              <Row gap={2}>
                 <Input
                   id={"product-form-unit-price"}
                   placeholder="Preço"
@@ -322,13 +320,13 @@ export function ProductsEdit() {
 
         {/*Category*/}
         <Paper>
-          <Col sx={{ padding: 2, gap: 2 }}>
+          <Col padding={2} gap={2}>
             <Text>
               Adicione categorias para ajudar os clientes a encontrarem seu
               produto mais facilmente.
             </Text>
 
-            <Row sx={{ gap: 1 }}>
+            <Row gap={1}>
               <Input
                 id={"product-form-category"}
                 placeholder={"Categoria"}
@@ -349,7 +347,7 @@ export function ProductsEdit() {
 
             <Divider />
 
-            <Row sx={{ gap: 1 }}>
+            <Row gap={1}>
               {[...categories].map((category) => (
                 <Chip
                   key={category}
@@ -363,10 +361,10 @@ export function ProductsEdit() {
 
         {/*Images*/}
         <Paper>
-          <Col sx={{ padding: 2, gap: 2 }}>
-            <Row sx={{ gap: 1 }}>
+          <Col padding={2} gap={1}>
+            <Row gap={1}>
               <AddPhotoAlternate />
-              <Text sx={{ fontSize: fontSize.large }}>Imagens</Text>
+              <Text>Imagens</Text>
             </Row>
 
             <Text>
@@ -374,20 +372,13 @@ export function ProductsEdit() {
               pelo menos 3 imagens de diferentes ângulos.
             </Text>
 
-            <Col sx={{ alignItems: "center", gap: 2 }}>
-              <Deco
-                sx={{
-                  width: 400,
-                  height: 200,
-                }}
-              >
+            <Col align={"center"} gap={2}>
+              <Deco width={400} height={200}>
                 <Col
-                  sx={{
-                    height: "inherit",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    gap: 3,
-                  }}
+                  height={"inherit"}
+                  justify={"center"}
+                  align={"center"}
+                  gap={3}
                 >
                   <AddPhotoAlternate />
                   <InputFile
@@ -402,15 +393,9 @@ export function ProductsEdit() {
             </Col>
 
             <Divider />
-            <Row
-              sx={{
-                justifyContent: "center",
-                gap: 1,
-                minHeight: 100,
-              }}
-            >
+            <Row justify={"center"} gap={1}>
               {[...images].map((img) => (
-                <Col key={img} sx={{ position: "relative" }}>
+                <Col key={img} position={"relative"}>
                   <Img
                     src={img}
                     alt={img}

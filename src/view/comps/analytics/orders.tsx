@@ -9,21 +9,13 @@ import {
 } from "@mui/material";
 
 import { Col, Deco, Paper, Row } from "@/com/ui";
-import { color } from "@/com/ui/style/scheme";
 
 export function AnalyticsOrders() {
   return (
     <Paper>
-      <Col sx={{ padding: 1 }}>
-        <Row sx={{ gap: 1 }}>
-          <Deco
-            sx={{
-              backgroundColor: color.secondary,
-              borderRadius: 1,
-              width: 20,
-              height: 30,
-            }}
-          />
+      <Col padding={1}>
+        <Row gap={1}>
+          <Deco />
           <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
             Pedidos
           </Typography>
