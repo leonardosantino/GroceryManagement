@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "format": "prettier --write .",
-    "test": "tsc --noEmit && next lint && jest",
+    "test": "tsc --noEmit && eslint . && jest",
     "test:watch": "jest --watch"
   },
   "dependencies": {
