@@ -5,7 +5,7 @@ import {
   ShoppingCart,
 } from "@mui/icons-material";
 
-import { Col, Row } from "@/com/ui";
+import { Col, Row, ScrollCol } from "@/com/ui";
 import { Billing } from "@/view/comps/analytics/billing";
 import { Metric } from "@/view/comps/analytics/metric";
 import { AnalyticsOrders } from "@/view/comps/analytics/orders";
@@ -13,7 +13,7 @@ import { BestSellers } from "@/view/comps/analytics/sales";
 
 export function Analytics() {
   return (
-    <Col padding={2} gap={4}>
+    <ScrollCol padding={2} gap={4} testId="analytics-page">
       <Row justify={"space-between"} gap={2}>
         <Metric
           title="Vendas"
@@ -56,6 +56,6 @@ export function Analytics() {
 
         <BestSellers />
       </Row>
-    </Col>
+    </ScrollCol>
   );
 }

@@ -3,9 +3,10 @@ import {
   TrendingDown,
   TrendingUp,
 } from "@mui/icons-material";
-import { Avatar, Box, Card, Typography } from "@mui/material";
 
-import { Col, Row } from "@/com/ui";
+import { Avatar } from "@mui/material";
+
+import { Col, Row, Paper, Text } from "@/com/ui";
 
 type MetricProps = {
   title: string;
@@ -15,38 +16,32 @@ type MetricProps = {
   color: string;
 };
 
-export function Metric({ title, value, change, Icon, color }: MetricProps) {
+export function Metric({
+  title,
+  value,
+  change,
+  Icon,
+  color,
+}: Readonly<MetricProps>) {
   return (
-    <Card>
+    <Paper>
       <Row justify="space-between" align="center" gap={2} padding={3}>
         <Col>
-          <Typography color="textSecondary" gutterBottom variant="body2">
-            {title}
-          </Typography>
-          <Typography variant="h4" component="div" sx={{ fontWeight: 600 }}>
-            {value}
-          </Typography>
-          <Box sx={{ display: "flex", alignItems: "center", mt: 1 }}>
+          <Text>{title}</Text>
+          <Text>{value}</Text>
+          <Col>
             {change > 0 ? (
               <TrendingUp sx={{ color: "success.main", fontSize: 16 }} />
             ) : (
               <TrendingDown sx={{ color: "error.main", fontSize: 16 }} />
             )}
-            <Typography
-              variant="body2"
-              sx={{
-                color: change > 0 ? "success.main" : "error.main",
-                ml: 0.5,
-              }}
-            >
-              {Math.abs(change)}%
-            </Typography>
-          </Box>
+            <Text>{Math.abs(change)}%</Text>
+          </Col>
         </Col>
         <Avatar sx={{ bgcolor: color, width: 56, height: 56 }}>
           <Icon />
         </Avatar>
       </Row>
-    </Card>
+    </Paper>
   );
 }

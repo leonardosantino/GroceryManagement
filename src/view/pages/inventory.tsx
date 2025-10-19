@@ -1,5 +1,7 @@
 "use client";
 
+import { MouseEvent, useState } from "react";
+
 import {
   Add as AddIcon,
   Edit as EditIcon,
@@ -8,12 +10,11 @@ import {
   Remove as RemoveIcon,
   Warning as WarningIcon,
 } from "@mui/icons-material";
+
 import {
   Alert,
   Avatar,
-  Box,
   Button,
-  Card,
   CardContent,
   Chip,
   Dialog,
@@ -33,7 +34,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { MouseEvent, useState } from "react";
+import { Col, Paper } from "@/com/ui";
 
 const inventory = [
   {
@@ -165,22 +166,22 @@ export function Inventory() {
   );
 
   return (
-    <Box>
+    <Col testId={"inventory-page"}>
       {lowStockItems.length > 0 && (
         <Alert severity="warning" sx={{ mb: 3 }}>
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+          <Col>
             <WarningIcon />
             <Typography>
               {lowStockItems.length} item(s) need attention: low stock or out of
               stock
             </Typography>
-          </Box>
+          </Col>
         </Alert>
       )}
 
-      <Card>
+      <Paper>
         <CardContent>
-          <Box sx={{ display: "flex", gap: 2, mb: 3 }}>
+          <Col>
             <TextField
               placeholder="Search inventory..."
               variant="outlined"
@@ -196,7 +197,7 @@ export function Inventory() {
             >
               Filter
             </Button>
-          </Box>
+          </Col>
 
           <TableContainer>
             <Table>
@@ -217,9 +218,7 @@ export function Inventory() {
                 {filteredInventory.map((item) => (
                   <TableRow key={item.id} hover>
                     <TableCell>
-                      <Box
-                        sx={{ display: "flex", alignItems: "center", gap: 2 }}
-                      >
+                      <Col>
                         <Avatar
                           src={item.image}
                           variant="rounded"
@@ -228,7 +227,7 @@ export function Inventory() {
                         <Typography variant="body2" sx={{ fontWeight: 500 }}>
                           {item.name}
                         </Typography>
-                      </Box>
+                      </Col>
                     </TableCell>
                     <TableCell>
                       <Typography variant="body2" color="textSecondary">
@@ -281,7 +280,7 @@ export function Inventory() {
             </Table>
           </TableContainer>
         </CardContent>
-      </Card>
+      </Paper>
 
       <Menu
         anchorEl={anchorEl}
@@ -342,6 +341,6 @@ export function Inventory() {
           </Button>
         </DialogActions>
       </Dialog>
-    </Box>
+    </Col>
   );
 }

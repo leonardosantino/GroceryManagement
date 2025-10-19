@@ -68,7 +68,7 @@ export function ProductsList() {
   }
 
   return (
-    <Col padding={2} gap={2}>
+    <Col padding={2} gap={2} testId={"products-list-page"}>
       {/*Filter*/}
       <Box gap={2} justify={"center"} height={37}>
         <Input placeholder="Pesquisar produtos..." sx={{ flexGrow: 0.25 }} />

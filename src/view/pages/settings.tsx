@@ -6,11 +6,10 @@ import {
   Security as SecurityIcon,
   Store as StoreIcon,
 } from "@mui/icons-material";
+
 import {
   Avatar,
-  Box,
   Button,
-  Card,
   CardContent,
   FormControlLabel,
   Grid,
@@ -20,29 +19,24 @@ import {
   ListItemText,
   Switch,
   TextField,
-  Typography,
 } from "@mui/material";
+
+import { Col, Text, Paper } from "@/com/ui";
 
 export function Settings() {
   return (
-    <Box>
-      <Typography variant="h4" sx={{ mb: 3, fontWeight: 600 }}>
-        Settings
-      </Typography>
+    <Col testId={"products-list-page"}>
+      <Text>Settings</Text>
 
       <Grid container spacing={3}>
         {/* Store Information */}
         <Grid size={6}>
-          <Card>
+          <Paper>
             <CardContent>
-              <Box
-                sx={{ display: "flex", alignItems: "center", gap: 2, mb: 3 }}
-              >
+              <Col>
                 <StoreIcon color="primary" />
-                <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                  Store Information
-                </Typography>
-              </Box>
+                <Text>Store Information</Text>
+              </Col>
 
               <Grid container spacing={2}>
                 <Grid size={12}>
@@ -86,29 +80,23 @@ export function Settings() {
                 </Grid>
               </Grid>
             </CardContent>
-          </Card>
+          </Paper>
         </Grid>
 
         {/* User Profile */}
         <Grid size={6}>
-          <Card>
+          <Paper>
             <CardContent>
-              <Box
-                sx={{ display: "flex", alignItems: "center", gap: 2, mb: 3 }}
-              >
+              <Col>
                 <Avatar sx={{ width: 40, height: 40 }}>A</Avatar>
-                <Box sx={{ flexGrow: 1 }}>
-                  <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                    Admin Profile
-                  </Typography>
-                  <Typography variant="body2" color="textSecondary">
-                    Manage your account settings
-                  </Typography>
-                </Box>
+                <Col>
+                  <Text>Admin Profile</Text>
+                  <Text>Manage your account settings</Text>
+                </Col>
                 <IconButton>
                   <EditIcon />
                 </IconButton>
-              </Box>
+              </Col>
 
               <Grid container spacing={2}>
                 <Grid size={6}>
@@ -142,21 +130,17 @@ export function Settings() {
                 </Grid>
               </Grid>
             </CardContent>
-          </Card>
+          </Paper>
         </Grid>
 
         {/* Notifications */}
         <Grid size={6}>
-          <Card>
+          <Paper>
             <CardContent>
-              <Box
-                sx={{ display: "flex", alignItems: "center", gap: 2, mb: 3 }}
-              >
+              <Col>
                 <NotificationsIcon color="primary" />
-                <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                  Notifications
-                </Typography>
-              </Box>
+                <Text>Notifications</Text>
+              </Col>
 
               <List>
                 <ListItem>
@@ -185,21 +169,17 @@ export function Settings() {
                 </ListItem>
               </List>
             </CardContent>
-          </Card>
+          </Paper>
         </Grid>
 
         {/* Security */}
         <Grid size={6}>
-          <Card>
+          <Paper>
             <CardContent>
-              <Box
-                sx={{ display: "flex", alignItems: "center", gap: 2, mb: 3 }}
-              >
+              <Col>
                 <SecurityIcon color="primary" />
-                <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                  Security
-                </Typography>
-              </Box>
+                <Text>Security</Text>
+              </Col>
 
               <Grid container spacing={2}>
                 <Grid size={12}>
@@ -239,21 +219,17 @@ export function Settings() {
                 </Grid>
               </Grid>
             </CardContent>
-          </Card>
+          </Paper>
         </Grid>
 
         {/* Payment Settings */}
         <Grid size={6}>
-          <Card>
+          <Paper>
             <CardContent>
-              <Box
-                sx={{ display: "flex", alignItems: "center", gap: 2, mb: 3 }}
-              >
+              <Col>
                 <PaymentIcon color="primary" />
-                <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                  Payment Methods
-                </Typography>
-              </Box>
+                <Text>Payment Methods</Text>
+              </Col>
 
               <List>
                 <ListItem>
@@ -277,21 +253,17 @@ export function Settings() {
                 Configure Payment Methods
               </Button>
             </CardContent>
-          </Card>
+          </Paper>
         </Grid>
 
         {/* Shipping Settings */}
         <Grid size={6}>
-          <Card>
+          <Paper>
             <CardContent>
-              <Box
-                sx={{ display: "flex", alignItems: "center", gap: 2, mb: 3 }}
-              >
+              <Col>
                 <ShippingIcon color="primary" />
-                <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                  Shipping Options
-                </Typography>
-              </Box>
+                <Text>Shipping Options</Text>
+              </Col>
 
               <List>
                 <ListItem>
@@ -324,9 +296,9 @@ export function Settings() {
                 Manage Shipping Zones
               </Button>
             </CardContent>
-          </Card>
+          </Paper>
         </Grid>
       </Grid>
-    </Box>
+    </Col>
   );
 }

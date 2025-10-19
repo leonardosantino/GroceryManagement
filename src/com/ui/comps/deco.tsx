@@ -1,16 +1,16 @@
-import { Box, BoxStyle, StyleProps } from "@/com/ui/comps/box";
+import { Box, BoxProps, BoxStyle } from "@/com/ui/comps/box";
 import { ColorTheme, ThemeColor } from "@/com/ui/style/scheme";
 
 type Props = {
   borderColor?: ThemeColor;
-  borderRadius?: number;
   boxColor?: ThemeColor;
-} & BoxStyle;
+  borderRadius?: number;
+} & BoxProps;
 
 export function Deco(props: Readonly<Props>) {
   const { borderColor, borderRadius, boxColor, ...rest } = props;
 
-  const viewStyle: StyleProps = {
+  const viewStyle: BoxStyle = {
     borderWidth: 0.2,
     borderRadius: 8,
     borderColor: ColorTheme.outline,

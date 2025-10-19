@@ -163,7 +163,7 @@ export function ProductsEdit() {
   }, [categoriesMemo, imagesMemo]);
 
   return (
-    <ScrollCol align={"center"} padding={2}>
+    <ScrollCol align={"center"} padding={2} testId={"products-edit-page"}>
       <Form
         sx={{
           gap: 2,

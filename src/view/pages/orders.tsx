@@ -1,5 +1,7 @@
 "use client";
 
+import { MouseEvent, useState } from "react";
+
 import {
   Cancel as CancelIcon,
   Edit as EditIcon,
@@ -8,10 +10,9 @@ import {
   MoreVert as MoreVertIcon,
   Visibility as ViewIcon,
 } from "@mui/icons-material";
+
 import {
-  Box,
   Button,
-  Card,
   CardContent,
   Chip,
   Dialog,
@@ -32,7 +33,8 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { MouseEvent, useState } from "react";
+
+import { Col, Paper } from "@/com/ui";
 
 const orders = [
   {
@@ -154,10 +156,10 @@ export function Orders() {
   const selectedOrderData = orders.find((order) => order.id === selectedOrder);
 
   return (
-    <Box>
-      <Card>
+    <Col testId={"orders-page"}>
+      <Paper>
         <CardContent>
-          <Box sx={{ display: "flex", gap: 2, mb: 3 }}>
+          <Col>
             <TextField
               placeholder="Search orders..."
               variant="outlined"
@@ -173,7 +175,7 @@ export function Orders() {
             >
               Filter
             </Button>
-          </Box>
+          </Col>
 
           <TableContainer>
             <Table>
@@ -198,14 +200,14 @@ export function Orders() {
                       </Typography>
                     </TableCell>
                     <TableCell>
-                      <Box>
+                      <Col>
                         <Typography variant="body2" sx={{ fontWeight: 500 }}>
                           {order.customer}
                         </Typography>
                         <Typography variant="caption" color="textSecondary">
                           {order.email}
                         </Typography>
-                      </Box>
+                      </Col>
                     </TableCell>
                     <TableCell>
                       <Typography variant="body2" sx={{ fontWeight: 500 }}>
@@ -251,7 +253,7 @@ export function Orders() {
             </Table>
           </TableContainer>
         </CardContent>
-      </Card>
+      </Paper>
 
       <Menu
         anchorEl={anchorEl}
@@ -338,6 +340,6 @@ export function Orders() {
           <Button variant="contained">Update Order</Button>
         </DialogActions>
       </Dialog>
-    </Box>
+    </Col>
   );
 }

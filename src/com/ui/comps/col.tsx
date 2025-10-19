@@ -1,7 +1,7 @@
-import { BoxStyle, Box, StyleProps } from "@/com/ui/comps/box";
+import { BoxProps, Box, BoxStyle } from "@/com/ui/comps/box";
 
-export function Col(props: Readonly<BoxStyle>) {
-  const viewStyle: StyleProps = {
+export function Col(props: Readonly<BoxProps>) {
+  const viewStyle: BoxStyle = {
     flexDirection: "column",
   };
 

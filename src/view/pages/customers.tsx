@@ -1,5 +1,7 @@
 "use client";
 
+import { MouseEvent, useState } from "react";
+
 import {
   Block as BlockIcon,
   Edit as EditIcon,
@@ -8,11 +10,10 @@ import {
   MoreVert as MoreVertIcon,
   Visibility as ViewIcon,
 } from "@mui/icons-material";
+
 import {
   Avatar,
-  Box,
   Button,
-  Card,
   CardContent,
   Chip,
   Dialog,
@@ -32,7 +33,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { MouseEvent, useState } from "react";
+import { Col, Paper } from "@/com/ui";
 
 const customers = [
   {
@@ -146,10 +147,10 @@ export function Customers() {
   );
 
   return (
-    <Box>
-      <Card>
+    <Col testId={"customers-page"}>
+      <Paper>
         <CardContent>
-          <Box sx={{ display: "flex", gap: 2, mb: 3 }}>
+          <Col>
             <TextField
               placeholder="Search customers..."
               variant="outlined"
@@ -165,7 +166,7 @@ export function Customers() {
             >
               Filter
             </Button>
-          </Box>
+          </Col>
 
           <TableContainer>
             <Table>
@@ -184,9 +185,7 @@ export function Customers() {
                 {filteredCustomers.map((customer) => (
                   <TableRow key={customer.id} hover>
                     <TableCell>
-                      <Box
-                        sx={{ display: "flex", alignItems: "center", gap: 2 }}
-                      >
+                      <Col>
                         <Avatar
                           src={customer.avatar}
                           sx={{ width: 40, height: 40 }}
@@ -196,17 +195,17 @@ export function Customers() {
                         <Typography variant="body2" sx={{ fontWeight: 500 }}>
                           {customer.name}
                         </Typography>
-                      </Box>
+                      </Col>
                     </TableCell>
                     <TableCell>
-                      <Box>
+                      <Col>
                         <Typography variant="body2">
                           {customer.email}
                         </Typography>
                         <Typography variant="caption" color="textSecondary">
                           {customer.phone}
                         </Typography>
-                      </Box>
+                      </Col>
                     </TableCell>
                     <TableCell>
                       <Typography variant="body2">{customer.orders}</Typography>
@@ -243,7 +242,7 @@ export function Customers() {
             </Table>
           </TableContainer>
         </CardContent>
-      </Card>
+      </Paper>
 
       <Menu
         anchorEl={anchorEl}
@@ -324,6 +323,6 @@ export function Customers() {
           <Button variant="contained">Edit Customer</Button>
         </DialogActions>
       </Dialog>
-    </Box>
+    </Col>
   );
 }

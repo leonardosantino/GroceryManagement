@@ -28,7 +28,7 @@ export function Sidebar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <Paper sx={{ minWidth: 185 }}>
+    <Paper>
       <List>
         <Row align={"center"} justify={"center"} gap={1} padding={1}>
           <BusinessRounded />

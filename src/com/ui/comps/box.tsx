@@ -1,10 +1,11 @@
-import { Property } from "csstype";
-import { Box as Bx, SxProps } from "@mui/material";
 import { ReactNode } from "react";
+import { Property } from "csstype";
 
-export type StyleProps = SxProps;
+import { Box as Bx, SxProps } from "@mui/material";
 
-export type BoxStyle = {
+export type BoxStyle = SxProps;
+
+export type BoxProps = {
   position?: Property.Position;
   flex?: number;
   direction?: Property.FlexDirection;
@@ -12,82 +13,52 @@ export type BoxStyle = {
   justify?: Property.JustifyContent;
   align?: Property.AlignItems;
   width?: number;
-  maxWidth?: number;
   height?: string | number;
+  maxWidth?: number;
   padding?: number;
   paddingX?: number;
   paddingY?: number;
   margin?: number;
   marginX?: number;
   gap?: number;
-  style?: SxProps;
+  style?: BoxStyle;
   children?: ReactNode;
+  testId?: string;
 };
 
-export function Box(props: Readonly<BoxStyle>) {
+export function Box(props: Readonly<BoxProps>) {
   const {
-    position,
     flex,
     direction,
     wrap,
     justify,
     align,
-    width,
-    maxWidth,
-    height,
-    padding,
-    paddingX,
-    paddingY,
-    margin,
-    marginX,
-    gap,
     style,
-    ...rest
+    children,
+    testId,
+    ...others
   } = props;
 
-  const viewStyle: Record<string, string | number> = {};
+  const viewStyle: BoxStyle = {
+    display: "flex",
+  };
 
-  if (position) {
-    viewStyle.position = position;
-    viewStyle.right = 0;
-    viewStyle.left = 0;
-  }
-  if (flex) {
-    viewStyle.flexGrow = flex;
-    viewStyle.flexShrink = 1;
-    viewStyle.flexBasis = 0;
-  }
+  if (flex) viewStyle.flexGrow = flex;
   if (direction) viewStyle.flexDirection = direction;
   if (wrap) viewStyle.flexWrap = wrap;
   if (justify) viewStyle.justifyContent = justify;
   if (align) viewStyle.alignItems = align;
-  if (width) viewStyle.width = width;
-  if (maxWidth) viewStyle.maxWidth = maxWidth;
-  if (height) viewStyle.height = height;
-  if (padding) viewStyle.padding = padding;
-  if (paddingX) {
-    viewStyle.paddingLeft = paddingX;
-    viewStyle.paddingRight = paddingX;
-  }
-  if (paddingY) {
-    viewStyle.paddingTop = paddingY;
-    viewStyle.paddingBottom = paddingY;
-  }
-  if (margin) viewStyle.margin = margin;
-  if (marginX) {
-    viewStyle.marginLeft = marginX;
-    viewStyle.marginRight = marginX;
-  }
-  if (gap) viewStyle.gap = gap;
 
   return (
     <Bx
+      data-testid={testId}
       sx={{
-        display: "flex",
         ...viewStyle,
+        ...others,
         ...style,
       }}
-      {...rest}
-    />
+    >
+      {children}
+    </Bx>
   );
 }

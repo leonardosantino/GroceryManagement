@@ -132,7 +132,7 @@ export function ProductsAdd() {
   }
 
   return (
-    <ScrollCol align={"center"} padding={2}>
+    <ScrollCol align={"center"} padding={2} testId={"products-add-page"}>
       <Snackbar
         open={isSaved}
         onClose={() => setIsSaved(false)}
