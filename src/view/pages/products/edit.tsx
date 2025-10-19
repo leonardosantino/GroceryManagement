@@ -2,7 +2,7 @@
 
 import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react";
 
-import { MarketApi } from "@/api/market";
+import { MarketApi } from "@/clients/market";
 import { Conditional } from "@/com/conditional/conditional";
 import {
   Add,
@@ -40,15 +40,15 @@ import {
 
 import { isNullOrEmpty } from "@/com/validation";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useViewState } from "@/state/view/view";
 import { Dialog, DialogActions } from "@mui/material";
-import { ViewPath } from "@/routes";
+import { useSearchParams } from "next/navigation";
 
 const api = new MarketApi();
 
 export function ProductsEdit() {
-  const { view, setView } = useViewState();
-  const id = view.data.id;
+  const params = useSearchParams();
+
+  const id = params.get("id") as string;
 
   const { data } = useQuery({
     queryKey: ["product", id],
@@ -62,7 +62,6 @@ export function ProductsEdit() {
 
   const deleteMutation = useMutation({
     mutationFn: async () => await api.productDelete(id),
-    onSuccess: () => setView({ path: ViewPath.Products, data: {} }),
   });
 
   const productRef = useProductFormRef();

@@ -1,7 +1,7 @@
 import { Col, Row } from "@/com/ui";
 import { Sidebar } from "@/view/comps/bar/side";
 import { NotificationBar } from "@/view/comps/bar/notification";
-import { Analytics } from "@/view/pages/analytics";
+import { Settings } from "@/view/pages/settings";
 
 export default function App() {
   return (
@@ -9,7 +9,7 @@ export default function App() {
       <Sidebar />
       <Col flex={1}>
         <NotificationBar />
-        <Analytics />
+        <Settings />
       </Col>
     </Row>
   );

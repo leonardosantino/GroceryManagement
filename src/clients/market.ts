@@ -1,6 +1,6 @@
 import { Product } from "@/model/product";
 import { ProductResponse } from "@/model/dto/ProductResponse";
-import { ClientHttp } from "@/api/client/http";
+import { ClientHttp } from "@/clients/client/http";
 
 export class MarketApi {
   private readonly client = new ClientHttp();

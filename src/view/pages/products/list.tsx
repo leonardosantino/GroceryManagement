@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 
-import { MarketApi } from "@/api/market";
+import { MarketApi } from "@/clients/market";
 import {
   Avatar,
   Box,
@@ -28,13 +28,12 @@ import { currencyFromDouble } from "@/com/format";
 import React, { useState } from "react";
 import { isNullOrEmpty } from "@/com/validation";
 import { Menu, MenuItem } from "@mui/material";
-import { useViewState } from "@/state/view/view";
-import { ViewPath } from "@/routes";
+import { useRouter } from "next/navigation";
 
 const api = new MarketApi();
 
 export function ProductsList() {
-  const { setView } = useViewState();
+  const router = useRouter();
 
   const [page, setPage] = useState({
     key: "products-y4i8",
@@ -176,10 +175,9 @@ export function ProductsList() {
                         padding: 1,
                       }}
                       onClick={() =>
-                        setView({
-                          path: ViewPath.ProductsEdit,
-                          data: { id: product.id as string },
-                        })
+                        router.push(
+                          "/products/edit?id=".concat(product.id as string),
+                        )
                       }
                     >
                       Editar <Edit color={"primary"} />

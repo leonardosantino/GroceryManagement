@@ -20,11 +20,11 @@ import {
   Text,
   TrendingUp,
 } from "@/com/ui";
-import { ViewPath } from "@/routes";
-import { useViewState } from "@/state/view/view";
+import { useRouter } from "next/navigation";
 
 export function Sidebar() {
-  const { view, setView } = useViewState();
+  const router = useRouter();
+
   const [open, setOpen] = useState(false);
 
   return (
@@ -38,8 +38,8 @@ export function Sidebar() {
         <Box margin={1} />
 
         <ListItemButton
-          selected={view.path == ViewPath.Analytics}
-          onClick={() => setView({ path: ViewPath.Analytics, data: {} })}
+          // selected={}
+          onClick={() => router.push("/")}
         >
           <ListItemIcon>
             <TrendingUp />
@@ -48,9 +48,7 @@ export function Sidebar() {
         </ListItemButton>
 
         <ListItemButton
-          selected={[ViewPath.Products, ViewPath.ProductsAdd].includes(
-            view.path,
-          )}
+          // selected={}
           onClick={() => setOpen(!open)}
         >
           <ListItemIcon>
@@ -64,18 +62,16 @@ export function Sidebar() {
           <List>
             <ListItem>
               <ListItemButton
-                selected={view.path == ViewPath.Products}
-                onClick={() => setView({ path: ViewPath.Products, data: {} })}
+                // selected={}
+                onClick={() => router.push("/products/list")}
               >
                 <Text>Lista de produtos</Text>
               </ListItemButton>
             </ListItem>
             <ListItem>
               <ListItemButton
-                selected={view.path == ViewPath.ProductsAdd}
-                onClick={() =>
-                  setView({ path: ViewPath.ProductsAdd, data: {} })
-                }
+                // selected={}
+                onClick={() => router.push("/products/add")}
               >
                 <Text>Adicionar produtos</Text>
               </ListItemButton>
@@ -84,8 +80,8 @@ export function Sidebar() {
         </Collapse>
 
         <ListItemButton
-          selected={view.path == ViewPath.Orders}
-          onClick={() => setView({ path: ViewPath.Orders, data: {} })}
+          // selected={}
+          onClick={() => router.push("/orders")}
         >
           <ListItemIcon>
             <ShoppingCart />
@@ -94,8 +90,8 @@ export function Sidebar() {
         </ListItemButton>
 
         <ListItemButton
-          selected={view.path == ViewPath.Customers}
-          onClick={() => setView({ path: ViewPath.Customers, data: {} })}
+          // selected={}
+          onClick={() => router.push("/customers")}
         >
           <ListItemIcon>
             <People />

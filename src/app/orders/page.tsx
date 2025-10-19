@@ -1,15 +1,16 @@
 import { Col, Row } from "@/com/ui";
-import { NotificationBar } from "@/view/comps/bar/notification";
 import { Sidebar } from "@/view/comps/bar/side";
-import { Main } from "@/view/entry/main";
+import { NotificationBar } from "@/view/comps/bar/notification";
 
-export function Entry() {
+import { Orders } from "@/view/pages/orders";
+
+export default function CustomersPage() {
   return (
     <Row height={"inherit"} wrap={"nowrap"}>
       <Sidebar />
       <Col flex={1}>
         <NotificationBar />
-        <Main />
+        <Orders />
       </Col>
     </Row>
   );

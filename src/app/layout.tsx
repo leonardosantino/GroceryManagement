@@ -5,7 +5,6 @@ import { ReactNode } from "react";
 import { appMetadata, appViewport } from "@/com/metadata/app";
 import { RootLayoutProvider } from "@/com/provider/provider";
 import { defaultFont } from "@/com/ui/style/theme";
-import { ViewStateProvider } from "@/state/view/provider";
 
 export const viewport = appViewport;
 export const metadata = appMetadata;
@@ -16,9 +15,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body className={defaultFont.className}>
-        <RootLayoutProvider>
-          <ViewStateProvider>{children}</ViewStateProvider>
-        </RootLayoutProvider>
+        <RootLayoutProvider>{children}</RootLayoutProvider>
       </body>
     </html>
   );

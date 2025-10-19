@@ -6,28 +6,26 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactNode, useState } from "react";
 
 import { theme } from "@/com/ui/style/theme";
+import { CacheTime } from "@/clients/http/CacheTime";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      gcTime: CacheTime.H24,
+    },
+  },
+});
 
 export function RootLayoutProvider({
   children,
 }: Readonly<{ children: ReactNode }>) {
-  const [queryClient] = useState(
-    () =>
-      new QueryClient({
-        defaultOptions: {
-          queries: {
-            staleTime: 3000,
-          },
-        },
-      }),
-  );
+  const [client] = useState(() => queryClient);
 
   return (
     <AppRouterCacheProvider>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <QueryClientProvider client={queryClient}>
-          {children}
-        </QueryClientProvider>
+        <QueryClientProvider client={client}>{children}</QueryClientProvider>
       </ThemeProvider>
     </AppRouterCacheProvider>
   );
