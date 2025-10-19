@@ -4,7 +4,7 @@ import { NotificationBar } from "@/view/comps/bar/notification";
 
 import { Inventory } from "@/view/pages/inventory";
 
-export default function CustomersPage() {
+export default function InventoryPage() {
   return (
     <Row height={"inherit"} wrap={"nowrap"}>
       <Sidebar />

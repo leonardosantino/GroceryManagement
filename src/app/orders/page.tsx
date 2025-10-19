@@ -4,7 +4,7 @@ import { NotificationBar } from "@/view/comps/bar/notification";
 
 import { Orders } from "@/view/pages/orders";
 
-export default function CustomersPage() {
+export default function OrdersPage() {
   return (
     <Row height={"inherit"} wrap={"nowrap"}>
       <Sidebar />

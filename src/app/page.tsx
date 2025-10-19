@@ -3,7 +3,7 @@ import { Sidebar } from "@/view/comps/bar/side";
 import { NotificationBar } from "@/view/comps/bar/notification";
 import { Analytics } from "@/view/pages/analytics";
 
-export default function App() {
+export default function AnalyticsPage() {
   return (
     <Row height={"inherit"} wrap={"nowrap"}>
       <Sidebar />

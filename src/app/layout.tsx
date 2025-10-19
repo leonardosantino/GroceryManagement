@@ -6,8 +6,10 @@ import { appMetadata, appViewport } from "@/com/metadata/app";
 import { RootLayoutProvider } from "@/com/provider/provider";
 import { defaultFont } from "@/com/ui/style/theme";
 
-export const viewport = appViewport;
-export const metadata = appMetadata;
+import type { Metadata, Viewport } from "next";
+
+export const viewport: Viewport = appViewport;
+export const metadata: Metadata = appMetadata;
 
 export default function RootLayout({
   children,

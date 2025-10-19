@@ -3,7 +3,7 @@ import { Sidebar } from "@/view/comps/bar/side";
 import { NotificationBar } from "@/view/comps/bar/notification";
 import { Settings } from "@/view/pages/settings";
 
-export default function App() {
+export default function SettingsPage() {
   return (
     <Row height={"inherit"} wrap={"nowrap"}>
       <Sidebar />
