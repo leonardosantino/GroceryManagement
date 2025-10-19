@@ -8,17 +8,15 @@ export function BestSellers() {
       <Col padding={1}>
         <Row gap={1}>
           <Deco />
-          <Text variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
-            Mais Vendidos
-          </Text>
+          <Text>Mais Vendidos</Text>
         </Row>
 
         <Col gap={2}>
           {data.map((product) => (
             <Col key={`best-seller-${product.id}`}>
               <Row justify={"space-between"} align="center">
-                <Text sx={{ fontWeight: 500 }}>{product.name}</Text>
-                <Text variant="body2">{product.sales.toString()}</Text>
+                <Text>{product.name}</Text>
+                <Text>{product.sales.toString()}</Text>
               </Row>
               <Divider />
             </Col>

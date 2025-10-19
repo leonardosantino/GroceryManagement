@@ -1,16 +1,40 @@
-import { Typography, TypographyProps } from "@mui/material";
+import { ReactNode } from "react";
+import { Property } from "csstype";
+import { Typography } from "@mui/material";
+
+import {
+  TextTheme,
+  ThemeTextColor,
+  ThemeTextSize,
+  ThemeTextWeight,
+} from "@/com/ui/style/scheme";
 
 type TextProps = {
+  flex?: number;
   maxLength?: number;
-} & TypographyProps;
+  size?: ThemeTextSize;
+  color?: ThemeTextColor;
+  align?: Property.TextAlign;
+  weight?: ThemeTextWeight;
+  children: ReactNode;
+};
 
-export function Text(props: TextProps) {
-  const maxLength = props.maxLength ?? 0;
-  const children = props.children as string;
+export function Text(props: Readonly<TextProps>) {
+  const { flex, size, color, align, weight, maxLength = 0, ...rest } = props;
+
+  const viewStyle: Record<string, string | number> = {};
+
+  if (flex) viewStyle.flex = flex;
+  if (size) viewStyle.fontSize = TextTheme[size];
+  if (color) viewStyle.color = TextTheme[color];
+  if (weight) viewStyle.fontWeight = TextTheme[weight];
+  if (align) viewStyle.textAlign = align;
 
   const str = getStr();
 
   function getStr() {
+    const children = props.children as string;
+
     if (maxLength) {
       return strConcat(children);
     }
@@ -29,12 +53,12 @@ export function Text(props: TextProps) {
 
   return (
     <Typography
-      {...props}
       sx={{
         wordWrap: "break-word",
         textWrap: "wrap",
-        ...props.sx,
+        ...viewStyle,
       }}
+      {...rest}
     >
       {str}
     </Typography>

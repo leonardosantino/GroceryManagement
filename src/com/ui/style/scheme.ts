@@ -29,7 +29,13 @@ export const ColorTheme = {
   none: "#00000000",
 };
 
-export type ThemeTextColor = "secondary" | "tertiary" | "white" | "success";
+export type ThemeTextColor =
+  | "secondary"
+  | "tertiary"
+  | "white"
+  | "success"
+  | "warning"
+  | "error";
 export type ThemeTextSize = "xSmall" | "small" | "large" | "xLarge";
 export type ThemeTextWeight = "light" | "bold";
 
@@ -37,7 +43,11 @@ export const TextTheme = {
   secondary: "#7d7d7d",
   tertiary: "#969696",
   white: "#FFFFFF",
-  success: ColorTheme.success,
+
+  info: "#1565C0",
+  success: "#2E7D32",
+  warning: "#EF6C00",
+  error: "#C62828",
 
   xSmall: 10,
   small: 12,

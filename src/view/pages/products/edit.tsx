@@ -37,7 +37,7 @@ import {
   refValue,
   ZodIssue,
 } from "@/model/schema/product";
-import { TextTheme } from "@/com/ui/style/scheme";
+
 import { isNullOrEmpty } from "@/com/validation";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useViewState } from "@/state/view/view";
@@ -175,9 +175,7 @@ export function ProductsEdit() {
         {/*Save*/}
         <Row justify={"space-between"}>
           <Col>
-            <Text sx={{ fontWeight: TextTheme.bold }}>
-              Atualize as informações do produto
-            </Text>
+            <Text>Atualize as informações do produto</Text>
             <Text>Última atualização em: 23 de Julho ás 14:30</Text>
           </Col>
 
