@@ -28,10 +28,10 @@ export function Metric({ title, value, change, Icon, color }: Readonly<Props>) {
     >
       <Col gap={1}>
         <Text weight={"bold"}>{title}</Text>
-        <Text>{value}</Text>
+        <Text size={"small"}>{value}</Text>
 
         <Row gap={1}>
-          <Text>{Math.abs(change)}%</Text>
+          <Text size={"small"}>{Math.abs(change)}%</Text>
           {change > 0 ? (
             <TrendingUp sx={{ color: "success.main", fontSize: 16 }} />
           ) : (

@@ -50,7 +50,7 @@ export function ProductsEdit() {
 
   const { data } = useQuery({
     queryKey: ["product", id],
-    queryFn: async () => await Api.products.findById(id).then((data) => data),
+    queryFn: () => Api.products.findById(id),
   });
 
   const mutation = useMutation({
@@ -239,8 +239,8 @@ export function ProductsEdit() {
 
             <Input
               id={"product-form-description"}
-              defaultValue={data?.description}
               placeholder="Descrição"
+              defaultValue={data?.description}
               multiline
               rows={4}
               error={!!errors.description}
@@ -368,19 +368,19 @@ export function ProductsEdit() {
             </Text>
 
             <Col align={"center"} gap={2}>
-              <Deco width={400} height={200}>
-                <Col
-                  height={"inherit"}
-                  justify={"center"}
-                  align={"center"}
-                  gap={3}
-                >
-                  <AddPhotoAlternate />
-                  <InputFile
-                    id={"product-form-image"}
-                    onChange={handleFileUpload}
-                  />
-                </Col>
+              <Deco
+                direction={"column"}
+                align={"center"}
+                justify={"center"}
+                gap={2}
+                width={300}
+                height={200}
+              >
+                <AddPhotoAlternate />
+                <InputFile
+                  id={"product-form-image"}
+                  onChange={handleFileUpload}
+                />
               </Deco>
               <Conditional bool={!!errors.images}>
                 <Text color={"error"}>{errors.images}</Text>

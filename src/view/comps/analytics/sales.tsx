@@ -7,15 +7,17 @@ export function BestSellers() {
     <Paper padding={1} gap={2} direction={"column"}>
       <Text weight={"bold"}>Mais Vendidos</Text>
 
-      {data.map((product) => (
-        <Col key={`best-seller-${product.id}`}>
-          <Row justify={"space-between"} align="center" gap={4}>
-            <Text>{product.name}</Text>
-            <Text>{product.sales.toString()}</Text>
-          </Row>
-          <Divider />
-        </Col>
-      ))}
+      <Col padding={2} gap={2}>
+        {data.map((product) => (
+          <Col key={`best-seller-${product.id}`}>
+            <Row justify={"space-between"} align="center" gap={4}>
+              <Text size={"small"}>{product.name}</Text>
+              <Text>{product.sales.toString()}</Text>
+            </Row>
+            <Divider />
+          </Col>
+        ))}
+      </Col>
     </Paper>
   );
 }

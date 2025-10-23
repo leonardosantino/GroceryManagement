@@ -7,7 +7,7 @@ export const defaultFont = Poppins({ weight: "400", subsets: ["latin"] });
 export const theme = createTheme({
   typography: {
     fontFamily: defaultFont.style.fontFamily,
-    fontSize: 12.25,
+    fontSize: 12,
   },
 
   colorSchemes: {

@@ -1,18 +1,16 @@
 "use client";
 
+import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 
 import {
   Avatar,
   Box,
   Button,
   Col,
-  ContentCopy,
-  Edit,
   FilterList,
-  IconButton,
   Input,
-  MoreVert,
   Table,
   TableBody,
   TableCell,
@@ -23,42 +21,28 @@ import {
 
 import { Product } from "@/model/entity/Product";
 import { ColorTheme, TextTheme } from "@/com/ui/style/scheme";
+
 import { currencyFromDouble } from "@/com/format";
-import React, { useState } from "react";
 import { isNullOrEmpty } from "@/com/validation";
-import { Menu, MenuItem } from "@mui/material";
-import { useRouter } from "next/navigation";
+
 import { Api } from "@/clients/Api";
 
 export function ProductsList() {
   const router = useRouter();
 
   const [page, setPage] = useState({
-    key: "products-y4i8",
+    key: "productsList",
     last: "",
     products: [] as Product[],
   });
 
   const { data } = useQuery({
     queryKey: [page.key, page.last],
-    queryFn: async () =>
-      await Api.products
-        .pageable({ last: page.last, limit: "10" })
-        .then((data) => data),
+    queryFn: () => Api.products.pageable({ last: page.last, limit: "10" }),
   });
 
   function getProducts() {
     return page.products.concat(data?.items ?? []);
-  }
-
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-
-  function handleClick(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-    setAnchorEl(event.currentTarget);
-  }
-  function handleClose() {
-    setAnchorEl(null);
   }
 
   function hasMoreItems() {
@@ -134,13 +118,19 @@ export function ProductsList() {
               >
                 Quantidade
               </TableCell>
-              <TableCell sx={{ backgroundColor: ColorTheme.container }} />
             </TableRow>
           </TableHead>
 
           <TableBody>
             {getProducts().map((product: Product) => (
-              <TableRow key={product.id} hover sx={{ cursor: "pointer" }}>
+              <TableRow
+                key={product.id}
+                hover
+                sx={{ cursor: "pointer" }}
+                onClick={() =>
+                  router.push("/products/edit?id=".concat(product.id as string))
+                }
+              >
                 <TableCell sx={{ padding: 1 }}>
                   <Avatar src={product.images[0]} variant="rounded" />
                 </TableCell>
@@ -150,55 +140,6 @@ export function ProductsList() {
                 <TableCell>{product.unity.description}</TableCell>
                 <TableCell>{currencyFromDouble(product.unity.price)}</TableCell>
                 <TableCell align={"center"}>{product.unity.quantity}</TableCell>
-                <TableCell align="right" sx={{ padding: 1 }}>
-                  <IconButton
-                    id={"button".concat(product.id as string)}
-                    onClick={handleClick}
-                  >
-                    <MoreVert />
-                  </IconButton>
-                  <Menu
-                    id={"menu".concat(product?.id ?? "")}
-                    anchorEl={anchorEl}
-                    open={open}
-                    onClose={handleClose}
-                    slotProps={{
-                      paper: {
-                        style: {
-                          boxShadow: "0 0 1px lightgray",
-                        },
-                      },
-                    }}
-                  >
-                    <MenuItem
-                      key={"product-editar"}
-                      sx={{
-                        fontSize: 12,
-                        gap: 1,
-                        justifyContent: "space-between",
-                        padding: 1,
-                      }}
-                      onClick={() =>
-                        router.push(
-                          "/products/edit?id=".concat(product.id as string),
-                        )
-                      }
-                    >
-                      Editar <Edit color={"primary"} />
-                    </MenuItem>
-                    <MenuItem
-                      key={"product-duplicate"}
-                      sx={{
-                        fontSize: 12,
-                        gap: 1,
-                        justifyContent: "space-between",
-                        padding: 1,
-                      }}
-                    >
-                      Duplicar <ContentCopy color={"action"} />
-                    </MenuItem>
-                  </Menu>
-                </TableCell>
               </TableRow>
             ))}
           </TableBody>

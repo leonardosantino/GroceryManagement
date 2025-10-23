@@ -13,6 +13,7 @@ export function Deco(props: Readonly<Props>) {
   const viewStyle: BoxStyle = {
     borderWidth: 0.2,
     borderRadius: 8,
+    borderStyle: "solid",
     borderColor: ColorTheme.outline,
   };
 

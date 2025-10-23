@@ -304,19 +304,19 @@ export function ProductsAdd() {
             </Text>
 
             <Col align={"center"} gap={2}>
-              <Deco width={400} height={200}>
-                <Col
-                  height={"inherit"}
-                  justify={"center"}
-                  align={"center"}
-                  gap={3}
-                >
-                  <AddPhotoAlternate />
-                  <InputFile
-                    id={"product-form-image"}
-                    onChange={handleFileUpload}
-                  />
-                </Col>
+              <Deco
+                direction={"column"}
+                align={"center"}
+                justify={"center"}
+                gap={2}
+                width={300}
+                height={200}
+              >
+                <AddPhotoAlternate />
+                <InputFile
+                  id={"product-form-image"}
+                  onChange={handleFileUpload}
+                />
               </Deco>
               <Conditional bool={!!errors.images}>
                 <Text color={"error"}>{errors.images}</Text>
