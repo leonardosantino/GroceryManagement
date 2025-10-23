@@ -13,7 +13,6 @@ import {
   IconButton,
   Input,
   MoreVert,
-  Paper,
   Table,
   TableBody,
   TableCell,
@@ -69,7 +68,7 @@ export function ProductsList() {
   }
 
   return (
-    <Col padding={2} gap={2} testId={"products-list-page"}>
+    <Col flex={1} padding={2} gap={2} testId={"products-list-page"}>
       {/*Filter*/}
       <Box gap={2} justify={"center"} height={37}>
         <Input placeholder="Pesquisar produtos..." sx={{ flexGrow: 0.25 }} />
@@ -78,20 +77,24 @@ export function ProductsList() {
         </Button>
       </Box>
       <TableContainer
-        component={Paper}
-        sx={{ flexGrow: 1, backgroundColor: "transparent" }}
+        sx={{
+          flexGrow: 1,
+          flexShrink: 1,
+          flexBasis: 0,
+          backgroundColor: "transparent",
+        }}
       >
         <Table stickyHeader>
           <TableHead>
             <TableRow>
               <TableCell
                 sx={{
-                  backgroundColor: ColorTheme.surface,
+                  backgroundColor: ColorTheme.container,
                 }}
               />
               <TableCell
                 sx={{
-                  backgroundColor: ColorTheme.surface,
+                  backgroundColor: ColorTheme.container,
                   fontWeight: TextTheme.bold,
                 }}
               >
@@ -99,7 +102,7 @@ export function ProductsList() {
               </TableCell>
               <TableCell
                 sx={{
-                  backgroundColor: ColorTheme.surface,
+                  backgroundColor: ColorTheme.container,
                   fontWeight: TextTheme.bold,
                 }}
               >
@@ -109,7 +112,7 @@ export function ProductsList() {
                 colSpan={2}
                 align={"center"}
                 sx={{
-                  backgroundColor: ColorTheme.surface,
+                  backgroundColor: ColorTheme.container,
                   fontWeight: TextTheme.bold,
                 }}
               >
@@ -117,7 +120,7 @@ export function ProductsList() {
               </TableCell>
               <TableCell
                 sx={{
-                  backgroundColor: ColorTheme.surface,
+                  backgroundColor: ColorTheme.container,
                   fontWeight: TextTheme.bold,
                 }}
               >
@@ -125,13 +128,13 @@ export function ProductsList() {
               </TableCell>
               <TableCell
                 sx={{
-                  backgroundColor: ColorTheme.surface,
+                  backgroundColor: ColorTheme.container,
                   fontWeight: TextTheme.bold,
                 }}
               >
                 Quantidade
               </TableCell>
-              <TableCell sx={{ backgroundColor: ColorTheme.surface }} />
+              <TableCell sx={{ backgroundColor: ColorTheme.container }} />
             </TableRow>
           </TableHead>
 

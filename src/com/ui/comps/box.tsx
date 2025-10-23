@@ -43,7 +43,11 @@ export function Box(props: Readonly<BoxProps>) {
     display: "flex",
   };
 
-  if (flex) viewStyle.flexGrow = flex;
+  if (flex) {
+    viewStyle.flexGrow = flex;
+    viewStyle.flexShrink = 1;
+    viewStyle.flexBasis = 0;
+  }
   if (direction) viewStyle.flexDirection = direction;
   if (wrap) viewStyle.flexWrap = wrap;
   if (justify) viewStyle.justifyContent = justify;

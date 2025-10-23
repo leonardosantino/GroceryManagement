@@ -3,7 +3,7 @@ import { SessionStorage } from "@/clients/storage/SessionStorage";
 import { isStatusNotAuthorized } from "@/clients/http/status";
 
 export class HttpClient {
-  private readonly baseUrl = process.env.EXPO_PUBLIC_API_URL as string;
+  private readonly baseUrl = process.env.NEXT_PUBLIC_API_URL as string;
   private readonly contentType = {
     "Content-Type": "application/json",
   };
