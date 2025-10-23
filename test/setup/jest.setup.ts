@@ -1,6 +1,7 @@
 jest.mock("next/navigation", () => ({
   useServerInsertedHTML: jest.fn(),
   useRouter: jest.fn(),
+  usePathname: jest.fn(),
   useSearchParams: () => ({
     get: jest.fn(),
   }),

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 
 import {
   Box,
@@ -20,12 +21,24 @@ import {
   Text,
   TrendingUp,
 } from "@/com/ui";
-import { useRouter } from "next/navigation";
+
+const data: { isOpen: boolean } = { isOpen: false };
 
 export function Sidebar() {
   const router = useRouter();
+  const pathname = usePathname();
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(data.isOpen);
+
+  function isSelected(path: string) {
+    return pathname === path;
+  }
+
+  function isSection(name: string) {
+    data.isOpen = open;
+
+    return pathname?.startsWith(name);
+  }
 
   return (
     <Paper>
@@ -38,7 +51,7 @@ export function Sidebar() {
         <Box margin={1} />
 
         <ListItemButton
-          // selected={}
+          selected={isSelected("/")}
           onClick={() => router.push("/")}
         >
           <ListItemIcon>
@@ -48,7 +61,7 @@ export function Sidebar() {
         </ListItemButton>
 
         <ListItemButton
-          // selected={}
+          selected={isSection("/products")}
           onClick={() => setOpen(!open)}
         >
           <ListItemIcon>
@@ -62,7 +75,7 @@ export function Sidebar() {
           <List>
             <ListItem>
               <ListItemButton
-                // selected={}
+                selected={isSelected("/products/list")}
                 onClick={() => router.push("/products/list")}
               >
                 <Text>Lista de produtos</Text>
@@ -70,7 +83,7 @@ export function Sidebar() {
             </ListItem>
             <ListItem>
               <ListItemButton
-                // selected={}
+                selected={isSelected("/products/add")}
                 onClick={() => router.push("/products/add")}
               >
                 <Text>Adicionar produtos</Text>
@@ -80,7 +93,7 @@ export function Sidebar() {
         </Collapse>
 
         <ListItemButton
-          // selected={}
+          selected={isSelected("/orders")}
           onClick={() => router.push("/orders")}
         >
           <ListItemIcon>
@@ -90,7 +103,7 @@ export function Sidebar() {
         </ListItemButton>
 
         <ListItemButton
-          // selected={}
+          selected={isSelected("/customers")}
           onClick={() => router.push("/customers")}
         >
           <ListItemIcon>

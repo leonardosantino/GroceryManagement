@@ -8,40 +8,40 @@ import { Avatar } from "@mui/material";
 
 import { Col, Row, Paper, Text } from "@/com/ui";
 
-type MetricProps = {
+type Props = {
   title: string;
   value: string;
   change: number;
-  Icon: SvgIconComponent;
   color: string;
+  Icon: SvgIconComponent;
 };
 
-export function Metric({
-  title,
-  value,
-  change,
-  Icon,
-  color,
-}: Readonly<MetricProps>) {
+export function Metric({ title, value, change, Icon, color }: Readonly<Props>) {
   return (
-    <Paper>
-      <Row justify="space-between" align="center" gap={2} padding={3}>
-        <Col>
-          <Text>{title}</Text>
-          <Text>{value}</Text>
-          <Col>
-            {change > 0 ? (
-              <TrendingUp sx={{ color: "success.main", fontSize: 16 }} />
-            ) : (
-              <TrendingDown sx={{ color: "error.main", fontSize: 16 }} />
-            )}
-            <Text>{Math.abs(change)}%</Text>
-          </Col>
-        </Col>
-        <Avatar sx={{ bgcolor: color, width: 56, height: 56 }}>
-          <Icon />
-        </Avatar>
-      </Row>
+    <Paper
+      flex={1}
+      wrap={"nowrap"}
+      justify="space-between"
+      align="center"
+      gap={2}
+      padding={1}
+    >
+      <Col gap={1}>
+        <Text weight={"bold"}>{title}</Text>
+        <Text>{value}</Text>
+
+        <Row gap={1}>
+          <Text>{Math.abs(change)}%</Text>
+          {change > 0 ? (
+            <TrendingUp sx={{ color: "success.main", fontSize: 16 }} />
+          ) : (
+            <TrendingDown sx={{ color: "error.main", fontSize: 16 }} />
+          )}
+        </Row>
+      </Col>
+      <Avatar sx={{ bgcolor: color, width: 56, height: 56 }}>
+        <Icon />
+      </Avatar>
     </Paper>
   );
 }

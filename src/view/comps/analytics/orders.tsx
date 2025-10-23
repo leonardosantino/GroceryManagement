@@ -5,49 +5,42 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Typography,
 } from "@mui/material";
 
-import { Col, Deco, Paper, Row } from "@/com/ui";
+import { Paper, Text } from "@/com/ui";
 
 export function AnalyticsOrders() {
   return (
-    <Paper>
-      <Col padding={1}>
-        <Row gap={1}>
-          <Deco />
-          <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
-            Pedidos
-          </Typography>
-        </Row>
-        <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Recebidos</TableCell>
-                <TableCell>Entregues</TableCell>
-                <TableCell>Em Andamento</TableCell>
-                <TableCell>Cancelados</TableCell>
-                <TableCell>Aguardando</TableCell>
-                <TableCell>Líquido</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {data.map((order) => (
-                <TableRow key={order.id} sx={{ "& td": { border: "none" } }}>
-                  <TableCell sx={{ fontWeight: 500 }}>{order.id}</TableCell>
-                  <TableCell>{order.customer}</TableCell>
-                  <TableCell sx={{ fontWeight: 500 }}>{order.amount}</TableCell>
-                  <TableCell sx={{ fontWeight: 500 }}>{order.amount}</TableCell>
-                  <TableCell sx={{ fontWeight: 500 }}>{order.amount}</TableCell>
+    <Paper direction={"column"} padding={1}>
+      <Text weight={"bold"}>Pedidos</Text>
 
-                  <TableCell>{order.date}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Col>
+      <TableContainer>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Recebidos</TableCell>
+              <TableCell>Entregues</TableCell>
+              <TableCell>Em Andamento</TableCell>
+              <TableCell>Cancelados</TableCell>
+              <TableCell>Aguardando</TableCell>
+              <TableCell>Líquido</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {data.map((order) => (
+              <TableRow key={order.id} sx={{ "& td": { border: "none" } }}>
+                <TableCell sx={{ fontWeight: 500 }}>{order.id}</TableCell>
+                <TableCell>{order.customer}</TableCell>
+                <TableCell sx={{ fontWeight: 500 }}>{order.amount}</TableCell>
+                <TableCell sx={{ fontWeight: 500 }}>{order.amount}</TableCell>
+                <TableCell sx={{ fontWeight: 500 }}>{order.amount}</TableCell>
+
+                <TableCell>{order.date}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </Paper>
   );
 }

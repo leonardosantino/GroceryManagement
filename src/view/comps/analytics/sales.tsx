@@ -1,23 +1,21 @@
 import { Divider } from "@mui/material";
 
-import { Col, Box, Paper, Row, Text } from "@/com/ui";
+import { Col, Paper, Row, Text } from "@/com/ui";
 
 export function BestSellers() {
   return (
-    <Paper padding={2}>
-      <Col gap={2}>
-        <Text weight={"bold"}>Mais Vendidos</Text>
-        <Box />
-        {data.map((product) => (
-          <Col key={`best-seller-${product.id}`}>
-            <Row justify={"space-between"} align="center">
-              <Text>{product.name}</Text>
-              <Text>{product.sales.toString()}</Text>
-            </Row>
-            <Divider />
-          </Col>
-        ))}
-      </Col>
+    <Paper padding={1} gap={2} direction={"column"}>
+      <Text weight={"bold"}>Mais Vendidos</Text>
+
+      {data.map((product) => (
+        <Col key={`best-seller-${product.id}`}>
+          <Row justify={"space-between"} align="center" gap={4}>
+            <Text>{product.name}</Text>
+            <Text>{product.sales.toString()}</Text>
+          </Row>
+          <Divider />
+        </Col>
+      ))}
     </Paper>
   );
 }
