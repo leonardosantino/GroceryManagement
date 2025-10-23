@@ -2,7 +2,6 @@
 
 import { useQuery } from "@tanstack/react-query";
 
-import { MarketApi } from "@/clients/market";
 import {
   Avatar,
   Box,
@@ -22,15 +21,15 @@ import {
   TableHead,
   TableRow,
 } from "@/com/ui";
-import { Product } from "@/model/product";
+
+import { Product } from "@/model/entity/Product";
 import { ColorTheme, TextTheme } from "@/com/ui/style/scheme";
 import { currencyFromDouble } from "@/com/format";
 import React, { useState } from "react";
 import { isNullOrEmpty } from "@/com/validation";
 import { Menu, MenuItem } from "@mui/material";
 import { useRouter } from "next/navigation";
-
-const api = new MarketApi();
+import { Api } from "@/clients/Api";
 
 export function ProductsList() {
   const router = useRouter();
@@ -44,7 +43,9 @@ export function ProductsList() {
   const { data } = useQuery({
     queryKey: [page.key, page.last],
     queryFn: async () =>
-      await api.productFindAll({ last: page.last }).then((data) => data),
+      await Api.products
+        .pageable({ last: page.last, limit: "10" })
+        .then((data) => data),
   });
 
   function getProducts() {

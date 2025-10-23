@@ -2,7 +2,6 @@
 
 import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react";
 
-import { MarketApi } from "@/clients/market";
 import { Conditional } from "@/com/conditional/conditional";
 import {
   Add,
@@ -28,7 +27,7 @@ import {
 } from "@/com/ui";
 
 import { useProductFormRef } from "@/hooks/form/product";
-import { Product } from "@/model/product";
+import { Product } from "@/model/entity/Product";
 import {
   getProductFormIssues,
   ProductFormErrors,
@@ -42,8 +41,7 @@ import { isNullOrEmpty } from "@/com/validation";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Dialog, DialogActions } from "@mui/material";
 import { useSearchParams } from "next/navigation";
-
-const api = new MarketApi();
+import { Api } from "@/clients/Api";
 
 export function ProductsEdit() {
   const params = useSearchParams();
@@ -52,16 +50,16 @@ export function ProductsEdit() {
 
   const { data } = useQuery({
     queryKey: ["product", id],
-    queryFn: async () => await api.findById(id).then((data) => data),
+    queryFn: async () => await Api.products.findById(id).then((data) => data),
   });
 
   const mutation = useMutation({
-    mutationFn: (product: Product) => api.productUpdate(product),
+    mutationFn: (product: Product) => Api.products.update(product),
     onSuccess: () => setIsSaved(true),
   });
 
   const deleteMutation = useMutation({
-    mutationFn: async () => await api.productDelete(id),
+    mutationFn: async () => await Api.products.delete(id),
   });
 
   const productRef = useProductFormRef();

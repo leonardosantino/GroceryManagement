@@ -2,7 +2,6 @@
 
 import { ChangeEvent, FormEvent, useState } from "react";
 
-import { MarketApi } from "@/clients/market";
 import { Conditional } from "@/com/conditional/conditional";
 import {
   Add,
@@ -29,7 +28,7 @@ import {
 } from "@/com/ui";
 
 import { useProductFormRef } from "@/hooks/form/product";
-import { Product } from "@/model/product";
+import { Product } from "@/model/entity/Product";
 import {
   getProductFormIssues,
   ProductFormErrors,
@@ -41,8 +40,7 @@ import {
 
 import { isNullOrEmpty } from "@/com/validation";
 import { Snackbar } from "@mui/material";
-
-const api = new MarketApi();
+import { Api } from "@/clients/Api";
 
 export function ProductsAdd() {
   const productRef = useProductFormRef();
@@ -77,7 +75,7 @@ export function ProductsAdd() {
     if (form.success) {
       setIsLoading(true);
 
-      await api.productSave(productForm);
+      await Api.products.save(productForm);
 
       setIsLoading(false);
       setIsSaved(true);

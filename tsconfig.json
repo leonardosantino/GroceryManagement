@@ -22,6 +22,7 @@
     "paths": {
       "@/*": ["./src/*"],
       "@/test/*": ["./test/*"],
+      "@/schema/*": ["./schema/*"],
       "swiper/*": ["./node_modules/swiper/*"]
     }
   },
