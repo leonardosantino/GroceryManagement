@@ -33,6 +33,7 @@ export type ThemeTextColor =
   | "secondary"
   | "tertiary"
   | "white"
+  | "info"
   | "success"
   | "warning"
   | "error";

@@ -19,7 +19,6 @@ import {
   Input,
   InputFile,
   Inventory,
-  Paper,
   Row,
   SaveRounded,
   ScrollCol,
@@ -130,26 +129,10 @@ export function ProductsAdd() {
   }
 
   return (
-    <ScrollCol align={"center"} padding={2} testId={"products-add-page"}>
-      <Snackbar
-        open={isSaved}
-        onClose={() => setIsSaved(false)}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        autoHideDuration={6000}
-      >
-        <Alert severity="success" variant="filled">
-          Produto Salvo!
-        </Alert>
-      </Snackbar>
-      <Form
-        sx={{
-          gap: 2,
-          maxWidth: 900,
-        }}
-        onSubmit={onSave}
-      >
-        {/*Save*/}
-        <Row justify={"flex-end"} height={37}>
+    <Col flex={1} gap={1} padding={1} testId={"products-add-page"}>
+      {/*Save*/}
+      <Row justify={"center"}>
+        <Row width={900} padding={1} justify={"flex-end"}>
           <Button
             type={"submit"}
             variant="outlined"
@@ -160,192 +143,213 @@ export function ProductsAdd() {
             Salvar
           </Button>
         </Row>
+      </Row>
 
-        {/*Basics*/}
-        <Paper>
-          <Col padding={2} gap={2}>
-            <Row gap={1}>
-              <Inventory />
-              <Text>Informações Básicas</Text>
-            </Row>
-            <Text>Adicione nome e descrição do produto.</Text>
+      <Snackbar
+        open={isSaved}
+        onClose={() => setIsSaved(false)}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        autoHideDuration={6000}
+      >
+        <Alert severity="success" variant="filled">
+          Produto Salvo!
+        </Alert>
+      </Snackbar>
 
-            <Input
-              id={"product-form-name"}
-              placeholder="Nome"
-              error={!!errors.name}
-              helperText={errors.name}
-              inputRef={productRef.name}
-            />
-
-            <Input
-              id={"product-form-description"}
-              placeholder="Descrição"
-              multiline
-              rows={4}
-              error={!!errors.description}
-              helperText={errors.description}
-              inputRef={productRef.description}
-            />
-          </Col>
-        </Paper>
-
-        {/*Units*/}
-        <Paper>
-          <Col padding={2} gap={2}>
-            <Text>
-              Adicione informações sobre as variações disponíveis do produto,
-              preços e quantidades.
-            </Text>
-
-            <Col gap={1}>
-              <Row gap={2}>
-                <Input
-                  id={"product-form-unit-name"}
-                  placeholder={"Nome"}
-                  helperText={"Ex: Grande, média, pequena."}
-                  error={!!errors.unity?.name}
-                  inputRef={productRef.unity.name}
-                />
-                <Input
-                  id={"product-form-unit-description"}
-                  placeholder="Descrição"
-                  helperText={"Ex: 8 Fatias, 6 Fatias, 4 Fatias"}
-                  error={!!errors.unity?.description}
-                  inputRef={productRef.unity.description}
-                />
+      <ScrollCol>
+        <Form
+          sx={{
+            gap: 2,
+          }}
+          onSubmit={onSave}
+        >
+          {/*Basics*/}
+          <Row justify={"center"}>
+            <Col width={900} padding={1} gap={2}>
+              <Row gap={1}>
+                <Inventory />
+                <Text>Informações Básicas</Text>
               </Row>
+              <Text>Adicione nome e descrição do produto.</Text>
 
-              <Row gap={2}>
-                <Input
-                  id={"product-form-unit-price"}
-                  placeholder="Preço"
-                  type={"number"}
-                  slotProps={{
-                    input: {
-                      startAdornment: (
-                        <InputAdornment position="start">R$</InputAdornment>
-                      ),
-                    },
-                    htmlInput: {
-                      step: 0.01,
-                      min: 0,
-                    },
-                  }}
-                  error={!!errors.unity?.price}
-                  helperText={errors.unity?.price}
-                  inputRef={productRef.unity.price}
-                />
-                <Input
-                  id={"product-form-unit-quantity"}
-                  placeholder="Quantidade"
-                  type={"number"}
-                  error={!!errors.unity?.quantity}
-                  helperText={errors.unity?.quantity}
-                  inputRef={productRef.unity.quantity}
-                />
-              </Row>
-            </Col>
-          </Col>
-        </Paper>
-
-        {/*Category*/}
-        <Paper>
-          <Col padding={2} gap={2}>
-            <Text>
-              Adicione categorias para ajudar os clientes a encontrarem seu
-              produto mais facilmente.
-            </Text>
-
-            <Row gap={1}>
               <Input
-                id={"product-form-category"}
-                placeholder={"Categoria"}
-                error={!!errors.categories}
-                helperText={errors.categories}
-                inputRef={productRef.category}
+                id={"product-form-name"}
+                placeholder="Nome"
+                error={!!errors.name}
+                helperText={errors.name}
+                inputRef={productRef.name}
               />
-              <Button
-                variant="contained"
-                color="primary"
-                startIcon={<Add />}
-                onClick={handleSetCategory}
-                sx={{ height: 37 }}
-              >
-                Adicionar
-              </Button>
-            </Row>
 
-            <Divider />
-
-            <Row gap={1}>
-              {[...categories].map((category, index) => (
-                <Chip
-                  key={category.concat(index.toString())}
-                  label={category}
-                  onDelete={() => onDeleteCategory(category)}
-                />
-              ))}
-            </Row>
-          </Col>
-        </Paper>
-
-        {/*Images*/}
-        <Paper>
-          <Col padding={2} gap={2}>
-            <Row gap={1}>
-              <AddPhotoAlternate />
-              <Text>Imagens</Text>
-            </Row>
-
-            <Text>
-              Adicione imagens de alta qualidade do seu produto. Recomendamos
-              pelo menos 3 imagens de diferentes ângulos.
-            </Text>
-
-            <Col align={"center"} gap={2}>
-              <Deco
-                direction={"column"}
-                align={"center"}
-                justify={"center"}
-                gap={2}
-                width={300}
-                height={200}
-              >
-                <AddPhotoAlternate />
-                <InputFile
-                  id={"product-form-image"}
-                  onChange={handleFileUpload}
-                />
-              </Deco>
-              <Conditional bool={!!errors.images}>
-                <Text color={"error"}>{errors.images}</Text>
-              </Conditional>
+              <Input
+                id={"product-form-description"}
+                placeholder="Descrição"
+                multiline
+                rows={4}
+                error={!!errors.description}
+                helperText={errors.description}
+                inputRef={productRef.description}
+                fullWidth
+              />
             </Col>
+          </Row>
 
-            <Divider />
-            <Row justify={"center"} gap={1}>
-              {[...images].map((img) => (
-                <Col key={img} position={"relative"}>
-                  <Img
-                    src={img}
-                    alt={img}
-                    width={200}
-                    height={100}
-                    sx={{ width: 200, height: 100 }}
+          {/*Units*/}
+          <Row justify={"center"}>
+            <Col width={900} padding={1} gap={2}>
+              <Text>
+                Adicione informações sobre as variações disponíveis do produto,
+                preços e quantidades.
+              </Text>
+
+              <Col gap={1}>
+                <Row gap={2}>
+                  <Input
+                    id={"product-form-unit-name"}
+                    placeholder={"Nome"}
+                    helperText={"Ex: Grande, média, pequena."}
+                    error={!!errors.unity?.name}
+                    inputRef={productRef.unity.name}
                   />
-                  <IconButton
-                    onClick={() => handleDeleteFile(img)}
-                    sx={{ position: "absolute", right: 0 }}
-                  >
-                    <Delete />
-                  </IconButton>
-                </Col>
-              ))}
-            </Row>
-          </Col>
-        </Paper>
-      </Form>
-    </ScrollCol>
+                  <Input
+                    id={"product-form-unit-description"}
+                    placeholder="Descrição"
+                    helperText={"Ex: 8 Fatias, 6 Fatias, 4 Fatias"}
+                    error={!!errors.unity?.description}
+                    inputRef={productRef.unity.description}
+                  />
+                </Row>
+
+                <Row gap={2}>
+                  <Input
+                    id={"product-form-unit-price"}
+                    placeholder="Preço"
+                    type={"number"}
+                    slotProps={{
+                      input: {
+                        startAdornment: (
+                          <InputAdornment position="start">R$</InputAdornment>
+                        ),
+                      },
+                      htmlInput: {
+                        step: 0.01,
+                        min: 0,
+                      },
+                    }}
+                    error={!!errors.unity?.price}
+                    helperText={errors.unity?.price}
+                    inputRef={productRef.unity.price}
+                  />
+                  <Input
+                    id={"product-form-unit-quantity"}
+                    placeholder="Quantidade"
+                    type={"number"}
+                    error={!!errors.unity?.quantity}
+                    helperText={errors.unity?.quantity}
+                    inputRef={productRef.unity.quantity}
+                  />
+                </Row>
+              </Col>
+            </Col>
+          </Row>
+
+          {/*Category*/}
+          <Row justify={"center"}>
+            <Col width={900} padding={1} gap={2}>
+              <Text>
+                Adicione categorias para ajudar os clientes a encontrarem seu
+                produto mais facilmente.
+              </Text>
+
+              <Row gap={1}>
+                <Input
+                  id={"product-form-category"}
+                  placeholder={"Categoria"}
+                  error={!!errors.categories}
+                  helperText={errors.categories}
+                  inputRef={productRef.category}
+                />
+                <Button
+                  variant="contained"
+                  color="primary"
+                  startIcon={<Add />}
+                  onClick={handleSetCategory}
+                  sx={{ height: 37 }}
+                >
+                  Adicionar
+                </Button>
+              </Row>
+
+              <Divider />
+
+              <Row gap={1}>
+                {[...categories].map((category, index) => (
+                  <Chip
+                    key={category.concat(index.toString())}
+                    label={category}
+                    onDelete={() => onDeleteCategory(category)}
+                  />
+                ))}
+              </Row>
+            </Col>
+          </Row>
+
+          {/*Images*/}
+          <Row justify={"center"}>
+            <Col width={900} padding={1} gap={2}>
+              <Row gap={1}>
+                <AddPhotoAlternate />
+                <Text>Imagens</Text>
+              </Row>
+
+              <Text>
+                Adicione imagens de alta qualidade do seu produto. Recomendamos
+                pelo menos 3 imagens de diferentes ângulos.
+              </Text>
+
+              <Col align={"center"} gap={2}>
+                <Deco
+                  direction={"column"}
+                  align={"center"}
+                  justify={"center"}
+                  gap={2}
+                  width={300}
+                  height={200}
+                >
+                  <AddPhotoAlternate />
+                  <InputFile
+                    id={"product-form-image"}
+                    onChange={handleFileUpload}
+                  />
+                </Deco>
+                <Conditional bool={!!errors.images}>
+                  <Text color={"error"}>{errors.images}</Text>
+                </Conditional>
+              </Col>
+
+              <Divider />
+              <Row justify={"center"} gap={1}>
+                {[...images].map((img) => (
+                  <Col key={img} position={"relative"}>
+                    <Img
+                      src={img}
+                      alt={img}
+                      width={200}
+                      height={100}
+                      sx={{ width: 200, height: 100 }}
+                    />
+                    <IconButton
+                      onClick={() => handleDeleteFile(img)}
+                      sx={{ position: "absolute", right: 0 }}
+                    >
+                      <Delete />
+                    </IconButton>
+                  </Col>
+                ))}
+              </Row>
+            </Col>
+          </Row>
+        </Form>
+      </ScrollCol>
+    </Col>
   );
 }

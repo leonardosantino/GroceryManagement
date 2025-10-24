@@ -11,12 +11,14 @@ import {
   Col,
   FilterList,
   Input,
+  Row,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
+  Text,
 } from "@/com/ui";
 
 import { Product } from "@/model/entity/Product";
@@ -26,6 +28,7 @@ import { currencyFromDouble } from "@/com/format";
 import { isNullOrEmpty } from "@/com/validation";
 
 import { Api } from "@/clients/Api";
+import { CategoryFilter } from "@/view/comps/CategoryFilter";
 
 export function ProductsList() {
   const router = useRouter();
@@ -36,9 +39,18 @@ export function ProductsList() {
     products: [] as Product[],
   });
 
+  const [name, setName] = useState("");
+  const [categories, setCategories] = useState<string>("");
+
   const { data } = useQuery({
-    queryKey: [page.key, page.last],
-    queryFn: () => Api.products.pageable({ last: page.last, limit: "10" }),
+    queryKey: [page.key, page.last, name, categories],
+    queryFn: () =>
+      Api.products.pageable({
+        name: name,
+        categories: categories,
+        last: page.last,
+        limit: "10",
+      }),
   });
 
   function getProducts() {
@@ -51,15 +63,28 @@ export function ProductsList() {
     return (data?.items.length as number) < 10;
   }
 
+  function getName(it: string) {
+    if (it.length < 1) setName("");
+    if (it.length % 3 !== 0) return;
+
+    setName(it);
+  }
+
   return (
     <Col flex={1} padding={2} gap={2} testId={"products-list-page"}>
       {/*Filter*/}
-      <Box gap={2} justify={"center"} height={37}>
-        <Input placeholder="Pesquisar produtos..." sx={{ flexGrow: 0.25 }} />
-        <Button variant="outlined" startIcon={<FilterList />}>
-          Filtro
-        </Button>
-      </Box>
+      <Row gap={2} justify={"space-between"} height={37}>
+        <Input
+          placeholder="Pesquisar..."
+          sx={{ flexGrow: 0.25 }}
+          onChange={(it) => getName(it.target.value)}
+        />
+        <Row gap={1} align={"center"}>
+          <CategoryFilter categories={categories} onChange={setCategories} />
+          <FilterList color={"info"} />
+          <Text color={"info"}>Filtros</Text>
+        </Row>
+      </Row>
       <TableContainer
         sx={{
           flexGrow: 1,

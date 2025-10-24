@@ -20,7 +20,7 @@ export class ProductsApi {
 
   async pageable(params: {
     name?: string;
-    category?: string;
+    categories?: string;
     last?: string;
     limit: string;
   }): Promise<{ items: Product[]; last?: string }> {
