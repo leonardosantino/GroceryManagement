@@ -1,7 +1,7 @@
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { isEmpty, isEmptyList } from "@/com/validation";
+import { isEmpty, isNullOrEmptyList } from "@/com/validation";
 
 const names = ["Pizza", "Refrigerante", "Hamburguer"];
 
@@ -32,7 +32,7 @@ export function CategoryFilter({ categories, onChange }: Readonly<Props>) {
         value={getCategoriesList()}
         onChange={handleChange}
         renderValue={(selected) => {
-          if (isEmptyList(selected)) return <>Categoria</>;
+          if (isNullOrEmptyList(selected)) return <>Categoria</>;
 
           return selected.join(", ");
         }}

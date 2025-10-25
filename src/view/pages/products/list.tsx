@@ -24,7 +24,7 @@ import {
 import { Product } from "@/model/entity/Product";
 import { ColorTheme, TextTheme } from "@/com/ui/style/scheme";
 
-import { currencyFromDouble } from "@/com/format";
+import { currencyFromDouble } from "@/com/format/currency";
 import { isNullOrEmpty } from "@/com/validation";
 
 import { Api } from "@/clients/Api";
@@ -80,9 +80,9 @@ export function ProductsList() {
           onChange={(it) => getName(it.target.value)}
         />
         <Row gap={1} align={"center"}>
-          <CategoryFilter categories={categories} onChange={setCategories} />
           <FilterList color={"info"} />
           <Text color={"info"}>Filtros</Text>
+          <CategoryFilter categories={categories} onChange={setCategories} />
         </Row>
       </Row>
       <TableContainer
@@ -162,7 +162,6 @@ export function ProductsList() {
                 <TableCell>{product.name}</TableCell>
                 <TableCell>{product.description}</TableCell>
                 <TableCell>{product.unity.name}</TableCell>
-                <TableCell>{product.unity.description}</TableCell>
                 <TableCell>{currencyFromDouble(product.unity.price)}</TableCell>
                 <TableCell align={"center"}>{product.unity.quantity}</TableCell>
               </TableRow>

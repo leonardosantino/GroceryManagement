@@ -10,6 +10,7 @@ export { Form } from "@/com/ui/comps/form";
 export { Input } from "@/com/ui/comps/input/input";
 export { InputFile } from "@/com/ui/comps/input/file";
 export { Button } from "@/com/ui/comps/button";
+export { Empty } from "@/com/ui/comps/empty";
 
 // MUI Components
 export {

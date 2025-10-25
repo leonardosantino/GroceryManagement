@@ -7,15 +7,19 @@ export class ProductsApi {
   private readonly basePath: string = "/products";
 
   async save(product: Product): Promise<Product> {
-    return this.client.post({ path: this.basePath, body: product });
+    return this.client
+      .post({ path: this.basePath, body: product })
+      .then((it) => Product.from(it));
   }
 
-  async update(product: Product) {
+  async update(product: Product): Promise<void> {
     return this.client.put({ path: this.basePath, body: product });
   }
 
   async findById(id: string): Promise<Product> {
-    return this.client.get({ path: this.basePath.concat("/", id) });
+    return this.client
+      .get({ path: this.basePath.concat("/", id) })
+      .then((it) => Product.from(it));
   }
 
   async pageable(params: {
@@ -24,7 +28,10 @@ export class ProductsApi {
     last?: string;
     limit: string;
   }): Promise<{ items: Product[]; last?: string }> {
-    return this.client.get({ path: this.basePath, params });
+    return this.client.get({ path: this.basePath, params }).then((it) => ({
+      items: it.items.map((item: Product) => Product.from(item)),
+      last: it.last,
+    }));
   }
 
   async delete(id: string): Promise<void> {

@@ -1,8 +1,6 @@
-import { RefObject } from "react";
 import { z } from "zod";
 
 export const ProductSchema = z.object({
-  id: z.string().optional(),
   name: z.string().min(1, "Nome é obrigatório"),
   description: z.string().min(1, "Descrição é obrigatória"),
   categories: z
@@ -10,8 +8,7 @@ export const ProductSchema = z.object({
     .min(1, "Pelo menos uma categoria é obrigatória"),
   images: z.array(z.string()).min(1, "Pelo menos uma imagem é obrigatória"),
   unity: z.object({
-    name: z.string().min(1, "Nome da unidade é obrigatório"),
-    description: z.string().min(1, "Descrição da unidade é obrigatória"),
+    name: z.string().min(1, "Unidade é obrigatório"),
     price: z.number().min(0.1, "Preço é obrigatório"),
     quantity: z.number().min(1, "Quantidade é obrigatória"),
   }),
@@ -24,7 +21,6 @@ export type ProductFormErrors = {
   images?: string;
   unity?: {
     name?: string;
-    description?: string;
     price?: string;
     quantity?: string;
   };
@@ -36,25 +32,18 @@ export function getIssueMessageByPath(path: string, issues: ZodIssue[]) {
   return issues.find((issue) => issue.path.join(".") === path)?.message;
 }
 
-export function refScroll(ref: RefObject<HTMLInputElement | null>) {
-  ref.current?.scrollIntoView({ behavior: "smooth" });
-}
+export function getProductFormIssues(zodIssues?: unknown) {
+  const issues = zodIssues as ZodIssue[];
 
-export function refValue(ref: RefObject<HTMLInputElement | null>): string {
-  return ref.current?.value as string;
-}
-
-export function getProductFormIssues(issues: ZodIssue[]) {
   return {
     name: getIssueMessageByPath("name", issues),
     description: getIssueMessageByPath("description", issues),
     categories: getIssueMessageByPath("categories", issues),
     images: getIssueMessageByPath("images", issues),
-    unit: {
-      name: getIssueMessageByPath("unit.name", issues),
-      description: getIssueMessageByPath("unit.description", issues),
-      price: getIssueMessageByPath("unit.price", issues),
-      quantity: getIssueMessageByPath("unit.quantity", issues),
+    unity: {
+      name: getIssueMessageByPath("unity.name", issues),
+      price: getIssueMessageByPath("unity.price", issues),
+      quantity: getIssueMessageByPath("unity.quantity", issues),
     },
   };
 }

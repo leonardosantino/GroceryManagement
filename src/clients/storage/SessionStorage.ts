@@ -1,13 +1,13 @@
 import { App } from "@/schema/app";
 
-import { isNotNullOrEmpty } from "@/com/validation";
+import { isNullOrEmpty } from "@/com/validation";
 
 export class SessionStorage {
   private readonly KEY = App.schema.concat(".auth.session");
 
   getSession() {
     const token = localStorage.getItem(this.KEY);
-    const isAuth = isNotNullOrEmpty(token);
+    const isAuth = !isNullOrEmpty(token);
 
     return { token, isAuth };
   }

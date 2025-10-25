@@ -1,8 +1,10 @@
 "use client";
 
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, useState } from "react";
+import { useMutation } from "@tanstack/react-query";
 
-import { Conditional } from "@/com/conditional/conditional";
+import { Snackbar } from "@mui/material";
+
 import {
   Add,
   AddPhotoAlternate,
@@ -26,82 +28,54 @@ import {
   InputAdornment,
 } from "@/com/ui";
 
-import { useProductFormRef } from "@/hooks/form/product";
+import { Conditional } from "@/com/conditional/conditional";
 import { Product } from "@/model/entity/Product";
+
 import {
   getProductFormIssues,
   ProductFormErrors,
   ProductSchema,
-  refScroll,
-  refValue,
-  ZodIssue,
 } from "@/model/schema/product";
 
-import { isNullOrEmpty } from "@/com/validation";
-import { Snackbar } from "@mui/material";
 import { Api } from "@/clients/Api";
 
 export function ProductsAdd() {
-  const productRef = useProductFormRef();
+  const [product, setProduct] = useState(Product.default());
+  const [category, setCategory] = useState<string>();
 
-  const [isSaved, setIsSaved] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const [categories, setCategories] = useState(new Set<string>());
-  const [images, setImages] = useState(new Set<string>());
+  const { isPending, isSuccess, mutate } = useMutation({
+    mutationFn: () => Api.products.update(product),
+  });
 
   const [errors, setErrors] = useState<ProductFormErrors>({});
 
-  async function onSave(e: FormEvent) {
-    e.preventDefault();
-
-    const productForm: Product = {
-      name: refValue(productRef.name),
-      description: refValue(productRef.description),
-      categories: [...categories],
-      images: [...images],
-      unity: {
-        name: refValue(productRef.unity.name),
-        description: refValue(productRef.unity.description),
-        price: Number(refValue(productRef.unity.price)),
-        quantity: Number(refValue(productRef.unity.quantity)),
-      },
-    };
-
-    const form = ProductSchema.safeParse(productForm);
-    const issues = form.error?.issues as ZodIssue[];
+  async function onSave() {
+    const form = ProductSchema.safeParse(product);
 
     if (form.success) {
-      setIsLoading(true);
+      mutate();
 
-      await Api.products.save(productForm);
-
-      setIsLoading(false);
-      setIsSaved(true);
-
-      setCategories(new Set([]));
-      setImages(new Set([]));
-      setErrors({});
-
-      (e.target as HTMLFormElement).reset();
+      setProduct(Product.default());
     } else {
-      const productFormErrors: ProductFormErrors = getProductFormIssues(issues);
-      setErrors(productFormErrors);
-      scrollToFirstError(productFormErrors);
+      const formErrors = getProductFormIssues(form.error?.issues);
+      setErrors(formErrors);
     }
   }
 
-  function handleSetCategory() {
-    const category = refValue(productRef.category);
-    if (isNullOrEmpty(category)) return;
+  function handleSetCategory(category?: string) {
+    const categories = new Set(product?.categories);
 
-    categories.add(category);
-    setCategories(new Set(categories));
+    if (category) categories.add(category);
+
+    setProduct(product.copy({ categories: [...categories] }));
   }
 
   function onDeleteCategory(category: string) {
-    categories.delete(category);
-    setCategories(new Set(categories));
+    const categories = new Set(product?.categories);
+
+    if (category) categories.delete(category);
+
+    setProduct(product.copy({ categories: [...categories] }));
   }
 
   function handleFileUpload(e: ChangeEvent<HTMLInputElement>) {
@@ -109,8 +83,10 @@ export function ProductsAdd() {
 
     // TODO: const image = URL.createObjectURL(file);
 
+    const images = new Set(product?.images);
+
     images.add("/assets/drawable/img.png");
-    setImages(new Set(images));
+    setProduct(product.copy({ images: [...images] }));
 
     e.currentTarget.value = "";
   }
@@ -118,14 +94,11 @@ export function ProductsAdd() {
   function handleDeleteFile(img: string) {
     // TODO: URL.revokeObjectURL(img);
 
-    images.delete(img);
-    setImages(new Set(images));
-  }
+    const images = new Set(product?.images);
 
-  function scrollToFirstError(formErrors: ProductFormErrors) {
-    if (formErrors.name) refScroll(productRef.name);
-    else if (formErrors.description) refScroll(productRef.description);
-    else if (formErrors.categories) refScroll(productRef.category);
+    if (img) images.delete(img);
+
+    setProduct(product.copy({ categories: [...images] }));
   }
 
   return (
@@ -134,10 +107,10 @@ export function ProductsAdd() {
       <Row justify={"center"}>
         <Row width={900} padding={1} justify={"flex-end"}>
           <Button
-            type={"submit"}
+            onClick={onSave}
             variant="outlined"
             startIcon={<SaveRounded />}
-            loading={isLoading}
+            loading={isPending}
             size={"large"}
           >
             Salvar
@@ -146,8 +119,7 @@ export function ProductsAdd() {
       </Row>
 
       <Snackbar
-        open={isSaved}
-        onClose={() => setIsSaved(false)}
+        open={isSuccess}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         autoHideDuration={6000}
       >
@@ -161,7 +133,6 @@ export function ProductsAdd() {
           sx={{
             gap: 2,
           }}
-          onSubmit={onSave}
         >
           {/*Basics*/}
           <Row justify={"center"}>
@@ -177,17 +148,23 @@ export function ProductsAdd() {
                 placeholder="Nome"
                 error={!!errors.name}
                 helperText={errors.name}
-                inputRef={productRef.name}
+                onChange={(it) =>
+                  setProduct(product.copy({ name: it.currentTarget.value }))
+                }
               />
 
               <Input
                 id={"product-form-description"}
                 placeholder="Descrição"
-                multiline
-                rows={4}
                 error={!!errors.description}
                 helperText={errors.description}
-                inputRef={productRef.description}
+                onChange={(it) =>
+                  setProduct(
+                    product.copy({ description: it.currentTarget.value }),
+                  )
+                }
+                multiline
+                rows={4}
                 fullWidth
               />
             </Col>
@@ -208,14 +185,15 @@ export function ProductsAdd() {
                     placeholder={"Nome"}
                     helperText={"Ex: Grande, média, pequena."}
                     error={!!errors.unity?.name}
-                    inputRef={productRef.unity.name}
-                  />
-                  <Input
-                    id={"product-form-unit-description"}
-                    placeholder="Descrição"
-                    helperText={"Ex: 8 Fatias, 6 Fatias, 4 Fatias"}
-                    error={!!errors.unity?.description}
-                    inputRef={productRef.unity.description}
+                    onChange={(it) =>
+                      setProduct(
+                        product.copy({
+                          unity: product.unity.copy({
+                            name: it.currentTarget.value,
+                          }),
+                        }),
+                      )
+                    }
                   />
                 </Row>
 
@@ -223,6 +201,17 @@ export function ProductsAdd() {
                   <Input
                     id={"product-form-unit-price"}
                     placeholder="Preço"
+                    error={!!errors.unity?.price}
+                    helperText={errors.unity?.price}
+                    onChange={(it) =>
+                      setProduct(
+                        product.copy({
+                          unity: product.unity.copy({
+                            price: Number(it.currentTarget.value),
+                          }),
+                        }),
+                      )
+                    }
                     type={"number"}
                     slotProps={{
                       input: {
@@ -235,9 +224,6 @@ export function ProductsAdd() {
                         min: 0,
                       },
                     }}
-                    error={!!errors.unity?.price}
-                    helperText={errors.unity?.price}
-                    inputRef={productRef.unity.price}
                   />
                   <Input
                     id={"product-form-unit-quantity"}
@@ -245,7 +231,15 @@ export function ProductsAdd() {
                     type={"number"}
                     error={!!errors.unity?.quantity}
                     helperText={errors.unity?.quantity}
-                    inputRef={productRef.unity.quantity}
+                    onChange={(it) =>
+                      setProduct(
+                        product.copy({
+                          unity: product.unity.copy({
+                            quantity: Number(it.currentTarget.value),
+                          }),
+                        }),
+                      )
+                    }
                   />
                 </Row>
               </Col>
@@ -266,13 +260,13 @@ export function ProductsAdd() {
                   placeholder={"Categoria"}
                   error={!!errors.categories}
                   helperText={errors.categories}
-                  inputRef={productRef.category}
+                  onChange={(e) => setCategory(e.target.value)}
                 />
                 <Button
                   variant="contained"
                   color="primary"
                   startIcon={<Add />}
-                  onClick={handleSetCategory}
+                  onClick={() => handleSetCategory(category)}
                   sx={{ height: 37 }}
                 >
                   Adicionar
@@ -282,7 +276,7 @@ export function ProductsAdd() {
               <Divider />
 
               <Row gap={1}>
-                {[...categories].map((category, index) => (
+                {product.categories?.map((category, index) => (
                   <Chip
                     key={category.concat(index.toString())}
                     label={category}
@@ -328,7 +322,7 @@ export function ProductsAdd() {
 
               <Divider />
               <Row justify={"center"} gap={1}>
-                {[...images].map((img) => (
+                {product.images?.map((img) => (
                   <Col key={img} position={"relative"}>
                     <Img
                       src={img}

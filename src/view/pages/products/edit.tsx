@@ -1,10 +1,14 @@
 "use client";
 
-import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react";
+import { ChangeEvent, useState } from "react";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useSearchParams } from "next/navigation";
 
-import { Conditional } from "@/com/conditional/conditional";
+import { Dialog, DialogActions } from "@mui/material";
+
 import {
   Add,
+  Empty,
   AddPhotoAlternate,
   Alert,
   Button,
@@ -25,106 +29,73 @@ import {
   Text,
 } from "@/com/ui";
 
-import { useProductFormRef } from "@/hooks/form/product";
 import { Product } from "@/model/entity/Product";
+import { Conditional } from "@/com/conditional/conditional";
+
 import {
   getProductFormIssues,
   ProductFormErrors,
   ProductSchema,
-  refScroll,
-  refValue,
-  ZodIssue,
 } from "@/model/schema/product";
 
-import { isNullOrEmpty } from "@/com/validation";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { Dialog, DialogActions } from "@mui/material";
-import { useSearchParams } from "next/navigation";
+import { toLocalDate } from "@/com/format/date";
 
 import { Api } from "@/clients/Api";
 
 export function ProductsEdit() {
   const params = useSearchParams();
-
   const id = params.get("id") as string;
 
-  const { data } = useQuery({
+  const [product, setProduct] = useState(Product.default());
+  const [category, setCategory] = useState<string>();
+
+  const [errors, setErrors] = useState({} as ProductFormErrors);
+
+  const { isLoading } = useQuery({
     queryKey: ["product", id],
-    queryFn: () => Api.products.findById(id),
+    queryFn: () =>
+      Api.products
+        .findById(id)
+        .then((it) => setProduct(it))
+        .then(() => product),
   });
 
   const mutation = useMutation({
-    mutationFn: (product: Product) => Api.products.update(product),
-    onSuccess: () => setIsSaved(true),
+    mutationFn: () => Api.products.update(product),
   });
 
   const deleteMutation = useMutation({
-    mutationFn: async () => await Api.products.delete(id),
+    mutationFn: () => Api.products.delete(id),
   });
-
-  const productRef = useProductFormRef();
-
-  const [categories, setCategories] = useState(new Set<string>());
-  const [images, setImages] = useState(new Set<string>());
-
-  const categoriesMemo = useMemo(() => data?.categories ?? [], [data]);
-  const imagesMemo = useMemo(() => data?.images ?? [], [data]);
-
-  const [errors, setErrors] = useState<ProductFormErrors>({});
-
-  const [isSaved, setIsSaved] = useState(false);
 
   const [open, setOpen] = useState(false);
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  async function onSave(e: FormEvent) {
-    e.preventDefault();
-
-    const productForm: Product = {
-      id: id,
-      name: refValue(productRef.name),
-      description: refValue(productRef.description),
-      categories: [...categories],
-      images: [...images],
-      unity: {
-        name: refValue(productRef.unity.name),
-        description: refValue(productRef.unity.description),
-        price: Number(refValue(productRef.unity.price)),
-        quantity: Number(refValue(productRef.unity.quantity)),
-      },
-    };
-
-    const form = ProductSchema.safeParse(productForm);
-    const issues = form.error?.issues as ZodIssue[];
+  async function onSave() {
+    const form = ProductSchema.safeParse(product);
 
     if (form.success) {
-      mutation.mutate(productForm);
-
-      setErrors({});
+      mutation.mutate();
     } else {
-      const productFormErrors: ProductFormErrors = getProductFormIssues(issues);
+      const formErrors = getProductFormIssues(form.error.issues);
 
-      setErrors(productFormErrors);
-      scrollToFirstError(productFormErrors);
+      setErrors(formErrors);
     }
   }
 
-  function handleSetCategory() {
-    const category = refValue(productRef.category);
-    if (isNullOrEmpty(category)) return;
+  function handleSetCategory(category?: string) {
+    const categories = new Set(product?.categories);
 
-    categories.add(category);
-    setCategories(new Set(categories));
+    if (category) categories.add(category);
+
+    setProduct(product.copy({ categories: [...categories] }));
   }
 
-  function onDeleteCategory(category: string) {
-    console.log(categories);
-    console.log(category);
-    categories.delete(category);
-    setCategories(new Set(categories));
+  function onDeleteCategory(category?: string) {
+    const categories = new Set(product?.categories);
+
+    if (category) categories.delete(category);
+
+    setProduct(product.copy({ categories: [...categories] }));
   }
 
   function handleFileUpload(e: ChangeEvent<HTMLInputElement>) {
@@ -132,48 +103,44 @@ export function ProductsEdit() {
 
     // TODO: const image = URL.createObjectURL(file);
 
+    const images = new Set(product?.images);
+
     images.add("/assets/drawable/img.png");
-    setImages(new Set(images));
+    setProduct(product.copy({ images: [...images] }));
 
     e.currentTarget.value = "";
   }
 
-  function handleDeleteFile(img: string) {
+  function handleDeleteFile(img?: string) {
     // TODO: URL.revokeObjectURL(img);
 
-    images.delete(img);
-    setImages(new Set(images));
+    const images = new Set(product?.images);
+
+    if (img) images.delete(img);
+
+    setProduct(product.copy({ images: [...images] }));
   }
 
   function handleDeleteProduct() {
     deleteMutation.mutate();
   }
 
-  function scrollToFirstError(formErrors: ProductFormErrors) {
-    if (formErrors.name) refScroll(productRef.name);
-    else if (formErrors.description) refScroll(productRef.description);
-    else if (formErrors.categories) refScroll(productRef.category);
-  }
-
-  useEffect(() => {
-    setCategories(new Set(categoriesMemo));
-    setImages(new Set(imagesMemo));
-  }, [categoriesMemo, imagesMemo]);
+  if (isLoading) return <Empty />;
 
   return (
     <Col flex={1} gap={1} padding={1} testId={"products-edit-page"}>
-      {/*Save*/}
+      {/* Update */}
       <Row justify={"center"}>
         <Row width={900} padding={1} justify={"space-between"}>
           <Col>
             <Text>Atualize as informações do produto</Text>
-            <Text>Última atualização em: 23 de Julho ás 14:30</Text>
+            <Text>Última atualização em: {toLocalDate(product.updatedAt)}</Text>
           </Col>
 
-          <Conditional bool={!isSaved}>
+          <Conditional bool={!mutation.isSuccess}>
             <Row gap={2}>
               <Button
-                type={"submit"}
+                onClick={onSave}
                 variant="contained"
                 loading={mutation.isPending}
                 size={"large"}
@@ -192,25 +159,21 @@ export function ProductsEdit() {
             </Row>
           </Conditional>
 
-          <Conditional bool={isSaved}>
-            <Alert
-              severity="success"
-              variant="filled"
-              onClose={() => setIsSaved(false)}
-              sx={{ paddingY: 0 }}
-            >
+          <Conditional bool={mutation.isSuccess}>
+            <Alert severity="success" variant="filled" sx={{ paddingY: 0 }}>
               Dados alterados!
             </Alert>
           </Conditional>
         </Row>
       </Row>
 
-      <Dialog open={open} onClose={handleClose}>
+      {/*Dialog Delete*/}
+      <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogActions>
           <Button color={"error"} onClick={handleDeleteProduct}>
             Excluir
           </Button>
-          <Button onClick={handleClose}>Cancelar</Button>
+          <Button onClick={() => setOpen(false)}>Cancelar</Button>
         </DialogActions>
       </Dialog>
 
@@ -219,7 +182,6 @@ export function ProductsEdit() {
           sx={{
             gap: 2,
           }}
-          onSubmit={onSave}
         >
           {/*Basics*/}
           <Row justify={"center"}>
@@ -233,21 +195,27 @@ export function ProductsEdit() {
               <Input
                 id={"product-form-name"}
                 placeholder="Nome"
-                defaultValue={data?.name}
+                defaultValue={product.name}
                 error={!!errors.name}
                 helperText={errors.name}
-                inputRef={productRef.name}
+                onChange={(it) =>
+                  setProduct(product.copy({ name: it.currentTarget.value }))
+                }
               />
 
               <Input
                 id={"product-form-description"}
                 placeholder="Descrição"
-                defaultValue={data?.description}
-                multiline
-                rows={4}
+                defaultValue={product.description}
                 error={!!errors.description}
                 helperText={errors.description}
-                inputRef={productRef.description}
+                onChange={(it) =>
+                  setProduct(
+                    product.copy({ description: it.currentTarget.value }),
+                  )
+                }
+                multiline
+                rows={4}
               />
             </Col>
           </Row>
@@ -265,18 +233,18 @@ export function ProductsEdit() {
                   <Input
                     id={"product-form-unit-name"}
                     placeholder={"Nome"}
-                    defaultValue={data?.unity.name}
-                    helperText={"Ex: Grande, média, pequena."}
+                    defaultValue={product.unity?.name}
                     error={!!errors.unity?.name}
-                    inputRef={productRef.unity.name}
-                  />
-                  <Input
-                    id={"product-form-unit-description"}
-                    placeholder="Descrição"
-                    defaultValue={data?.unity.description}
-                    helperText={"Ex: 8 Fatias, 6 Fatias, 4 Fatias"}
-                    error={!!errors.unity?.description}
-                    inputRef={productRef.unity.description}
+                    helperText={"Ex: Grande, média, pequena."}
+                    onChange={(it) =>
+                      setProduct(
+                        product.copy({
+                          unity: product.unity.copy({
+                            name: it.currentTarget.value,
+                          }),
+                        }),
+                      )
+                    }
                   />
                 </Row>
 
@@ -284,8 +252,19 @@ export function ProductsEdit() {
                   <Input
                     id={"product-form-unit-price"}
                     placeholder="Preço"
-                    defaultValue={data?.unity.price}
+                    defaultValue={product.unity?.price}
+                    error={!!errors.unity?.price}
+                    helperText={errors.unity?.price}
                     type={"number"}
+                    onChange={(it) =>
+                      setProduct(
+                        product.copy({
+                          unity: product.unity.copy({
+                            price: Number(it.currentTarget.value),
+                          }),
+                        }),
+                      )
+                    }
                     slotProps={{
                       input: {
                         startAdornment: (
@@ -297,18 +276,23 @@ export function ProductsEdit() {
                         min: 0,
                       },
                     }}
-                    error={!!errors.unity?.price}
-                    helperText={errors.unity?.price}
-                    inputRef={productRef.unity.price}
                   />
                   <Input
                     id={"product-form-unit-quantity"}
                     placeholder="Quantidade"
-                    defaultValue={data?.unity.quantity}
-                    type={"number"}
+                    defaultValue={product.unity?.quantity}
                     error={!!errors.unity?.quantity}
                     helperText={errors.unity?.quantity}
-                    inputRef={productRef.unity.quantity}
+                    onChange={(it) =>
+                      setProduct(
+                        product.copy({
+                          unity: product.unity.copy({
+                            quantity: Number(it.currentTarget.value),
+                          }),
+                        }),
+                      )
+                    }
+                    type={"number"}
                   />
                 </Row>
               </Col>
@@ -329,13 +313,13 @@ export function ProductsEdit() {
                   placeholder={"Categoria"}
                   error={!!errors.categories}
                   helperText={errors.categories}
-                  inputRef={productRef.category}
+                  onChange={(e) => setCategory(e.currentTarget.value)}
                 />
                 <Button
                   variant="outlined"
                   color="primary"
                   startIcon={<Add />}
-                  onClick={handleSetCategory}
+                  onClick={() => handleSetCategory(category)}
                   sx={{ height: 37 }}
                 >
                   Adicionar
@@ -345,7 +329,7 @@ export function ProductsEdit() {
               <Divider />
 
               <Row gap={1}>
-                {[...categories].map((category) => (
+                {product.categories?.map((category) => (
                   <Chip
                     key={category}
                     label={category}
@@ -391,7 +375,7 @@ export function ProductsEdit() {
 
               <Divider />
               <Row justify={"center"} gap={1}>
-                {[...images].map((img) => (
+                {product.images?.map((img) => (
                   <Col key={img} position={"relative"}>
                     <Img
                       src={img}

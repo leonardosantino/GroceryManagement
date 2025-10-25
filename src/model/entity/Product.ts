@@ -1,28 +1,55 @@
+import { Unity } from "@/model/objects/Unity";
+
 export class Product {
-  id?: string;
-  seller?: string;
+  constructor(
+    public id: string,
+    public seller: string,
+    public name: string,
+    public description: string,
+    public categories: string[],
+    public images: string[],
+    public unity: Unity,
 
-  name: string;
-  description: string;
-  categories: string[];
-  images: string[];
-  unity: Unit;
-  createdAt?: string;
-  updatedAt?: string;
-}
+    public updatedAt: string,
+  ) {}
 
-export class Unit {
-  id?: string;
-  name: string;
-  description: string;
-  price: number;
-  quantity: number;
+  static default() {
+    return new Product("", "", "", "", [], [], new Unity("", 0, 0), "");
+  }
 
-  constructor(unit: Unit) {
-    this.id = unit.id;
-    this.name = unit.name;
-    this.description = unit.description;
-    this.price = unit.price;
-    this.quantity = unit.quantity;
+  static from(product: Partial<Product>) {
+    const it = product as Product;
+    return new Product(
+      it.id,
+      it.seller,
+      it.name,
+      it.description,
+      it.categories,
+      it.images,
+      it.unity,
+      it.updatedAt,
+    );
+  }
+
+  copy({
+    id = this.id,
+    seller = this.seller,
+    name = this.name,
+    description = this.description,
+    categories = this.categories,
+    images = this.images,
+    unity = this.unity,
+    updatedAt = this.updatedAt,
+  }: Partial<Product> = {}) {
+    return new Product(
+      id,
+      seller,
+      name,
+      description,
+      categories,
+      images,
+      unity,
+      updatedAt,
+    );
   }
 }
