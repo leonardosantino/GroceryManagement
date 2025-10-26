@@ -19,10 +19,10 @@ import {
   TableHead,
   TableRow,
   Text,
-} from "@/com/ui";
+} from "@/com/ui/comps";
 
 import { Product } from "@/model/entity/Product";
-import { ColorTheme, TextTheme } from "@/com/ui/style/scheme";
+import { ColorTheme, TextTheme } from "@/com/ui/schema/scheme";
 
 import { currencyFromDouble } from "@/com/format/currency";
 import { isNullOrEmpty } from "@/com/validation";
@@ -118,7 +118,6 @@ export function ProductsList() {
                 Descrição
               </TableCell>
               <TableCell
-                colSpan={2}
                 align={"center"}
                 sx={{
                   backgroundColor: ColorTheme.container,

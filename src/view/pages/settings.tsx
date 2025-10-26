@@ -1,13 +1,4 @@
 import {
-  Edit as EditIcon,
-  LocalShipping as ShippingIcon,
-  Notifications as NotificationsIcon,
-  Payment as PaymentIcon,
-  Security as SecurityIcon,
-  Store as StoreIcon,
-} from "@mui/icons-material";
-
-import {
   Avatar,
   Button,
   CardContent,
@@ -18,10 +9,17 @@ import {
   ListItem,
   ListItemText,
   Switch,
-  TextField,
-} from "@mui/material";
-
-import { Col, Text, Paper } from "@/com/ui";
+  Input,
+  Edit,
+  LocalShipping,
+  Notifications,
+  Payment,
+  Security,
+  Store,
+  Col,
+  Text,
+  Paper,
+} from "@/com/ui/comps";
 
 export function Settings() {
   return (
@@ -34,13 +32,13 @@ export function Settings() {
           <Paper>
             <CardContent>
               <Col>
-                <StoreIcon color="primary" />
+                <Store color="primary" />
                 <Text>Store Information</Text>
               </Col>
 
               <Grid container spacing={2}>
                 <Grid size={12}>
-                  <TextField
+                  <Input
                     fullWidth
                     label="Store Name"
                     variant="outlined"
@@ -48,7 +46,7 @@ export function Settings() {
                   />
                 </Grid>
                 <Grid size={12}>
-                  <TextField
+                  <Input
                     fullWidth
                     label="Store Description"
                     variant="outlined"
@@ -58,7 +56,7 @@ export function Settings() {
                   />
                 </Grid>
                 <Grid size={6}>
-                  <TextField
+                  <Input
                     fullWidth
                     label="Store Email"
                     variant="outlined"
@@ -66,7 +64,7 @@ export function Settings() {
                   />
                 </Grid>
                 <Grid size={6}>
-                  <TextField
+                  <Input
                     fullWidth
                     label="Store Phone"
                     variant="outlined"
@@ -94,13 +92,13 @@ export function Settings() {
                   <Text>Manage your account settings</Text>
                 </Col>
                 <IconButton>
-                  <EditIcon />
+                  <Edit />
                 </IconButton>
               </Col>
 
               <Grid container spacing={2}>
                 <Grid size={6}>
-                  <TextField
+                  <Input
                     fullWidth
                     label="First Name"
                     variant="outlined"
@@ -108,7 +106,7 @@ export function Settings() {
                   />
                 </Grid>
                 <Grid size={6}>
-                  <TextField
+                  <Input
                     fullWidth
                     label="Last Name"
                     variant="outlined"
@@ -116,7 +114,7 @@ export function Settings() {
                   />
                 </Grid>
                 <Grid size={12}>
-                  <TextField
+                  <Input
                     fullWidth
                     label="Email"
                     variant="outlined"
@@ -138,7 +136,7 @@ export function Settings() {
           <Paper>
             <CardContent>
               <Col>
-                <NotificationsIcon color="primary" />
+                <Notifications color="primary" />
                 <Text>Notifications</Text>
               </Col>
 
@@ -177,13 +175,13 @@ export function Settings() {
           <Paper>
             <CardContent>
               <Col>
-                <SecurityIcon color="primary" />
+                <Security color="primary" />
                 <Text>Security</Text>
               </Col>
 
               <Grid container spacing={2}>
                 <Grid size={12}>
-                  <TextField
+                  <Input
                     fullWidth
                     label="Current Password"
                     variant="outlined"
@@ -191,7 +189,7 @@ export function Settings() {
                   />
                 </Grid>
                 <Grid size={12}>
-                  <TextField
+                  <Input
                     fullWidth
                     label="New Password"
                     variant="outlined"
@@ -199,7 +197,7 @@ export function Settings() {
                   />
                 </Grid>
                 <Grid size={12}>
-                  <TextField
+                  <Input
                     fullWidth
                     label="Confirm New Password"
                     variant="outlined"
@@ -227,7 +225,7 @@ export function Settings() {
           <Paper>
             <CardContent>
               <Col>
-                <PaymentIcon color="primary" />
+                <Payment color="primary" />
                 <Text>Payment Methods</Text>
               </Col>
 
@@ -261,7 +259,7 @@ export function Settings() {
           <Paper>
             <CardContent>
               <Col>
-                <ShippingIcon color="primary" />
+                <LocalShipping color="primary" />
                 <Text>Shipping Options</Text>
               </Col>
 

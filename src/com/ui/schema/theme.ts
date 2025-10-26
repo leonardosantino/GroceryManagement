@@ -1,6 +1,6 @@
 import { createTheme } from "@mui/material";
 import { Poppins } from "next/font/google";
-import { ColorTheme } from "@/com/ui/style/scheme";
+import { ColorTheme } from "@/com/ui/schema/scheme";
 
 export const defaultFont = Poppins({ weight: "400", subsets: ["latin"] });
 

@@ -1,4 +1,4 @@
-import { Row } from "@/com/ui";
+import { Row } from "@/com/ui/comps";
 import { Sidebar } from "@/view/comps/bar/side";
 
 import { ProductsAdd } from "@/view/pages/products/add";

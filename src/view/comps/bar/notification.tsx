@@ -1,9 +1,12 @@
 "use client";
 
-import { MessageRounded, NotificationsRounded } from "@mui/icons-material";
-import { Badge, IconButton } from "@mui/material";
-
-import { Row } from "@/com/ui";
+import {
+  Row,
+  MessageRounded,
+  NotificationsRounded,
+  Badge,
+  IconButton,
+} from "@/com/ui/comps";
 
 export function NotificationBar() {
   return (

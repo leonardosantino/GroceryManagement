@@ -1,4 +1,4 @@
-import { BoxProps, Box, BoxStyle } from "@/com/ui/comps/box";
+import { BoxProps, Box, BoxStyle } from "@/com/ui/comps/base/box";
 
 export function Row(props: Readonly<BoxProps>) {
   const { wrap, ...rest } = props;

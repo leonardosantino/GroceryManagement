@@ -3,15 +3,6 @@
 import { MouseEvent, useState } from "react";
 
 import {
-  Cancel as CancelIcon,
-  Edit as EditIcon,
-  FilterList as FilterIcon,
-  LocalShipping as ShippingIcon,
-  MoreVert as MoreVertIcon,
-  Visibility as ViewIcon,
-} from "@mui/icons-material";
-
-import {
   Button,
   CardContent,
   Chip,
@@ -30,11 +21,17 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  TextField,
-  Typography,
-} from "@mui/material";
-
-import { Col, Paper } from "@/com/ui";
+  Text,
+  Input,
+  Cancel,
+  LocalShipping,
+  Edit,
+  FilterList,
+  MoreVert,
+  Visibility,
+  Col,
+  Paper,
+} from "@/com/ui/comps";
 
 const orders = [
   {
@@ -160,7 +157,7 @@ export function Orders() {
       <Paper>
         <CardContent>
           <Col>
-            <TextField
+            <Input
               placeholder="Search orders..."
               variant="outlined"
               size="small"
@@ -170,7 +167,7 @@ export function Orders() {
             />
             <Button
               variant="outlined"
-              startIcon={<FilterIcon />}
+              startIcon={<FilterList />}
               sx={{ borderRadius: 2 }}
             >
               Filter
@@ -195,24 +192,16 @@ export function Orders() {
                 {filteredOrders.map((order) => (
                   <TableRow key={order.id} hover>
                     <TableCell>
-                      <Typography variant="body2" sx={{ fontWeight: 500 }}>
-                        {order.id}
-                      </Typography>
+                      <Text>{order.id}</Text>
                     </TableCell>
                     <TableCell>
                       <Col>
-                        <Typography variant="body2" sx={{ fontWeight: 500 }}>
-                          {order.customer}
-                        </Typography>
-                        <Typography variant="caption" color="textSecondary">
-                          {order.email}
-                        </Typography>
+                        <Text>{order.customer}</Text>
+                        <Text>{order.email}</Text>
                       </Col>
                     </TableCell>
                     <TableCell>
-                      <Typography variant="body2" sx={{ fontWeight: 500 }}>
-                        {order.total}
-                      </Typography>
+                      <Text>{order.total}</Text>
                     </TableCell>
                     <TableCell>
                       <Chip
@@ -232,19 +221,17 @@ export function Orders() {
                       />
                     </TableCell>
                     <TableCell>
-                      <Typography variant="body2" color="textSecondary">
-                        {order.date}
-                      </Typography>
+                      <Text>{order.date}</Text>
                     </TableCell>
                     <TableCell>
-                      <Typography variant="body2">{order.items}</Typography>
+                      <Text>{order.items}</Text>
                     </TableCell>
                     <TableCell align="right">
                       <IconButton
                         onClick={(e) => handleMenuClick(e, order.id)}
                         size="small"
                       >
-                        <MoreVertIcon />
+                        <MoreVert />
                       </IconButton>
                     </TableCell>
                   </TableRow>
@@ -261,19 +248,19 @@ export function Orders() {
         onClose={handleMenuClose}
       >
         <MenuItem onClick={handleViewOrder}>
-          <ViewIcon sx={{ mr: 1, fontSize: 20 }} />
+          <Visibility sx={{ mr: 1, fontSize: 20 }} />
           View Details
         </MenuItem>
         <MenuItem onClick={handleMenuClose}>
-          <EditIcon sx={{ mr: 1, fontSize: 20 }} />
+          <Edit sx={{ mr: 1, fontSize: 20 }} />
           Edit Order
         </MenuItem>
         <MenuItem onClick={handleMenuClose}>
-          <ShippingIcon sx={{ mr: 1, fontSize: 20 }} />
+          <LocalShipping sx={{ mr: 1, fontSize: 20 }} />
           Update Shipping
         </MenuItem>
         <MenuItem onClick={handleMenuClose} sx={{ color: "error.main" }}>
-          <CancelIcon sx={{ mr: 1, fontSize: 20 }} />
+          <Cancel sx={{ mr: 1, fontSize: 20 }} />
           Cancel Order
         </MenuItem>
       </Menu>
@@ -289,30 +276,26 @@ export function Orders() {
           {selectedOrderData && (
             <Grid container spacing={3} sx={{ mt: 1 }}>
               <Grid size={6}>
-                <Typography variant="h6" gutterBottom>
-                  Customer Information
-                </Typography>
-                <Typography variant="body2">
+                <Text>Customer Information</Text>
+                <Text>
                   <strong>Name:</strong> {selectedOrderData.customer}
-                </Typography>
-                <Typography variant="body2">
+                </Text>
+                <Text>
                   <strong>Email:</strong> {selectedOrderData.email}
-                </Typography>
-                <Typography variant="body2">
+                </Text>
+                <Text>
                   <strong>Order Date:</strong> {selectedOrderData.date}
-                </Typography>
+                </Text>
               </Grid>
               <Grid size={6}>
-                <Typography variant="h6" gutterBottom>
-                  Order Summary
-                </Typography>
-                <Typography variant="body2">
+                <Text>Order Summary</Text>
+                <Text>
                   <strong>Total:</strong> {selectedOrderData.total}
-                </Typography>
-                <Typography variant="body2">
+                </Text>
+                <Text>
                   <strong>Items:</strong> {selectedOrderData.items}
-                </Typography>
-                <Typography variant="body2">
+                </Text>
+                <Text>
                   <strong>Status:</strong>
                   <Chip
                     label={selectedOrderData.status}
@@ -320,17 +303,15 @@ export function Orders() {
                     size="small"
                     sx={{ ml: 1, textTransform: "capitalize" }}
                   />
-                </Typography>
+                </Text>
               </Grid>
               <Grid size={12}>
                 <Divider sx={{ my: 2 }} />
-                <Typography variant="h6" gutterBottom>
-                  Order Items
-                </Typography>
-                <Typography variant="body2" color="textSecondary">
+                <Text>Order Items</Text>
+                <Text>
                   Order items would be displayed here with product details,
                   quantities, and prices.
-                </Typography>
+                </Text>
               </Grid>
             </Grid>
           )}

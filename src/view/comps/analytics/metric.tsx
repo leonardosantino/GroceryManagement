@@ -1,12 +1,13 @@
 import {
+  Col,
+  Row,
+  Paper,
+  Text,
+  Avatar,
   SvgIconComponent,
   TrendingDown,
   TrendingUp,
-} from "@mui/icons-material";
-
-import { Avatar } from "@mui/material";
-
-import { Col, Row, Paper, Text } from "@/com/ui";
+} from "@/com/ui/comps";
 
 type Props = {
   title: string;

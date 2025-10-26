@@ -1,13 +1,14 @@
 import { ReactNode } from "react";
 import { Property } from "csstype";
-import { Typography } from "@mui/material";
+
+import Typography from "@mui/material/Typography";
 
 import {
   TextTheme,
   ThemeTextColor,
   ThemeTextSize,
   ThemeTextWeight,
-} from "@/com/ui/style/scheme";
+} from "@/com/ui/schema/scheme";
 
 type TextProps = {
   flex?: number;

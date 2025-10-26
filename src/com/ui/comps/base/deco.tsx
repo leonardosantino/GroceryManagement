@@ -1,5 +1,5 @@
-import { Box, BoxProps, BoxStyle } from "@/com/ui/comps/box";
-import { ColorTheme, ThemeColor } from "@/com/ui/style/scheme";
+import { Box, BoxProps, BoxStyle } from "@/com/ui/comps/base/box";
+import { ColorTheme, ThemeColor } from "@/com/ui/schema/scheme";
 
 type Props = {
   borderColor?: ThemeColor;

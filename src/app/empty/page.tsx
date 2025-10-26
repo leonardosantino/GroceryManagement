@@ -1,4 +1,4 @@
-import { Deco, Row, ScrollCol } from "@/com/ui";
+import { Deco, Row, ScrollCol } from "@/com/ui/comps";
 
 export default function EmptyPage() {
   return (

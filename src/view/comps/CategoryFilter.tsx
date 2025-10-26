@@ -1,6 +1,4 @@
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { Select, MenuItem, SelectChangeEvent } from "@/com/ui/comps";
 import { isEmpty, isNullOrEmptyList } from "@/com/validation";
 
 const names = ["Pizza", "Refrigerante", "Hamburguer"];
@@ -24,26 +22,25 @@ export function CategoryFilter({ categories, onChange }: Readonly<Props>) {
   }
 
   return (
-    <FormControl sx={{ width: 125 }}>
-      <Select
-        size="small"
-        multiple
-        displayEmpty
-        value={getCategoriesList()}
-        onChange={handleChange}
-        renderValue={(selected) => {
-          if (isNullOrEmptyList(selected)) return <>Categoria</>;
+    <Select
+      size="small"
+      multiple
+      displayEmpty
+      value={getCategoriesList()}
+      onChange={handleChange}
+      renderValue={(selected) => {
+        if (isNullOrEmptyList(selected)) return <>Categoria</>;
 
-          return selected.join(", ");
-        }}
-        inputProps={{ "aria-label": "Without label" }}
-      >
-        {names.map((name) => (
-          <MenuItem key={name} value={name}>
-            {name}
-          </MenuItem>
-        ))}
-      </Select>
-    </FormControl>
+        return selected.join(", ");
+      }}
+      inputProps={{ "aria-label": "Without label" }}
+      sx={{ width: 125 }}
+    >
+      {names.map((name) => (
+        <MenuItem key={name} value={name}>
+          {name}
+        </MenuItem>
+      ))}
+    </Select>
   );
 }

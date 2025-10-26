@@ -1,4 +1,4 @@
-import { BoxProps, Box, BoxStyle } from "@/com/ui/comps/box";
+import { BoxProps, Box, BoxStyle } from "@/com/ui/comps/base/box";
 
 export function Col(props: Readonly<BoxProps>) {
   const viewStyle: BoxStyle = {

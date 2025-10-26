@@ -1,6 +1,6 @@
-import { Input, InputProps } from "@mui/material";
+import Input, { InputProps } from "@mui/material/Input";
 
-import { Button } from "@/com/ui";
+import { Button } from "@/com/ui/comps";
 
 export function InputFile(props: Readonly<InputProps>) {
   return (

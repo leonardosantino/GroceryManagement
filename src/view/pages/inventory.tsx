@@ -3,15 +3,6 @@
 import { MouseEvent, useState } from "react";
 
 import {
-  Add as AddIcon,
-  Edit as EditIcon,
-  FilterList as FilterIcon,
-  MoreVert as MoreVertIcon,
-  Remove as RemoveIcon,
-  Warning as WarningIcon,
-} from "@mui/icons-material";
-
-import {
   Alert,
   Avatar,
   Button,
@@ -31,10 +22,17 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { Col, Paper } from "@/com/ui";
+  Text,
+  Input,
+  Add,
+  Edit,
+  FilterList,
+  MoreVert,
+  Remove,
+  Warning,
+  Col,
+  Paper,
+} from "@/com/ui/comps";
 
 const inventory = [
   {
@@ -170,11 +168,11 @@ export function Inventory() {
       {lowStockItems.length > 0 && (
         <Alert severity="warning" sx={{ mb: 3 }}>
           <Col>
-            <WarningIcon />
-            <Typography>
+            <Warning />
+            <Text>
               {lowStockItems.length} item(s) need attention: low stock or out of
               stock
-            </Typography>
+            </Text>
           </Col>
         </Alert>
       )}
@@ -182,7 +180,7 @@ export function Inventory() {
       <Paper>
         <CardContent>
           <Col>
-            <TextField
+            <Input
               placeholder="Search inventory..."
               variant="outlined"
               size="small"
@@ -192,7 +190,7 @@ export function Inventory() {
             />
             <Button
               variant="outlined"
-              startIcon={<FilterIcon />}
+              startIcon={<FilterList />}
               sx={{ borderRadius: 2 }}
             >
               Filter
@@ -224,30 +222,20 @@ export function Inventory() {
                           variant="rounded"
                           sx={{ width: 40, height: 40 }}
                         />
-                        <Typography variant="body2" sx={{ fontWeight: 500 }}>
-                          {item.name}
-                        </Typography>
+                        <Text>{item.name}</Text>
                       </Col>
                     </TableCell>
                     <TableCell>
-                      <Typography variant="body2" color="textSecondary">
-                        {item.sku}
-                      </Typography>
+                      <Text>{item.sku}</Text>
                     </TableCell>
                     <TableCell>
-                      <Typography variant="body2" sx={{ fontWeight: 500 }}>
-                        {item.currentStock}
-                      </Typography>
+                      <Text>{item.currentStock}</Text>
                     </TableCell>
                     <TableCell>
-                      <Typography variant="body2">
-                        {item.reservedStock}
-                      </Typography>
+                      <Text>{item.reservedStock}</Text>
                     </TableCell>
                     <TableCell>
-                      <Typography variant="body2">
-                        {item.availableStock}
-                      </Typography>
+                      <Text>{item.availableStock}</Text>
                     </TableCell>
                     <TableCell>
                       <Chip
@@ -257,21 +245,17 @@ export function Inventory() {
                       />
                     </TableCell>
                     <TableCell>
-                      <Typography variant="body2" color="textSecondary">
-                        {item.location}
-                      </Typography>
+                      <Text>{item.location}</Text>
                     </TableCell>
                     <TableCell>
-                      <Typography variant="body2" color="textSecondary">
-                        {item.lastUpdated}
-                      </Typography>
+                      <Text>{item.lastUpdated}</Text>
                     </TableCell>
                     <TableCell align="right">
                       <IconButton
                         onClick={(e) => handleMenuClick(e, item.id)}
                         size="small"
                       >
-                        <MoreVertIcon />
+                        <MoreVert />
                       </IconButton>
                     </TableCell>
                   </TableRow>
@@ -288,15 +272,15 @@ export function Inventory() {
         onClose={handleMenuClose}
       >
         <MenuItem onClick={handleAdjustStock}>
-          <EditIcon sx={{ mr: 1, fontSize: 20 }} />
+          <Edit sx={{ mr: 1, fontSize: 20 }} />
           Adjust Stock
         </MenuItem>
         <MenuItem onClick={handleMenuClose}>
-          <AddIcon sx={{ mr: 1, fontSize: 20 }} />
+          <Add sx={{ mr: 1, fontSize: 20 }} />
           Add Stock
         </MenuItem>
         <MenuItem onClick={handleMenuClose}>
-          <RemoveIcon sx={{ mr: 1, fontSize: 20 }} />
+          <Remove sx={{ mr: 1, fontSize: 20 }} />
           Remove Stock
         </MenuItem>
       </Menu>
@@ -311,7 +295,7 @@ export function Inventory() {
         <DialogContent>
           <Grid container spacing={2} sx={{ mt: 1 }}>
             <Grid size={12}>
-              <TextField
+              <Input
                 fullWidth
                 label="Current Stock"
                 variant="outlined"
@@ -323,7 +307,7 @@ export function Inventory() {
               />
             </Grid>
             <Grid size={12}>
-              <TextField
+              <Input
                 fullWidth
                 label="Adjustment Reason"
                 variant="outlined"

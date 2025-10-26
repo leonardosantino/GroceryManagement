@@ -1,4 +1,4 @@
-import { Col, Row } from "@/com/ui";
+import { Col, Row } from "@/com/ui/comps";
 import { Sidebar } from "@/view/comps/bar/side";
 import { NotificationBar } from "@/view/comps/bar/notification";
 

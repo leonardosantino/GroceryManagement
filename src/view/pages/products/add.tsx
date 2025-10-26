@@ -3,8 +3,6 @@
 import { ChangeEvent, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 
-import { Snackbar } from "@mui/material";
-
 import {
   Add,
   AddPhotoAlternate,
@@ -26,7 +24,8 @@ import {
   ScrollCol,
   Text,
   InputAdornment,
-} from "@/com/ui";
+  Snackbar,
+} from "@/com/ui/comps";
 
 import { Conditional } from "@/com/conditional/conditional";
 import { Product } from "@/model/entity/Product";
@@ -129,11 +128,7 @@ export function ProductsAdd() {
       </Snackbar>
 
       <ScrollCol>
-        <Form
-          sx={{
-            gap: 2,
-          }}
-        >
+        <Form gap={2}>
           {/*Basics*/}
           <Row justify={"center"}>
             <Col width={900} padding={1} gap={2}>
@@ -324,13 +319,7 @@ export function ProductsAdd() {
               <Row justify={"center"} gap={1}>
                 {product.images?.map((img) => (
                   <Col key={img} position={"relative"}>
-                    <Img
-                      src={img}
-                      alt={img}
-                      width={200}
-                      height={100}
-                      sx={{ width: 200, height: 100 }}
-                    />
+                    <Img src={img} alt={img} width={200} height={100} />
                     <IconButton
                       onClick={() => handleDeleteFile(img)}
                       sx={{ position: "absolute", right: 0 }}

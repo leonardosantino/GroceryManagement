@@ -1,6 +1,4 @@
-import { Divider } from "@mui/material";
-
-import { Col, Paper, Row, Text } from "@/com/ui";
+import { Col, Paper, Row, Text, Divider } from "@/com/ui/comps";
 
 export function BestSellers() {
   return (

@@ -1,11 +1,13 @@
 import {
+  Col,
+  Row,
+  ScrollCol,
   AttachMoney,
   Inventory,
   People,
   ShoppingCart,
-} from "@mui/icons-material";
+} from "@/com/ui/comps";
 
-import { Col, Row, ScrollCol } from "@/com/ui";
 import { Billing } from "@/view/comps/analytics/billing";
 import { Metric } from "@/view/comps/analytics/metric";
 import { AnalyticsOrders } from "@/view/comps/analytics/orders";

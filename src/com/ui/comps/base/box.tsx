@@ -21,8 +21,11 @@ export type BoxProps = {
   margin?: number;
   marginX?: number;
   gap?: number;
+  // on sx
   style?: BoxStyle;
+  // on props
   children?: ReactNode;
+  component?: string;
   testId?: string;
 };
 
@@ -33,9 +36,13 @@ export function Box(props: Readonly<BoxProps>) {
     wrap,
     justify,
     align,
+    // on sx
     style,
+    // on props
     children,
+    component,
     testId,
+    // on sx
     ...others
   } = props;
 
@@ -53,16 +60,21 @@ export function Box(props: Readonly<BoxProps>) {
   if (justify) viewStyle.justifyContent = justify;
   if (align) viewStyle.alignItems = align;
 
+  const other: Record<string, string | ReactNode> = {
+    children,
+  };
+
+  if (testId) other["data-testid"] = testId;
+  if (component) other.component = component;
+
   return (
     <Bx
-      data-testid={testId}
       sx={{
         ...viewStyle,
         ...others,
         ...style,
       }}
-    >
-      {children}
-    </Bx>
+      {...other}
+    />
   );
 }

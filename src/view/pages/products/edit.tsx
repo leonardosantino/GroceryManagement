@@ -4,8 +4,6 @@ import { ChangeEvent, useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
 
-import { Dialog, DialogActions } from "@mui/material";
-
 import {
   Add,
   Empty,
@@ -27,7 +25,9 @@ import {
   Row,
   ScrollCol,
   Text,
-} from "@/com/ui";
+  Dialog,
+  DialogActions,
+} from "@/com/ui/comps";
 
 import { Product } from "@/model/entity/Product";
 import { Conditional } from "@/com/conditional/conditional";
@@ -209,11 +209,7 @@ export function ProductsEdit() {
       </Dialog>
 
       <ScrollCol>
-        <Form
-          sx={{
-            gap: 2,
-          }}
-        >
+        <Form gap={2}>
           {/*Basics*/}
           <Row justify={"center"}>
             <Col width={900} padding={1} gap={2}>
@@ -408,13 +404,7 @@ export function ProductsEdit() {
               <Row justify={"center"} gap={1}>
                 {images.map((img) => (
                   <Col key={`image-${img.url}`} position={"relative"}>
-                    <Img
-                      src={img.url}
-                      alt={""}
-                      width={200}
-                      height={100}
-                      sx={{ width: 200, height: 100 }}
-                    />
+                    <Img src={img.url} alt={""} width={200} height={100} />
                     <IconButton
                       onClick={() => handleDeleteFile(img)}
                       sx={{ position: "absolute", right: 0 }}

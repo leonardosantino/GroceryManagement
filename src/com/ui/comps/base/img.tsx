@@ -1,4 +1,4 @@
-import { Box as Bx, BoxProps } from "@mui/material";
+import { Box, BoxProps } from "@/com/ui/comps/base/box";
 import Image from "next/image";
 
 type ImaProps = {
@@ -10,13 +10,13 @@ type ImaProps = {
 
 export function Img(props: Readonly<ImaProps>) {
   return (
-    <Bx {...props}>
+    <Box {...props}>
       <Image
         src={props.src}
         alt={props.alt}
         width={props.width}
         height={props.height}
       />
-    </Bx>
+    </Box>
   );
 }

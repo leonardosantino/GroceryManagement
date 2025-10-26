@@ -20,9 +20,9 @@ import {
   ShoppingCart,
   Text,
   TrendingUp,
-} from "@/com/ui";
+} from "@/com/ui/comps";
 
-const data: { isOpen: boolean } = { isOpen: false };
+const data = { isOpen: false };
 
 export function Sidebar() {
   const router = useRouter();
@@ -45,7 +45,7 @@ export function Sidebar() {
       <List>
         <Row align={"center"} justify={"center"} gap={1} padding={1}>
           <BusinessRounded />
-          <Text>Acme Co.</Text>
+          <Text>Ecom Soft Co.</Text>
         </Row>
 
         <Box margin={1} />

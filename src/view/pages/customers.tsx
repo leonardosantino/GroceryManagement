@@ -3,26 +3,17 @@
 import { MouseEvent, useState } from "react";
 
 import {
-  Block as BlockIcon,
-  Edit as EditIcon,
-  Email as EmailIcon,
-  FilterList as FilterIcon,
-  MoreVert as MoreVertIcon,
-  Visibility as ViewIcon,
-} from "@mui/icons-material";
-
-import {
   Avatar,
   Button,
-  CardContent,
   Chip,
   Dialog,
   DialogActions,
+  CardContent,
   DialogContent,
   DialogTitle,
   Grid,
-  IconButton,
   Menu,
+  IconButton,
   MenuItem,
   Table,
   TableBody,
@@ -30,10 +21,17 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { Col, Paper } from "@/com/ui";
+  Text,
+  Input,
+  Block,
+  Edit,
+  Email,
+  FilterList,
+  MoreVert,
+  Visibility,
+  Col,
+  Paper,
+} from "@/com/ui/comps";
 
 const customers = [
   {
@@ -151,7 +149,7 @@ export function Customers() {
       <Paper>
         <CardContent>
           <Col>
-            <TextField
+            <Input
               placeholder="Search customers..."
               variant="outlined"
               size="small"
@@ -161,7 +159,7 @@ export function Customers() {
             />
             <Button
               variant="outlined"
-              startIcon={<FilterIcon />}
+              startIcon={<FilterList />}
               sx={{ borderRadius: 2 }}
             >
               Filter
@@ -192,28 +190,20 @@ export function Customers() {
                         >
                           {customer.name.charAt(0)}
                         </Avatar>
-                        <Typography variant="body2" sx={{ fontWeight: 500 }}>
-                          {customer.name}
-                        </Typography>
+                        <Text>{customer.name}</Text>
                       </Col>
                     </TableCell>
                     <TableCell>
                       <Col>
-                        <Typography variant="body2">
-                          {customer.email}
-                        </Typography>
-                        <Typography variant="caption" color="textSecondary">
-                          {customer.phone}
-                        </Typography>
+                        <Text>{customer.email}</Text>
+                        <Text>{customer.phone}</Text>
                       </Col>
                     </TableCell>
                     <TableCell>
-                      <Typography variant="body2">{customer.orders}</Typography>
+                      <Text>{customer.orders}</Text>
                     </TableCell>
                     <TableCell>
-                      <Typography variant="body2" sx={{ fontWeight: 500 }}>
-                        {customer.totalSpent}
-                      </Typography>
+                      <Text>{customer.totalSpent}</Text>
                     </TableCell>
                     <TableCell>
                       <Chip
@@ -224,16 +214,14 @@ export function Customers() {
                       />
                     </TableCell>
                     <TableCell>
-                      <Typography variant="body2" color="textSecondary">
-                        {customer.joinDate}
-                      </Typography>
+                      <Text>{customer.joinDate}</Text>
                     </TableCell>
                     <TableCell align="right">
                       <IconButton
                         onClick={(e) => handleMenuClick(e, customer.id)}
                         size="small"
                       >
-                        <MoreVertIcon />
+                        <MoreVert />
                       </IconButton>
                     </TableCell>
                   </TableRow>
@@ -250,19 +238,19 @@ export function Customers() {
         onClose={handleMenuClose}
       >
         <MenuItem onClick={handleViewCustomer}>
-          <ViewIcon sx={{ mr: 1, fontSize: 20 }} />
+          <Visibility sx={{ mr: 1, fontSize: 20 }} />
           View Profile
         </MenuItem>
         <MenuItem onClick={handleMenuClose}>
-          <EditIcon sx={{ mr: 1, fontSize: 20 }} />
+          <Edit sx={{ mr: 1, fontSize: 20 }} />
           Edit Customer
         </MenuItem>
         <MenuItem onClick={handleMenuClose}>
-          <EmailIcon sx={{ mr: 1, fontSize: 20 }} />
+          <Email sx={{ mr: 1, fontSize: 20 }} />
           Send Email
         </MenuItem>
         <MenuItem onClick={handleMenuClose} sx={{ color: "error.main" }}>
-          <BlockIcon sx={{ mr: 1, fontSize: 20 }} />
+          <Block sx={{ mr: 1, fontSize: 20 }} />
           Block Customer
         </MenuItem>
       </Menu>
@@ -278,34 +266,30 @@ export function Customers() {
           {selectedCustomerData && (
             <Grid container spacing={3} sx={{ mt: 1 }}>
               <Grid size={6}>
-                <Typography variant="h6" gutterBottom>
-                  Personal Information
-                </Typography>
-                <Typography variant="body2">
+                <Text>Personal Information</Text>
+                <Text>
                   <strong>Name:</strong> {selectedCustomerData.name}
-                </Typography>
-                <Typography variant="body2">
+                </Text>
+                <Text>
                   <strong>Email:</strong> {selectedCustomerData.email}
-                </Typography>
-                <Typography variant="body2">
+                </Text>
+                <Text>
                   <strong>Phone:</strong> {selectedCustomerData.phone}
-                </Typography>
-                <Typography variant="body2">
+                </Text>
+                <Text>
                   <strong>Join Date:</strong> {selectedCustomerData.joinDate}
-                </Typography>
+                </Text>
               </Grid>
               <Grid size={6}>
-                <Typography variant="h6" gutterBottom>
-                  Order History
-                </Typography>
-                <Typography variant="body2">
+                <Text>Order History</Text>
+                <Text>
                   <strong>Total Orders:</strong> {selectedCustomerData.orders}
-                </Typography>
-                <Typography variant="body2">
+                </Text>
+                <Text>
                   <strong>Total Spent:</strong>{" "}
                   {selectedCustomerData.totalSpent}
-                </Typography>
-                <Typography variant="body2">
+                </Text>
+                <Text>
                   <strong>Status:</strong>
                   <Chip
                     label={selectedCustomerData.status}
@@ -313,7 +297,7 @@ export function Customers() {
                     size="small"
                     sx={{ ml: 1, textTransform: "capitalize" }}
                   />
-                </Typography>
+                </Text>
               </Grid>
             </Grid>
           )}

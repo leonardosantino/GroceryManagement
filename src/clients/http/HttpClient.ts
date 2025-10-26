@@ -83,8 +83,13 @@ export class HttpClient {
   }
 
   async delete({ path }: { path: string }) {
+    const headers = { ...this.accept };
+
+    this.setAuthorizationHeader(headers);
+
     await fetch(this.baseUrl.concat(path), {
       method: "DELETE",
+      headers,
     });
   }
 

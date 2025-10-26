@@ -1,13 +1,13 @@
 import {
-  Table,
-  TableBody,
-  TableCell,
   TableContainer,
+  Text,
+  Paper,
+  Table,
   TableHead,
   TableRow,
-} from "@mui/material";
-
-import { Paper, Text } from "@/com/ui";
+  TableCell,
+  TableBody,
+} from "@/com/ui/comps";
 
 export function AnalyticsOrders() {
   return (
