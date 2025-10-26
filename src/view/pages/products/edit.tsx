@@ -2,7 +2,7 @@
 
 import { ChangeEvent, useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import { Dialog, DialogActions } from "@mui/material";
 
@@ -41,12 +41,17 @@ import {
 import { toLocalDate } from "@/com/format/date";
 
 import { Api } from "@/clients/Api";
+import { isNull } from "@/com/validation";
 
 export function ProductsEdit() {
+  const router = useRouter();
   const params = useSearchParams();
   const id = params.get("id") as string;
 
   const [product, setProduct] = useState(Product.default());
+  const [images, setImages] = useState<{ url: string; file: File | null }[]>(
+    product.images.map((it) => ({ url: it, file: null })),
+  );
   const [category, setCategory] = useState<string>();
 
   const [errors, setErrors] = useState({} as ProductFormErrors);
@@ -56,15 +61,30 @@ export function ProductsEdit() {
     queryFn: () =>
       Api.products
         .findById(id)
-        .then((it) => setProduct(it))
-        .then(() => product),
+        .then((it) => setItProduct(it))
+        .then((it) => setItImages(it)),
   });
 
-  const mutation = useMutation({
-    mutationFn: () => Api.products.update(product),
+  function setItProduct(it: Product) {
+    setProduct(it);
+    return it;
+  }
+
+  function setItImages(it: Product) {
+    const imgs = it.images.map((it) => ({ url: it, file: null }));
+    setImages(imgs);
+    return it;
+  }
+
+  const mutationUpdate = useMutation({
+    mutationFn: (it: Product) => Api.products.update(it),
   });
 
-  const deleteMutation = useMutation({
+  const mutationStorage = useMutation({
+    mutationFn: (file: File) => Api.storage.upload(file),
+  });
+
+  const mutationDelete = useMutation({
     mutationFn: () => Api.products.delete(id),
   });
 
@@ -74,7 +94,17 @@ export function ProductsEdit() {
     const form = ProductSchema.safeParse(product);
 
     if (form.success) {
-      mutation.mutate();
+      const files = images
+        .filter((it) => !isNull(it.file))
+        .map((it) => it.file) as File[];
+      const imgs = images.filter((it) => isNull(it.file)).map((it) => it.url);
+
+      const promises = files.map((it) => mutationStorage.mutateAsync(it));
+      const data = await Promise.all(promises);
+
+      const urls = data.map((it) => it.url);
+
+      mutationUpdate.mutate(product.copy({ images: imgs.concat(urls) }));
     } else {
       const formErrors = getProductFormIssues(form.error.issues);
 
@@ -98,31 +128,32 @@ export function ProductsEdit() {
     setProduct(product.copy({ categories: [...categories] }));
   }
 
-  function handleFileUpload(e: ChangeEvent<HTMLInputElement>) {
-    // TODO: const file = e.currentTarget.files?.[0] as File;
+  function handleImageUpload(e: ChangeEvent<HTMLInputElement>) {
+    const file = e.currentTarget.files?.[0] as File;
+    const img = URL.createObjectURL(file);
 
-    // TODO: const image = URL.createObjectURL(file);
+    const imgs = new Set(images);
 
-    const images = new Set(product?.images);
+    imgs.add({ url: img, file });
 
-    images.add("/assets/drawable/img.png");
-    setProduct(product.copy({ images: [...images] }));
+    setImages([...imgs]);
 
     e.currentTarget.value = "";
   }
 
-  function handleDeleteFile(img?: string) {
-    // TODO: URL.revokeObjectURL(img);
+  function handleDeleteFile(img: { url: string; file: File | null }) {
+    const imgs = new Set(images);
 
-    const images = new Set(product?.images);
+    if (img.file) URL.revokeObjectURL(img.url);
+    if (img) imgs.delete(img);
 
-    if (img) images.delete(img);
-
-    setProduct(product.copy({ images: [...images] }));
+    setImages([...imgs]);
   }
 
   function handleDeleteProduct() {
-    deleteMutation.mutate();
+    mutationDelete.mutate();
+
+    router.push("/products/list");
   }
 
   if (isLoading) return <Empty />;
@@ -137,12 +168,12 @@ export function ProductsEdit() {
             <Text>Última atualização em: {toLocalDate(product.updatedAt)}</Text>
           </Col>
 
-          <Conditional bool={!mutation.isSuccess}>
+          <Conditional bool={!mutationUpdate.isSuccess}>
             <Row gap={2}>
               <Button
                 onClick={onSave}
                 variant="contained"
-                loading={mutation.isPending}
+                loading={mutationUpdate.isPending}
                 size={"large"}
               >
                 Atualizar
@@ -159,7 +190,7 @@ export function ProductsEdit() {
             </Row>
           </Conditional>
 
-          <Conditional bool={mutation.isSuccess}>
+          <Conditional bool={mutationUpdate.isSuccess}>
             <Alert severity="success" variant="filled" sx={{ paddingY: 0 }}>
               Dados alterados!
             </Alert>
@@ -365,7 +396,7 @@ export function ProductsEdit() {
                   <AddPhotoAlternate />
                   <InputFile
                     id={"product-form-image"}
-                    onChange={handleFileUpload}
+                    onChange={handleImageUpload}
                   />
                 </Deco>
                 <Conditional bool={!!errors.images}>
@@ -375,11 +406,11 @@ export function ProductsEdit() {
 
               <Divider />
               <Row justify={"center"} gap={1}>
-                {product.images?.map((img) => (
-                  <Col key={img} position={"relative"}>
+                {images.map((img) => (
+                  <Col key={`image-${img.url}`} position={"relative"}>
                     <Img
-                      src={img}
-                      alt={img}
+                      src={img.url}
+                      alt={""}
                       width={200}
                       height={100}
                       sx={{ width: 200, height: 100 }}

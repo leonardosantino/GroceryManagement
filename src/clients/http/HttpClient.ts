@@ -17,7 +17,7 @@ export class HttpClient {
   async post({ path, body }: { path: string; body: unknown }) {
     const headers = { ...this.contentType, ...this.accept };
 
-    await this.setAuthorizationHeader(headers);
+    this.setAuthorizationHeader(headers);
 
     const response = await fetch(this.baseUrl.concat(path), {
       method: "POST",
@@ -30,10 +30,30 @@ export class HttpClient {
     return this.errorResponse(response);
   }
 
+  async upload({ path, body }: { path: string; body: File }) {
+    const headers = { ...this.accept };
+
+    this.setAuthorizationHeader(headers);
+
+    const data = new FormData();
+
+    data.append("file", body);
+
+    const response = await fetch(this.baseUrl.concat(path), {
+      method: "POST",
+      headers,
+      body: data,
+    });
+
+    if (response.ok) return response.json();
+
+    return this.errorResponse(response);
+  }
+
   async put({ path, body }: { path: string; body: unknown }) {
     const headers = { ...this.contentType, ...this.accept };
 
-    await this.setAuthorizationHeader(headers);
+    this.setAuthorizationHeader(headers);
 
     const response = await fetch(this.baseUrl.concat(path), {
       method: "PUT",
@@ -50,7 +70,7 @@ export class HttpClient {
     const headers = { ...this.accept };
     const params = this.getParams(request.params);
 
-    await this.setAuthorizationHeader(headers);
+    this.setAuthorizationHeader(headers);
 
     const response = await fetch(this.baseUrl.concat(request.path, params), {
       method: "GET",
@@ -76,7 +96,7 @@ export class HttpClient {
     return "?".concat(paramsString);
   }
 
-  private async setAuthorizationHeader(headers: Record<string, string>) {
+  private setAuthorizationHeader(headers: Record<string, string>) {
     const { token } = this.sessionStorage.getSession();
     if (token) headers.Authorization = this.bearer.concat(token);
   }
