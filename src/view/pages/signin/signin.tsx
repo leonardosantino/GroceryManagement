@@ -17,7 +17,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { User } from "@/model/entity/User";
 
-import { useSession } from "@/com/provider/data/SessionProvider";
+import { useSession } from "@/provider/data/SessionProvider";
 
 export default function SignIn() {
   const { setSession } = useSession();

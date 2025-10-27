@@ -5,7 +5,7 @@ import { ReactNode } from "react";
 import SignIn from "@/view/pages/signin/signin";
 
 import { Conditional, Empty } from "@/com/ui/comps";
-import { useSession } from "@/com/provider/data/SessionProvider";
+import { useSession } from "@/provider/data/SessionProvider";
 
 export function ProtectedProvider({
   children,

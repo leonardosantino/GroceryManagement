@@ -3,7 +3,7 @@ import "@/app/global.css";
 import { ReactNode } from "react";
 
 import { appMetadata, appViewport } from "@/com/metadata/app";
-import { RootLayoutProvider } from "@/com/provider/RootLayoutProvider";
+import { RootLayoutProvider } from "@/provider/RootLayoutProvider";
 import { defaultFont } from "@/com/ui/schema/theme";
 
 import type { Metadata, Viewport } from "next";

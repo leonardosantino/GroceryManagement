@@ -7,8 +7,8 @@ import { ReactNode, useState } from "react";
 
 import { theme } from "@/com/ui/schema/theme";
 import { CacheTime } from "@/clients/http/CacheTime";
-import { ProtectedProvider } from "@/view/comps/protected/Protected";
-import { SessionProvider } from "@/com/provider/data/SessionProvider";
+import { ProtectedProvider } from "@/provider/ProtectedProvider";
+import { SessionProvider } from "@/provider/data/SessionProvider";
 
 const queryClient = new QueryClient({
   defaultOptions: {
