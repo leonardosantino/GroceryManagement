@@ -11,6 +11,7 @@ export { Input } from "@/com/ui/comps/base/input/input";
 export { InputFile } from "@/com/ui/comps/base/input/file";
 export { Button } from "@/com/ui/comps/base/button";
 export { Empty } from "@/com/ui/comps/base/empty";
+export { Conditional } from "@/com/ui/comps/base/Conditional";
 
 // MUI Components
 import type { SelectChangeEvent } from "@mui/material/Select";

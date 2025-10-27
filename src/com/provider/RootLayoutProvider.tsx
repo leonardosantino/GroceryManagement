@@ -7,6 +7,8 @@ import { ReactNode, useState } from "react";
 
 import { theme } from "@/com/ui/schema/theme";
 import { CacheTime } from "@/clients/http/CacheTime";
+import { ProtectedProvider } from "@/view/comps/protected/Protected";
+import { SessionProvider } from "@/com/provider/data/SessionProvider";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -25,7 +27,11 @@ export function RootLayoutProvider({
     <AppRouterCacheProvider>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <QueryClientProvider client={client}>{children}</QueryClientProvider>
+        <QueryClientProvider client={client}>
+          <SessionProvider>
+            <ProtectedProvider>{children}</ProtectedProvider>
+          </SessionProvider>
+        </QueryClientProvider>
       </ThemeProvider>
     </AppRouterCacheProvider>
   );

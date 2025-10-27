@@ -25,9 +25,9 @@ import {
   Text,
   InputAdornment,
   Snackbar,
+  Conditional,
 } from "@/com/ui/comps";
 
-import { Conditional } from "@/com/conditional/conditional";
 import { Product } from "@/model/entity/Product";
 
 import {

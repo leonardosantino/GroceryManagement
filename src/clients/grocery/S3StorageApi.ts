@@ -1,5 +1,5 @@
 import { HttpClient } from "@/clients/http/HttpClient";
-import { UploadResponse } from "@/model/dto/UploadResponse";
+import { UploadResponse } from "@/model/dto/response/UploadResponse";
 
 export class S3StorageApi {
   private readonly client = new HttpClient();

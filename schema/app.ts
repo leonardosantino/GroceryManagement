@@ -1,5 +1,5 @@
 export const App = {
-  schema: "villaggiopizzeria",
+  schema: "villaggiopizzeriamanagement",
   Seller: {
     id: "1",
     name: "Villaggio Pizzeria",

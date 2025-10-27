@@ -27,10 +27,10 @@ import {
   Text,
   Dialog,
   DialogActions,
+  Conditional,
 } from "@/com/ui/comps";
 
 import { Product } from "@/model/entity/Product";
-import { Conditional } from "@/com/conditional/conditional";
 
 import {
   getProductFormIssues,

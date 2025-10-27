@@ -10,7 +10,6 @@ import {
 import { UserEvent, userEvent as event } from "@testing-library/user-event";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { RootLayoutProvider } from "@/com/provider/provider";
 
 const queryClientTest = new QueryClient({
   defaultOptions: {
@@ -23,11 +22,9 @@ const queryClientTest = new QueryClient({
 
 function AllTheProviders({ children }: Readonly<{ children: ReactNode }>) {
   return (
-    <RootLayoutProvider>
-      <QueryClientProvider client={queryClientTest}>
-        {children}
-      </QueryClientProvider>
-    </RootLayoutProvider>
+    <QueryClientProvider client={queryClientTest}>
+      {children}
+    </QueryClientProvider>
   );
 }
 
