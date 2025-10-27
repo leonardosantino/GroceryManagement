@@ -10,12 +10,12 @@ import {
   ListItemText,
   Switch,
   Input,
-  Edit,
-  LocalShipping,
-  Notifications,
-  Payment,
-  Security,
-  Store,
+  EditIcon,
+  LocalShippingIcon,
+  NotificationsIcon,
+  PaymentIcon,
+  SecurityIcon,
+  StoreIcon,
   Col,
   Text,
   Paper,
@@ -32,7 +32,7 @@ export function Settings() {
           <Paper>
             <CardContent>
               <Col>
-                <Store color="primary" />
+                <StoreIcon color="primary" />
                 <Text>Store Information</Text>
               </Col>
 
@@ -92,7 +92,7 @@ export function Settings() {
                   <Text>Manage your account settings</Text>
                 </Col>
                 <IconButton>
-                  <Edit />
+                  <EditIcon />
                 </IconButton>
               </Col>
 
@@ -136,7 +136,7 @@ export function Settings() {
           <Paper>
             <CardContent>
               <Col>
-                <Notifications color="primary" />
+                <NotificationsIcon color="primary" />
                 <Text>Notifications</Text>
               </Col>
 
@@ -175,7 +175,7 @@ export function Settings() {
           <Paper>
             <CardContent>
               <Col>
-                <Security color="primary" />
+                <SecurityIcon color="primary" />
                 <Text>Security</Text>
               </Col>
 
@@ -225,7 +225,7 @@ export function Settings() {
           <Paper>
             <CardContent>
               <Col>
-                <Payment color="primary" />
+                <PaymentIcon color="primary" />
                 <Text>Payment Methods</Text>
               </Col>
 
@@ -259,7 +259,7 @@ export function Settings() {
           <Paper>
             <CardContent>
               <Col>
-                <LocalShipping color="primary" />
+                <LocalShippingIcon color="primary" />
                 <Text>Shipping Options</Text>
               </Col>
 

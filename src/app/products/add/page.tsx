@@ -7,7 +7,6 @@ export default function ProductsAddPage() {
   return (
     <Container>
       <Sidebar />
-
       <ProductsAdd />
     </Container>
   );

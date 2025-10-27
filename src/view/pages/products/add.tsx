@@ -4,23 +4,23 @@ import { ChangeEvent, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 
 import {
-  Add,
-  AddPhotoAlternate,
+  AddIcon,
+  AddPhotoAlternateIcon,
   Alert,
   Button,
   Chip,
   Col,
   Deco,
-  Delete,
+  DeleteIcon,
   Divider,
   Form,
   IconButton,
   Img,
   Input,
   InputFile,
-  Inventory,
+  InventoryIcon,
   Row,
-  SaveRounded,
+  SaveIcon,
   ScrollCol,
   Text,
   InputAdornment,
@@ -108,7 +108,7 @@ export function ProductsAdd() {
           <Button
             onClick={onSave}
             variant="outlined"
-            startIcon={<SaveRounded />}
+            startIcon={<SaveIcon />}
             loading={isPending}
             size={"large"}
           >
@@ -128,12 +128,12 @@ export function ProductsAdd() {
       </Snackbar>
 
       <ScrollCol>
-        <Form gap={2}>
+        <Form direction={"column"} gap={2}>
           {/*Basics*/}
           <Row justify={"center"}>
             <Col width={900} padding={1} gap={2}>
               <Row gap={1}>
-                <Inventory />
+                <InventoryIcon />
                 <Text>Informações Básicas</Text>
               </Row>
               <Text>Adicione nome e descrição do produto.</Text>
@@ -260,7 +260,7 @@ export function ProductsAdd() {
                 <Button
                   variant="contained"
                   color="primary"
-                  startIcon={<Add />}
+                  startIcon={<AddIcon />}
                   onClick={() => handleSetCategory(category)}
                   sx={{ height: 37 }}
                 >
@@ -286,7 +286,7 @@ export function ProductsAdd() {
           <Row justify={"center"}>
             <Col width={900} padding={1} gap={2}>
               <Row gap={1}>
-                <AddPhotoAlternate />
+                <AddPhotoAlternateIcon />
                 <Text>Imagens</Text>
               </Row>
 
@@ -304,7 +304,7 @@ export function ProductsAdd() {
                   width={300}
                   height={200}
                 >
-                  <AddPhotoAlternate />
+                  <AddPhotoAlternateIcon />
                   <InputFile
                     id={"product-form-image"}
                     onChange={handleFileUpload}
@@ -324,7 +324,7 @@ export function ProductsAdd() {
                       onClick={() => handleDeleteFile(img)}
                       sx={{ position: "absolute", right: 0 }}
                     >
-                      <Delete />
+                      <DeleteIcon />
                     </IconButton>
                   </Col>
                 ))}

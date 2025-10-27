@@ -9,6 +9,7 @@ type DataState = {
   session: Data;
   isLoading: boolean;
   setSession: (session: string) => void;
+  deleteSession: () => void;
 };
 
 import { Storage } from "@/clients/Storage";
@@ -41,8 +42,16 @@ export function SessionProvider({
     setData(session);
   }
 
+  function deleteSession() {
+    Storage.session.deleteSession();
+    const session = Storage.session.getSession();
+    setData(session);
+  }
+
   return (
-    <SessionContext.Provider value={{ session: data, isLoading, setSession }}>
+    <SessionContext.Provider
+      value={{ session: data, isLoading, setSession, deleteSession }}
+    >
       {children}
     </SessionContext.Provider>
   );

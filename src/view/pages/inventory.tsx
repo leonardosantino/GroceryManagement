@@ -24,12 +24,12 @@ import {
   TableRow,
   Text,
   Input,
-  Add,
-  Edit,
-  FilterList,
-  MoreVert,
-  Remove,
-  Warning,
+  AddIcon,
+  EditIcon,
+  FilterListIcon,
+  MoreVertIcon,
+  RemoveIcon,
+  WarningIcon,
   Col,
   Paper,
 } from "@/com/ui/comps";
@@ -168,7 +168,7 @@ export function Inventory() {
       {lowStockItems.length > 0 && (
         <Alert severity="warning" sx={{ mb: 3 }}>
           <Col>
-            <Warning />
+            <WarningIcon />
             <Text>
               {lowStockItems.length} item(s) need attention: low stock or out of
               stock
@@ -190,7 +190,7 @@ export function Inventory() {
             />
             <Button
               variant="outlined"
-              startIcon={<FilterList />}
+              startIcon={<FilterListIcon />}
               sx={{ borderRadius: 2 }}
             >
               Filter
@@ -255,7 +255,7 @@ export function Inventory() {
                         onClick={(e) => handleMenuClick(e, item.id)}
                         size="small"
                       >
-                        <MoreVert />
+                        <MoreVertIcon />
                       </IconButton>
                     </TableCell>
                   </TableRow>
@@ -272,15 +272,15 @@ export function Inventory() {
         onClose={handleMenuClose}
       >
         <MenuItem onClick={handleAdjustStock}>
-          <Edit sx={{ mr: 1, fontSize: 20 }} />
+          <EditIcon sx={{ mr: 1, fontSize: 20 }} />
           Adjust Stock
         </MenuItem>
         <MenuItem onClick={handleMenuClose}>
-          <Add sx={{ mr: 1, fontSize: 20 }} />
+          <AddIcon sx={{ mr: 1, fontSize: 20 }} />
           Add Stock
         </MenuItem>
         <MenuItem onClick={handleMenuClose}>
-          <Remove sx={{ mr: 1, fontSize: 20 }} />
+          <RemoveIcon sx={{ mr: 1, fontSize: 20 }} />
           Remove Stock
         </MenuItem>
       </Menu>

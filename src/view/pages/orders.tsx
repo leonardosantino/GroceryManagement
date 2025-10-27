@@ -23,12 +23,12 @@ import {
   TableRow,
   Text,
   Input,
-  Cancel,
-  LocalShipping,
-  Edit,
-  FilterList,
-  MoreVert,
-  Visibility,
+  CancelIcon,
+  LocalShippingIcon,
+  EditIcon,
+  FilterListIcon,
+  MoreVertIcon,
+  VisibilityIcon,
   Col,
   Paper,
 } from "@/com/ui/comps";
@@ -167,7 +167,7 @@ export function Orders() {
             />
             <Button
               variant="outlined"
-              startIcon={<FilterList />}
+              startIcon={<FilterListIcon />}
               sx={{ borderRadius: 2 }}
             >
               Filter
@@ -231,7 +231,7 @@ export function Orders() {
                         onClick={(e) => handleMenuClick(e, order.id)}
                         size="small"
                       >
-                        <MoreVert />
+                        <MoreVertIcon />
                       </IconButton>
                     </TableCell>
                   </TableRow>
@@ -248,19 +248,19 @@ export function Orders() {
         onClose={handleMenuClose}
       >
         <MenuItem onClick={handleViewOrder}>
-          <Visibility sx={{ mr: 1, fontSize: 20 }} />
+          <VisibilityIcon sx={{ mr: 1, fontSize: 20 }} />
           View Details
         </MenuItem>
         <MenuItem onClick={handleMenuClose}>
-          <Edit sx={{ mr: 1, fontSize: 20 }} />
+          <EditIcon sx={{ mr: 1, fontSize: 20 }} />
           Edit Order
         </MenuItem>
         <MenuItem onClick={handleMenuClose}>
-          <LocalShipping sx={{ mr: 1, fontSize: 20 }} />
+          <LocalShippingIcon sx={{ mr: 1, fontSize: 20 }} />
           Update Shipping
         </MenuItem>
         <MenuItem onClick={handleMenuClose} sx={{ color: "error.main" }}>
-          <Cancel sx={{ mr: 1, fontSize: 20 }} />
+          <CancelIcon sx={{ mr: 1, fontSize: 20 }} />
           Cancel Order
         </MenuItem>
       </Menu>

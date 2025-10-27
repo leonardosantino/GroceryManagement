@@ -49,6 +49,7 @@ import Menu from "@mui/material/Menu";
 import ListItemText from "@mui/material/ListItemText";
 import Switch from "@mui/material/Switch";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import Tooltip from "@mui/material/Tooltip";
 
 export {
   Collapse,
@@ -85,77 +86,76 @@ export {
   ListItemText,
   Switch,
   FormControlLabel,
+  Tooltip,
 };
 
 // MUI Icons
 import type { SvgIconComponent } from "@mui/icons-material";
-import {
-  BusinessRounded,
-  ExpandLess,
-  ExpandMore,
-  Inventory,
-  People,
-  ShoppingCart,
-  TrendingUp,
-  AddPhotoAlternate,
-  Category,
-  Delete,
-  SaveRounded,
-  Close,
-  Add,
-  FilterList,
-  MoreVert,
-  ContentCopy,
-  Edit,
-  TrendingDown,
-  MessageRounded,
-  NotificationsRounded,
-  AttachMoney,
-  Block,
-  Email,
-  Visibility,
-  Remove,
-  Warning,
-  Cancel,
-  LocalShipping,
-  Notifications,
-  Payment,
-  Security,
-  Store,
-} from "@mui/icons-material";
+import BusinessIcon from "@mui/icons-material/BusinessRounded";
+import ExpandLessIcon from "@mui/icons-material/ExpandLessRounded";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMoreRounded";
+import InventoryIcon from "@mui/icons-material/InventoryRounded";
+import PeopleIcon from "@mui/icons-material/PeopleRounded";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCartRounded";
+import TrendingUpIcon from "@mui/icons-material/TrendingUpRounded";
+import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternateRounded";
+import CategoryIcon from "@mui/icons-material/CategoryRounded";
+import DeleteIcon from "@mui/icons-material/DeleteRounded";
+import SaveIcon from "@mui/icons-material/SaveRounded";
+import CloseIcon from "@mui/icons-material/CloseRounded";
+import AddIcon from "@mui/icons-material/AddRounded";
+import FilterListIcon from "@mui/icons-material/FilterListRounded";
+import MoreVertIcon from "@mui/icons-material/MoreVertRounded";
+import ContentCopyIcon from "@mui/icons-material/ContentCopyRounded";
+import EditIcon from "@mui/icons-material/EditRounded";
+import TrendingDownIcon from "@mui/icons-material/TrendingDownRounded";
+import MessageIcon from "@mui/icons-material/MessageRounded";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoneyRounded";
+import BlockIcon from "@mui/icons-material/BlockRounded";
+import EmailIcon from "@mui/icons-material/EmailRounded";
+import VisibilityIcon from "@mui/icons-material/VisibilityRounded";
+import RemoveIcon from "@mui/icons-material/RemoveRounded";
+import WarningIcon from "@mui/icons-material/WarningRounded";
+import CancelIcon from "@mui/icons-material/CancelRounded";
+import LocalShippingIcon from "@mui/icons-material/LocalShippingRounded";
+import NotificationsIcon from "@mui/icons-material/NotificationsRounded";
+import PaymentIcon from "@mui/icons-material/PaymentRounded";
+import SecurityIcon from "@mui/icons-material/SecurityRounded";
+import StoreIcon from "@mui/icons-material/StoreRounded";
+import LogoutIcon from "@mui/icons-material/LogoutRounded";
 
 export type { SvgIconComponent };
 export {
-  BusinessRounded,
-  ExpandLess,
-  ExpandMore,
-  Inventory,
-  People,
-  ShoppingCart,
-  TrendingUp,
-  AddPhotoAlternate,
-  Category,
-  Delete,
-  SaveRounded,
-  Close,
-  Add,
-  FilterList,
-  MoreVert,
-  ContentCopy,
-  Edit,
-  TrendingDown,
-  MessageRounded,
-  NotificationsRounded,
-  AttachMoney,
-  Block,
-  Email,
-  Visibility,
-  Remove,
-  Warning,
-  Cancel,
-  LocalShipping,
-  Notifications,
-  Payment,
-  Security,
-  Store,
+  BusinessIcon,
+  ExpandLessIcon,
+  ExpandMoreIcon,
+  InventoryIcon,
+  PeopleIcon,
+  ShoppingCartIcon,
+  TrendingUpIcon,
+  AddPhotoAlternateIcon,
+  CategoryIcon,
+  DeleteIcon,
+  SaveIcon,
+  CloseIcon,
+  AddIcon,
+  FilterListIcon,
+  MoreVertIcon,
+  ContentCopyIcon,
+  EditIcon,
+  TrendingDownIcon,
+  MessageIcon,
+  AttachMoneyIcon,
+  BlockIcon,
+  EmailIcon,
+  VisibilityIcon,
+  RemoveIcon,
+  WarningIcon,
+  CancelIcon,
+  LocalShippingIcon,
+  NotificationsIcon,
+  PaymentIcon,
+  SecurityIcon,
+  StoreIcon,
+  LogoutIcon,
 };

@@ -9,7 +9,7 @@ import {
   Box,
   Button,
   Col,
-  FilterList,
+  FilterListIcon,
   Input,
   Row,
   Table,
@@ -25,14 +25,12 @@ import { Product } from "@/model/entity/Product";
 import { ColorTheme, TextTheme } from "@/com/ui/schema/scheme";
 
 import { currencyFromDouble } from "@/com/format/currency";
-import { isNullOrEmpty } from "@/com/validation";
+import { isNullOrEmpty, isNullOrEmptyList } from "@/com/validation";
 
 import { Api } from "@/clients/Api";
 import { CategoryFilter } from "@/view/comps/CategoryFilter";
 
 export function ProductsList() {
-  const router = useRouter();
-
   const [page, setPage] = useState({
     key: "productsList",
     last: "",
@@ -63,7 +61,7 @@ export function ProductsList() {
     return (data?.items.length as number) < 10;
   }
 
-  function getName(it: string) {
+  function setSearchName(it: string) {
     if (it.length < 1) setName("");
     if (it.length % 3 !== 0) return;
 
@@ -77,10 +75,10 @@ export function ProductsList() {
         <Input
           placeholder="Pesquisar..."
           sx={{ flexGrow: 0.25 }}
-          onChange={(it) => getName(it.target.value)}
+          onChange={(it) => setSearchName(it.target.value)}
         />
         <Row gap={1} align={"center"}>
-          <FilterList color={"info"} />
+          <FilterListIcon color={"info"} />
           <Text color={"info"}>Filtros</Text>
           <CategoryFilter categories={categories} onChange={setCategories} />
         </Row>
@@ -146,25 +144,7 @@ export function ProductsList() {
           </TableHead>
 
           <TableBody>
-            {getProducts().map((product: Product) => (
-              <TableRow
-                key={product.id}
-                hover
-                sx={{ cursor: "pointer" }}
-                onClick={() =>
-                  router.push("/products/edit?id=".concat(product.id as string))
-                }
-              >
-                <TableCell sx={{ padding: 1 }}>
-                  <Avatar src={product.images[0]} variant="rounded" />
-                </TableCell>
-                <TableCell>{product.name}</TableCell>
-                <TableCell>{product.description}</TableCell>
-                <TableCell>{product.unity.name}</TableCell>
-                <TableCell>{currencyFromDouble(product.unity.price)}</TableCell>
-                <TableCell align={"center"}>{product.unity.quantity}</TableCell>
-              </TableRow>
-            ))}
+            <ListProducts products={getProducts()} />
           </TableBody>
         </Table>
       </TableContainer>
@@ -189,4 +169,37 @@ export function ProductsList() {
       </Box>
     </Col>
   );
+}
+
+function ListProducts({ products }: Readonly<{ products: Product[] }>) {
+  const router = useRouter();
+
+  const isEmpty = isNullOrEmptyList(products);
+
+  if (isEmpty)
+    return (
+      <TableRow>
+        <TableCell colSpan={6} align={"center"}>
+          Nenhum item encontrado
+        </TableCell>
+      </TableRow>
+    );
+
+  return products.map((product: Product) => (
+    <TableRow
+      key={product.id}
+      hover
+      sx={{ cursor: "pointer" }}
+      onClick={() => router.push("/products/edit?id=".concat(product.id))}
+    >
+      <TableCell sx={{ padding: 1 }}>
+        <Avatar src={product.images[0]} variant="rounded" />
+      </TableCell>
+      <TableCell>{product.name}</TableCell>
+      <TableCell>{product.description}</TableCell>
+      <TableCell>{product.unity.name}</TableCell>
+      <TableCell>{currencyFromDouble(product.unity.price)}</TableCell>
+      <TableCell align={"center"}>{product.unity.quantity}</TableCell>
+    </TableRow>
+  ));
 }

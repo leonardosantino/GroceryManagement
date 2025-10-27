@@ -1,8 +1,10 @@
 "use client";
 
-import { Api } from "@/clients/Api";
+import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+
 import {
-  BusinessRounded,
+  BusinessIcon,
   Row,
   Text,
   Col,
@@ -10,14 +12,15 @@ import {
   Button,
   Input,
   Checkbox,
+  Container,
 } from "@/com/ui/comps";
 
-import { breakpoint } from "@/com/ui/schema/scheme";
-import { useMutation } from "@tanstack/react-query";
-import { useState } from "react";
 import { User } from "@/model/entity/User";
 
+import { breakpoint } from "@/com/ui/schema/scheme";
 import { useSession } from "@/provider/data/SessionProvider";
+
+import { Api } from "@/clients/Api";
 
 export default function SignIn() {
   const { setSession } = useSession();
@@ -35,10 +38,10 @@ export default function SignIn() {
   }
 
   return (
-    <Col flex={1} justify="center" align={"center"} height={"inherit"}>
+    <Container justify="center" align={"center"} testId="singin-page">
       <Paper direction={"column"} padding={3} width={breakpoint.small}>
         <Row align={"center"} justify={"center"} gap={1} padding={1}>
-          <BusinessRounded />
+          <BusinessIcon />
           <Text size={"xLarge"}>Ecom Soft Co.</Text>
         </Row>
         <Col gap={3} padding={3}>
@@ -80,6 +83,6 @@ export default function SignIn() {
           </Button>
         </Col>
       </Paper>
-    </Col>
+    </Container>
   );
 }

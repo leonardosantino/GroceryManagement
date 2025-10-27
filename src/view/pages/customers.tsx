@@ -23,12 +23,12 @@ import {
   TableRow,
   Text,
   Input,
-  Block,
-  Edit,
-  Email,
-  FilterList,
-  MoreVert,
-  Visibility,
+  BlockIcon,
+  EditIcon,
+  EmailIcon,
+  FilterListIcon,
+  MoreVertIcon,
+  VisibilityIcon,
   Col,
   Paper,
 } from "@/com/ui/comps";
@@ -159,7 +159,7 @@ export function Customers() {
             />
             <Button
               variant="outlined"
-              startIcon={<FilterList />}
+              startIcon={<FilterListIcon />}
               sx={{ borderRadius: 2 }}
             >
               Filter
@@ -221,7 +221,7 @@ export function Customers() {
                         onClick={(e) => handleMenuClick(e, customer.id)}
                         size="small"
                       >
-                        <MoreVert />
+                        <MoreVertIcon />
                       </IconButton>
                     </TableCell>
                   </TableRow>
@@ -238,19 +238,19 @@ export function Customers() {
         onClose={handleMenuClose}
       >
         <MenuItem onClick={handleViewCustomer}>
-          <Visibility sx={{ mr: 1, fontSize: 20 }} />
+          <VisibilityIcon sx={{ mr: 1, fontSize: 20 }} />
           View Profile
         </MenuItem>
         <MenuItem onClick={handleMenuClose}>
-          <Edit sx={{ mr: 1, fontSize: 20 }} />
+          <EditIcon sx={{ mr: 1, fontSize: 20 }} />
           Edit Customer
         </MenuItem>
         <MenuItem onClick={handleMenuClose}>
-          <Email sx={{ mr: 1, fontSize: 20 }} />
+          <EmailIcon sx={{ mr: 1, fontSize: 20 }} />
           Send Email
         </MenuItem>
         <MenuItem onClick={handleMenuClose} sx={{ color: "error.main" }}>
-          <Block sx={{ mr: 1, fontSize: 20 }} />
+          <BlockIcon sx={{ mr: 1, fontSize: 20 }} />
           Block Customer
         </MenuItem>
       </Menu>

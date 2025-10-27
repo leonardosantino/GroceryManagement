@@ -5,28 +5,36 @@ import { usePathname, useRouter } from "next/navigation";
 
 import {
   Box,
-  BusinessRounded,
+  BusinessIcon,
+  LogoutIcon,
   Collapse,
-  ExpandLess,
-  ExpandMore,
-  Inventory,
+  ExpandLessIcon,
+  ExpandMoreIcon,
+  InventoryIcon,
   List,
   ListItem,
   ListItemButton,
   ListItemIcon,
   Paper,
-  People,
+  PeopleIcon,
   Row,
-  ShoppingCart,
+  ShoppingCartIcon,
   Text,
-  TrendingUp,
+  TrendingUpIcon,
+  Divider,
+  Col,
+  IconButton,
+  Tooltip,
 } from "@/com/ui/comps";
+import { useSession } from "@/provider/data/SessionProvider";
 
 const data = { isOpen: false };
 
 export function Sidebar() {
   const router = useRouter();
   const pathname = usePathname();
+
+  const { deleteSession } = useSession();
 
   const [open, setOpen] = useState(data.isOpen);
 
@@ -41,21 +49,22 @@ export function Sidebar() {
   }
 
   return (
-    <Paper>
+    <Paper direction={"column"} justify={"space-between"}>
       <List>
+        {/* Title */}
         <Row align={"center"} justify={"center"} gap={1} padding={1}>
-          <BusinessRounded />
+          <BusinessIcon />
           <Text>Ecom Soft Co.</Text>
         </Row>
 
-        <Box margin={1} />
+        <Box height={16} />
 
         <ListItemButton
           selected={isSelected("/")}
           onClick={() => router.push("/")}
         >
           <ListItemIcon>
-            <TrendingUp />
+            <TrendingUpIcon />
           </ListItemIcon>
           <Text>Análises</Text>
         </ListItemButton>
@@ -65,10 +74,10 @@ export function Sidebar() {
           onClick={() => setOpen(!open)}
         >
           <ListItemIcon>
-            <Inventory />
+            <InventoryIcon />
           </ListItemIcon>
           <Text>Produtos</Text>
-          {open ? <ExpandLess /> : <ExpandMore />}
+          {open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
         </ListItemButton>
 
         <Collapse in={open}>
@@ -97,7 +106,7 @@ export function Sidebar() {
           onClick={() => router.push("/orders")}
         >
           <ListItemIcon>
-            <ShoppingCart />
+            <ShoppingCartIcon />
           </ListItemIcon>
           <Text>Pedidos</Text>
         </ListItemButton>
@@ -107,11 +116,24 @@ export function Sidebar() {
           onClick={() => router.push("/customers")}
         >
           <ListItemIcon>
-            <People />
+            <PeopleIcon />
           </ListItemIcon>
           <Text>Clientes</Text>
         </ListItemButton>
       </List>
+      <Col padding={1}>
+        <Divider />
+        <Box height={8} />
+        <Row align={"center"} justify={"space-between"} gap={1}>
+          <Text>Leonardo Santino</Text>
+
+          <Tooltip title="Sair">
+            <IconButton color={"error"} onClick={() => deleteSession()}>
+              <LogoutIcon />
+            </IconButton>
+          </Tooltip>
+        </Row>
+      </Col>
     </Paper>
   );
 }

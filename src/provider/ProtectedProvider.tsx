@@ -2,7 +2,7 @@
 
 import { ReactNode } from "react";
 
-import SignIn from "@/view/pages/signin/signin";
+import SignIn from "@/view/pages/signin";
 
 import { Conditional, Empty } from "@/com/ui/comps";
 import { useSession } from "@/provider/data/SessionProvider";

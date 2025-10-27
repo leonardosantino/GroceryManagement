@@ -1,4 +1,4 @@
-import { Col, Deco, Row, Text, Delete, IconButton } from "@/com/ui/comps";
+import { Col, Deco, Row, Text, DeleteIcon, IconButton } from "@/com/ui/comps";
 
 export function ProductUnit() {
   return (
@@ -21,7 +21,7 @@ export function ProductUnit() {
 
         <Col justify={"center"}>
           <IconButton>
-            <Delete />
+            <DeleteIcon />
           </IconButton>
         </Col>
       </Row>

@@ -5,8 +5,8 @@ import {
   Text,
   Avatar,
   SvgIconComponent,
-  TrendingDown,
-  TrendingUp,
+  TrendingDownIcon,
+  TrendingUpIcon,
 } from "@/com/ui/comps";
 
 type Props = {
@@ -34,9 +34,9 @@ export function Metric({ title, value, change, Icon, color }: Readonly<Props>) {
         <Row gap={1}>
           <Text size={"small"}>{Math.abs(change)}%</Text>
           {change > 0 ? (
-            <TrendingUp sx={{ color: "success.main", fontSize: 16 }} />
+            <TrendingUpIcon sx={{ color: "success.main", fontSize: 16 }} />
           ) : (
-            <TrendingDown sx={{ color: "error.main", fontSize: 16 }} />
+            <TrendingDownIcon sx={{ color: "error.main", fontSize: 16 }} />
           )}
         </Row>
       </Col>
