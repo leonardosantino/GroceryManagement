@@ -42,6 +42,8 @@ import { toLocalDate } from "@/com/format/date";
 
 import { Api } from "@/clients/Api";
 import { isNull } from "@/com/validation";
+import { Slide } from "@/view/comps/slide/Slide";
+import { getColorForImagesError } from "@/com/format/color";
 
 export function ProductsEdit() {
   const router = useRouter();
@@ -49,12 +51,11 @@ export function ProductsEdit() {
   const id = params.get("id") as string;
 
   const [product, setProduct] = useState(Product.default());
-  const [images, setImages] = useState<{ url: string; file: File | null }[]>(
-    product.images.map((it) => ({ url: it, file: null })),
-  );
   const [category, setCategory] = useState<string>();
+  const [images, setImages] = useState<{ url: string; file?: File }[]>([]);
 
   const [errors, setErrors] = useState({} as ProductFormErrors);
+  const [open, setOpen] = useState(false);
 
   const { isLoading } = useQuery({
     queryKey: ["product", id],
@@ -71,7 +72,7 @@ export function ProductsEdit() {
   }
 
   function setItImages(it: Product) {
-    const imgs = it.images.map((it) => ({ url: it, file: null }));
+    const imgs = it.images.map((it) => ({ url: it }));
     setImages(imgs);
     return it;
   }
@@ -88,10 +89,14 @@ export function ProductsEdit() {
     mutationFn: () => Api.products.delete(id),
   });
 
-  const [open, setOpen] = useState(false);
-
   async function onSave() {
-    const form = ProductSchema.safeParse(product);
+    const imagesShema = images
+      .map((it) => it.file?.name)
+      .filter((it) => !isNull(it)) as string[];
+
+    const productSchema = product.copy({ images: imagesShema });
+
+    const form = ProductSchema.safeParse(productSchema);
 
     if (form.success) {
       const files = images
@@ -141,11 +146,12 @@ export function ProductsEdit() {
     e.currentTarget.value = "";
   }
 
-  function handleDeleteFile(img: { url: string; file: File | null }) {
+  function handleDeleteFile(img: { url: string; file?: File }) {
     const imgs = new Set(images);
 
     if (img.file) URL.revokeObjectURL(img.url);
-    if (img) imgs.delete(img);
+
+    imgs.delete(img);
 
     setImages([...imgs]);
   }
@@ -162,14 +168,14 @@ export function ProductsEdit() {
     <Col flex={1} gap={1} padding={1} testId={"products-edit-page"}>
       {/* Update */}
       <Row justify={"center"}>
-        <Row width={900} padding={1} justify={"space-between"}>
+        <Row width={900} justify={"space-between"} height={40}>
           <Col>
-            <Text>Atualize as informações do produto</Text>
+            <Text>Criado em: {toLocalDate(product.createdAt)}</Text>
             <Text>Última atualização em: {toLocalDate(product.updatedAt)}</Text>
           </Col>
 
           <Conditional bool={!mutationUpdate.isSuccess}>
-            <Row gap={2}>
+            <Row gap={1} height={37}>
               <Button
                 onClick={onSave}
                 variant="contained"
@@ -209,10 +215,10 @@ export function ProductsEdit() {
       </Dialog>
 
       <ScrollCol>
-        <Form direction={"column"} gap={2}>
+        <Form direction={"column"} gap={1}>
           {/*Basics*/}
           <Row justify={"center"}>
-            <Col width={900} padding={1} gap={2}>
+            <Col width={900} padding={1} gap={1}>
               <Row gap={1}>
                 <InventoryIcon />
                 <Text>Informações Básicas</Text>
@@ -224,7 +230,6 @@ export function ProductsEdit() {
                 placeholder="Nome"
                 defaultValue={product.name}
                 error={!!errors.name}
-                helperText={errors.name}
                 onChange={(it) =>
                   setProduct(product.copy({ name: it.currentTarget.value }))
                 }
@@ -235,7 +240,6 @@ export function ProductsEdit() {
                 placeholder="Descrição"
                 defaultValue={product.description}
                 error={!!errors.description}
-                helperText={errors.description}
                 onChange={(it) =>
                   setProduct(
                     product.copy({ description: it.currentTarget.value }),
@@ -256,7 +260,7 @@ export function ProductsEdit() {
               </Text>
 
               <Col gap={1}>
-                <Row gap={2}>
+                <Row gap={1}>
                   <Input
                     id={"product-form-unit-name"}
                     placeholder={"Nome"}
@@ -275,13 +279,12 @@ export function ProductsEdit() {
                   />
                 </Row>
 
-                <Row gap={2}>
+                <Row gap={1}>
                   <Input
                     id={"product-form-unit-price"}
                     placeholder="Preço"
                     defaultValue={product.unity?.price}
                     error={!!errors.unity?.price}
-                    helperText={errors.unity?.price}
                     type={"number"}
                     onChange={(it) =>
                       setProduct(
@@ -309,7 +312,6 @@ export function ProductsEdit() {
                     placeholder="Quantidade"
                     defaultValue={product.unity?.quantity}
                     error={!!errors.unity?.quantity}
-                    helperText={errors.unity?.quantity}
                     onChange={(it) =>
                       setProduct(
                         product.copy({
@@ -328,7 +330,7 @@ export function ProductsEdit() {
 
           {/*Category*/}
           <Row justify={"center"}>
-            <Col width={900} padding={1} gap={2}>
+            <Col width={900} padding={1} gap={1}>
               <Text>
                 Adicione categorias para ajudar os clientes a encontrarem seu
                 produto mais facilmente.
@@ -339,7 +341,6 @@ export function ProductsEdit() {
                   id={"product-form-category"}
                   placeholder={"Categoria"}
                   error={!!errors.categories}
-                  helperText={errors.categories}
                   onChange={(e) => setCategory(e.currentTarget.value)}
                 />
                 <Button
@@ -355,11 +356,12 @@ export function ProductsEdit() {
 
               <Divider />
 
-              <Row gap={1}>
+              <Row gap={1} height={32}>
                 {product.categories?.map((category) => (
                   <Chip
                     key={category}
                     label={category}
+                    color={"info"}
                     onDelete={() => onDeleteCategory(category)}
                   />
                 ))}
@@ -380,40 +382,36 @@ export function ProductsEdit() {
                 pelo menos 3 imagens de diferentes ângulos.
               </Text>
 
-              <Col align={"center"} gap={2}>
-                <Deco
-                  direction={"column"}
-                  align={"center"}
-                  justify={"center"}
-                  gap={2}
-                  width={300}
-                  height={200}
-                >
-                  <AddPhotoAlternateIcon />
-                  <InputFile
-                    id={"product-form-image"}
-                    onChange={handleImageUpload}
-                  />
-                </Deco>
-                <Conditional bool={!!errors.images}>
-                  <Text color={"error"}>{errors.images}</Text>
-                </Conditional>
+              <Col align={"center"} gap={1}>
+                <AddPhotoAlternateIcon
+                  fontSize={"large"}
+                  color={getColorForImagesError(errors)}
+                />
+                <InputFile
+                  id={"product-form-image"}
+                  color={getColorForImagesError(errors)}
+                  onChange={handleImageUpload}
+                />
               </Col>
 
               <Divider />
-              <Row justify={"center"} gap={1}>
-                {images.map((img) => (
-                  <Col key={`image-${img.url}`} position={"relative"}>
-                    <Img src={img.url} alt={""} width={200} height={100} />
+              <Slide slides={3}>
+                {images.map((img, i) => (
+                  <Deco
+                    key={`edit-image-${i.toString()}`}
+                    position={"relative"}
+                    padding={1}
+                  >
+                    <Img src={img.url} alt={""} width={250} height={150} />
                     <IconButton
                       onClick={() => handleDeleteFile(img)}
                       sx={{ position: "absolute", right: 0 }}
                     >
-                      <DeleteIcon />
+                      <DeleteIcon color={"error"} />
                     </IconButton>
-                  </Col>
+                  </Deco>
                 ))}
-              </Row>
+              </Slide>
             </Col>
           </Row>
         </Form>

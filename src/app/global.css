@@ -1,5 +1,5 @@
-@import "swiper/swiper.min.css";
-@import "swiper/css/pagination";
+@import "swiper/css";
+@import "swiper/css/scrollbar";
 
 body {
   height: 100dvh;
@@ -13,7 +13,7 @@ body img {
 
 body .swiper {
   width: 100%;
-  padding: 1px;
+  padding: 16px;
   border-radius: 4px;
   z-index: 0;
 }

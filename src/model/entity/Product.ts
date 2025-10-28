@@ -11,10 +11,11 @@ export class Product {
     public unity: Unity,
 
     public updatedAt: string,
+    public createdAt: string,
   ) {}
 
   static default() {
-    return new Product("", "", "", "", [], [], new Unity("", 0, 0), "");
+    return new Product("", "", "", "", [], [], new Unity("", 0, 0), "", "");
   }
 
   static from(product: Partial<Product>) {
@@ -28,6 +29,7 @@ export class Product {
       it.images,
       it.unity,
       it.updatedAt,
+      it.createdAt,
     );
   }
 
@@ -40,6 +42,7 @@ export class Product {
     images = this.images,
     unity = this.unity,
     updatedAt = this.updatedAt,
+    createdAt = this.createdAt,
   }: Partial<Product> = {}) {
     return new Product(
       id,
@@ -50,6 +53,7 @@ export class Product {
       images,
       unity,
       updatedAt,
+      createdAt,
     );
   }
 }

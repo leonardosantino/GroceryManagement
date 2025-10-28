@@ -25,7 +25,7 @@ import {
   Text,
   InputAdornment,
   Snackbar,
-  Conditional,
+  AlertColor,
 } from "@/com/ui/comps";
 
 import { Product } from "@/model/entity/Product";
@@ -37,26 +37,72 @@ import {
 } from "@/model/schema/product";
 
 import { Api } from "@/clients/Api";
+import { Slide } from "@/view/comps/slide/Slide";
+import { useRouter } from "next/navigation";
+import { isNull } from "@/com/validation";
+import { getColorForImagesError } from "@/com/format/color";
 
 export function ProductsAdd() {
+  const router = useRouter();
+
   const [product, setProduct] = useState(Product.default());
   const [category, setCategory] = useState<string>();
-
-  const { isPending, isSuccess, mutate } = useMutation({
-    mutationFn: () => Api.products.update(product),
-  });
+  const [images, setImages] = useState<{ url: string; file?: File }[]>([]);
 
   const [errors, setErrors] = useState<ProductFormErrors>({});
+  const [snack, setSnack] = useState<{
+    open: boolean;
+    onClose?: () => void;
+    severity?: AlertColor;
+    message?: string;
+  }>({
+    open: false,
+  });
+
+  const mutationCreate = useMutation({
+    mutationFn: (it: Product) => Api.products.save(it),
+  });
+
+  const mutationStorage = useMutation({
+    mutationFn: (file: File) => Api.storage.upload(file),
+  });
 
   async function onSave() {
-    const form = ProductSchema.safeParse(product);
+    const imagesShema = images
+      .map((it) => it.file?.name)
+      .filter((it) => !isNull(it)) as string[];
+
+    const productSchema = product.copy({ images: imagesShema });
+
+    const form = ProductSchema.safeParse(productSchema);
 
     if (form.success) {
-      mutate();
+      const promises = images.map((it) =>
+        mutationStorage.mutateAsync(it.file as File),
+      );
 
-      setProduct(Product.default());
+      const data = await Promise.all(promises);
+
+      const urls = data.map((it) => it.url);
+
+      const response = await mutationCreate.mutateAsync(
+        product.copy({ images: urls }),
+      );
+
+      setSnack({
+        open: true,
+        severity: "success",
+        message: "Produto criado com sucesso!",
+        onClose: () => router.push("/products/edit?id=".concat(response.id)),
+      });
     } else {
       const formErrors = getProductFormIssues(form.error?.issues);
+      setSnack({
+        open: true,
+        severity: "error",
+        onClose: () => setSnack({ open: false }),
+        message: "Os campos obrigatórios não foram preenchidos.",
+      });
       setErrors(formErrors);
     }
   }
@@ -77,39 +123,39 @@ export function ProductsAdd() {
     setProduct(product.copy({ categories: [...categories] }));
   }
 
-  function handleFileUpload(e: ChangeEvent<HTMLInputElement>) {
-    // TODO: const file = e.currentTarget.files?.[0] as File;
+  function handleImageUpload(e: ChangeEvent<HTMLInputElement>) {
+    const file = e.currentTarget.files?.[0] as File;
+    const img = URL.createObjectURL(file);
 
-    // TODO: const image = URL.createObjectURL(file);
+    const imgs = new Set(images);
 
-    const images = new Set(product?.images);
+    imgs.add({ url: img, file });
 
-    images.add("/assets/drawable/img.png");
-    setProduct(product.copy({ images: [...images] }));
+    setImages([...imgs]);
 
     e.currentTarget.value = "";
   }
 
-  function handleDeleteFile(img: string) {
-    // TODO: URL.revokeObjectURL(img);
+  function handleDeleteFile(img: { url: string; file?: File }) {
+    const imgs = new Set(images);
 
-    const images = new Set(product?.images);
+    if (img.file) URL.revokeObjectURL(img.url);
 
-    if (img) images.delete(img);
+    imgs.delete(img);
 
-    setProduct(product.copy({ categories: [...images] }));
+    setImages([...imgs]);
   }
 
   return (
     <Col flex={1} gap={1} padding={1} testId={"products-add-page"}>
       {/*Save*/}
       <Row justify={"center"}>
-        <Row width={900} padding={1} justify={"flex-end"}>
+        <Row width={900} justify={"flex-end"} height={40}>
           <Button
             onClick={onSave}
             variant="outlined"
             startIcon={<SaveIcon />}
-            loading={isPending}
+            loading={mutationCreate.isPending}
             size={"large"}
           >
             Salvar
@@ -118,20 +164,22 @@ export function ProductsAdd() {
       </Row>
 
       <Snackbar
-        open={isSuccess}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={snack.open}
+        onClose={snack.onClose}
         autoHideDuration={6000}
+        message={snack.message}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >
-        <Alert severity="success" variant="filled">
-          Produto Salvo!
+        <Alert severity={snack.severity} variant="filled">
+          {snack.message}
         </Alert>
       </Snackbar>
 
       <ScrollCol>
-        <Form direction={"column"} gap={2}>
+        <Form direction={"column"} gap={1}>
           {/*Basics*/}
           <Row justify={"center"}>
-            <Col width={900} padding={1} gap={2}>
+            <Col width={900} padding={1} gap={1}>
               <Row gap={1}>
                 <InventoryIcon />
                 <Text>Informações Básicas</Text>
@@ -142,7 +190,6 @@ export function ProductsAdd() {
                 id={"product-form-name"}
                 placeholder="Nome"
                 error={!!errors.name}
-                helperText={errors.name}
                 onChange={(it) =>
                   setProduct(product.copy({ name: it.currentTarget.value }))
                 }
@@ -152,7 +199,6 @@ export function ProductsAdd() {
                 id={"product-form-description"}
                 placeholder="Descrição"
                 error={!!errors.description}
-                helperText={errors.description}
                 onChange={(it) =>
                   setProduct(
                     product.copy({ description: it.currentTarget.value }),
@@ -167,14 +213,14 @@ export function ProductsAdd() {
 
           {/*Units*/}
           <Row justify={"center"}>
-            <Col width={900} padding={1} gap={2}>
+            <Col width={900} padding={1} gap={1}>
               <Text>
                 Adicione informações sobre as variações disponíveis do produto,
                 preços e quantidades.
               </Text>
 
               <Col gap={1}>
-                <Row gap={2}>
+                <Row gap={1}>
                   <Input
                     id={"product-form-unit-name"}
                     placeholder={"Nome"}
@@ -192,12 +238,11 @@ export function ProductsAdd() {
                   />
                 </Row>
 
-                <Row gap={2}>
+                <Row gap={1}>
                   <Input
                     id={"product-form-unit-price"}
                     placeholder="Preço"
                     error={!!errors.unity?.price}
-                    helperText={errors.unity?.price}
                     onChange={(it) =>
                       setProduct(
                         product.copy({
@@ -225,7 +270,6 @@ export function ProductsAdd() {
                     placeholder="Quantidade"
                     type={"number"}
                     error={!!errors.unity?.quantity}
-                    helperText={errors.unity?.quantity}
                     onChange={(it) =>
                       setProduct(
                         product.copy({
@@ -243,7 +287,7 @@ export function ProductsAdd() {
 
           {/*Category*/}
           <Row justify={"center"}>
-            <Col width={900} padding={1} gap={2}>
+            <Col width={900} padding={1} gap={1}>
               <Text>
                 Adicione categorias para ajudar os clientes a encontrarem seu
                 produto mais facilmente.
@@ -254,7 +298,6 @@ export function ProductsAdd() {
                   id={"product-form-category"}
                   placeholder={"Categoria"}
                   error={!!errors.categories}
-                  helperText={errors.categories}
                   onChange={(e) => setCategory(e.target.value)}
                 />
                 <Button
@@ -270,9 +313,10 @@ export function ProductsAdd() {
 
               <Divider />
 
-              <Row gap={1}>
+              <Row gap={1} height={32}>
                 {product.categories?.map((category, index) => (
                   <Chip
+                    color={"info"}
                     key={category.concat(index.toString())}
                     label={category}
                     onDelete={() => onDeleteCategory(category)}
@@ -284,7 +328,7 @@ export function ProductsAdd() {
 
           {/*Images*/}
           <Row justify={"center"}>
-            <Col width={900} padding={1} gap={2}>
+            <Col width={900} padding={1} gap={1}>
               <Row gap={1}>
                 <AddPhotoAlternateIcon />
                 <Text>Imagens</Text>
@@ -295,40 +339,36 @@ export function ProductsAdd() {
                 pelo menos 3 imagens de diferentes ângulos.
               </Text>
 
-              <Col align={"center"} gap={2}>
-                <Deco
-                  direction={"column"}
-                  align={"center"}
-                  justify={"center"}
-                  gap={2}
-                  width={300}
-                  height={200}
-                >
-                  <AddPhotoAlternateIcon />
-                  <InputFile
-                    id={"product-form-image"}
-                    onChange={handleFileUpload}
-                  />
-                </Deco>
-                <Conditional bool={!!errors.images}>
-                  <Text color={"error"}>{errors.images}</Text>
-                </Conditional>
+              <Col align={"center"} gap={1}>
+                <AddPhotoAlternateIcon
+                  fontSize={"large"}
+                  color={getColorForImagesError(errors)}
+                />
+                <InputFile
+                  id={"product-form-image"}
+                  color={getColorForImagesError(errors)}
+                  onChange={handleImageUpload}
+                />
               </Col>
 
               <Divider />
-              <Row justify={"center"} gap={1}>
-                {product.images?.map((img) => (
-                  <Col key={img} position={"relative"}>
-                    <Img src={img} alt={img} width={200} height={100} />
+              <Slide slides={3}>
+                {images.map((img, i) => (
+                  <Deco
+                    key={`add-image-${i.toString()}`}
+                    position={"relative"}
+                    padding={1}
+                  >
+                    <Img src={img.url} alt={""} width={250} height={150} />
                     <IconButton
                       onClick={() => handleDeleteFile(img)}
                       sx={{ position: "absolute", right: 0 }}
                     >
-                      <DeleteIcon />
+                      <DeleteIcon color={"error"} />
                     </IconButton>
-                  </Col>
+                  </Deco>
                 ))}
-              </Row>
+              </Slide>
             </Col>
           </Row>
         </Form>

@@ -7,6 +7,7 @@ export function InputFile(props: Readonly<InputProps>) {
     <Button
       component="label"
       variant={"outlined"}
+      color={props.color}
       sx={{ position: "relative" }}
     >
       Selecione

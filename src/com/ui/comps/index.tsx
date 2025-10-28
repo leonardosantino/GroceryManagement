@@ -16,6 +16,8 @@ export { Container } from "@/com/ui/comps/base/container";
 
 // MUI Components
 import type { SelectChangeEvent } from "@mui/material/Select";
+import type { AlertColor } from "@mui/material/Alert";
+
 import Collapse from "@mui/material/Collapse";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
@@ -87,6 +89,7 @@ export {
   Switch,
   FormControlLabel,
   Tooltip,
+  AlertColor,
 };
 
 // MUI Icons

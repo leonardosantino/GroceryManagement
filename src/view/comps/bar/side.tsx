@@ -84,18 +84,18 @@ export function Sidebar() {
           <List>
             <ListItem>
               <ListItemButton
-                selected={isSelected("/products/list")}
-                onClick={() => router.push("/products/list")}
-              >
-                <Text>Lista de produtos</Text>
-              </ListItemButton>
-            </ListItem>
-            <ListItem>
-              <ListItemButton
                 selected={isSelected("/products/add")}
                 onClick={() => router.push("/products/add")}
               >
                 <Text>Adicionar produtos</Text>
+              </ListItemButton>
+            </ListItem>
+            <ListItem>
+              <ListItemButton
+                selected={isSelected("/products/list")}
+                onClick={() => router.push("/products/list")}
+              >
+                <Text>Lista de produtos</Text>
               </ListItemButton>
             </ListItem>
           </List>
