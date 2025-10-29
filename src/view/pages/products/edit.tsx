@@ -27,7 +27,10 @@ import {
   Text,
   Dialog,
   DialogActions,
-  Conditional,
+  SaveIcon,
+  Snackbar,
+  AlertColor,
+  BoxSize,
 } from "@/com/ui/comps";
 
 import { Product } from "@/model/entity/Product";
@@ -55,7 +58,16 @@ export function ProductsEdit() {
   const [images, setImages] = useState<{ url: string; file?: File }[]>([]);
 
   const [errors, setErrors] = useState({} as ProductFormErrors);
-  const [open, setOpen] = useState(false);
+  const [snack, setSnack] = useState<{
+    open: boolean;
+    onClose?: () => void;
+    severity?: AlertColor;
+    message?: string;
+  }>({
+    open: false,
+  });
+
+  const [dialog, setDialog] = useState(false);
 
   const { isLoading } = useQuery({
     queryKey: ["product", id],
@@ -110,6 +122,14 @@ export function ProductsEdit() {
       const urls = data.map((it) => it.url);
 
       mutationUpdate.mutate(product.copy({ images: imgs.concat(urls) }));
+
+      setErrors({});
+      setSnack({
+        open: true,
+        severity: "success",
+        message: "Atualizado com sucesso!",
+        onClose: () => setSnack({ open: false }),
+      });
     } else {
       const formErrors = getProductFormIssues(form.error.issues);
 
@@ -165,255 +185,267 @@ export function ProductsEdit() {
   if (isLoading) return <Empty />;
 
   return (
-    <Col flex={1} gap={1} padding={1} testId={"products-edit-page"}>
-      {/* Update */}
-      <Row justify={"center"}>
-        <Row width={900} justify={"space-between"} height={40}>
-          <Col>
-            <Text>Criado em: {toLocalDate(product.createdAt)}</Text>
-            <Text>Última atualização em: {toLocalDate(product.updatedAt)}</Text>
-          </Col>
+    <Col
+      flex={1}
+      gap={1}
+      padding={1}
+      align={"center"}
+      testId={"products-edit-page"}
+    >
+      {/*Save*/}
+      <Row justify={"space-between"} width={900}>
+        <Col>
+          <Text size={"small"}>Criado em: {toLocalDate(product.createdAt)}</Text>
+          <Text size={"small"}>Última atualização: {toLocalDate(product.updatedAt)}</Text>
+        </Col>
 
-          <Conditional bool={!mutationUpdate.isSuccess}>
-            <Row gap={1} height={37}>
-              <Button
-                onClick={onSave}
-                variant="contained"
-                loading={mutationUpdate.isPending}
-                size={"large"}
-              >
-                Atualizar
-              </Button>
-
-              <Button
-                variant="outlined"
-                color={"error"}
-                sx={{ padding: 0 }}
-                onClick={() => setOpen(true)}
-              >
-                <DeleteIcon />
-              </Button>
-            </Row>
-          </Conditional>
-
-          <Conditional bool={mutationUpdate.isSuccess}>
-            <Alert severity="success" variant="filled" sx={{ paddingY: 0 }}>
-              Dados alterados!
-            </Alert>
-          </Conditional>
+        <Row gap={1}>
+          <Button
+            variant="outlined"
+            color={"error"}
+            onClick={() => setDialog(true)}
+          >
+            <DeleteIcon />
+          </Button>
+          <Button
+            color={"success"}
+            onClick={onSave}
+            variant="contained"
+            startIcon={<SaveIcon />}
+            loading={mutationUpdate.isPending}
+          >
+            Atualizar
+          </Button>
         </Row>
       </Row>
 
+      {/*Save Feedback*/}
+      <Snackbar
+        open={snack.open}
+        onClose={snack.onClose}
+        autoHideDuration={6000}
+        message={snack.message}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert severity={snack.severity} variant="filled">
+          {snack.message}
+        </Alert>
+      </Snackbar>
+
       {/*Dialog Delete*/}
-      <Dialog open={open} onClose={() => setOpen(false)}>
+      <Dialog open={dialog} onClose={() => setDialog(false)}>
         <DialogActions>
           <Button color={"error"} onClick={handleDeleteProduct}>
             Excluir
           </Button>
-          <Button onClick={() => setOpen(false)}>Cancelar</Button>
+          <Button onClick={() => setDialog(false)}>Cancelar</Button>
         </DialogActions>
       </Dialog>
 
+      <BoxSize height={1} />
+
       <ScrollCol>
-        <Form direction={"column"} gap={1}>
+        <Form direction={"column"} gap={1} width={900}>
           {/*Basics*/}
-          <Row justify={"center"}>
-            <Col width={900} padding={1} gap={1}>
-              <Row gap={1}>
-                <InventoryIcon />
-                <Text>Informações Básicas</Text>
-              </Row>
-              <Text>Adicione nome e descrição do produto.</Text>
-
-              <Input
-                id={"product-form-name"}
-                placeholder="Nome"
-                defaultValue={product.name}
-                error={!!errors.name}
-                onChange={(it) =>
-                  setProduct(product.copy({ name: it.currentTarget.value }))
-                }
-              />
-
-              <Input
-                id={"product-form-description"}
-                placeholder="Descrição"
-                defaultValue={product.description}
-                error={!!errors.description}
-                onChange={(it) =>
-                  setProduct(
-                    product.copy({ description: it.currentTarget.value }),
-                  )
-                }
-                multiline
-                rows={4}
-              />
-            </Col>
+          <Row gap={2} align={"flex-start"}>
+            <InventoryIcon color={"primary"} />
+            <Text weight={"bold"}>Informações Básicas</Text>
           </Row>
+          <Text>Adicione nome e descrição do produto.</Text>
+
+          <BoxSize height={2} />
+
+          <Col gap={1}>
+            <Input
+              id={"product-form-name"}
+              placeholder="Nome"
+              defaultValue={product.name}
+              error={!!errors.name}
+              onChange={(it) =>
+                setProduct(product.copy({ name: it.currentTarget.value }))
+              }
+            />
+
+            <Input
+              id={"product-form-description"}
+              placeholder="Descrição"
+              defaultValue={product.description}
+              error={!!errors.description}
+              onChange={(it) =>
+                setProduct(
+                  product.copy({ description: it.currentTarget.value }),
+                )
+              }
+              multiline
+              rows={4}
+            />
+          </Col>
 
           {/*Units*/}
-          <Row justify={"center"}>
-            <Col width={900} padding={1} gap={1}>
-              <Text>
-                Adicione informações sobre as variações disponíveis do produto,
-                preços e quantidades.
-              </Text>
+          <BoxSize height={2} />
 
-              <Col gap={1}>
-                <Row gap={1}>
-                  <Input
-                    id={"product-form-unit-name"}
-                    placeholder={"Nome"}
-                    defaultValue={product.unity?.name}
-                    error={!!errors.unity?.name}
-                    helperText={"Ex: Grande, média, pequena."}
-                    onChange={(it) =>
-                      setProduct(
-                        product.copy({
-                          unity: product.unity.copy({
-                            name: it.currentTarget.value,
-                          }),
-                        }),
-                      )
-                    }
-                  />
-                </Row>
+          <Text>
+            Adicione informações sobre as variações disponíveis do produto,
+            preços e quantidades.
+          </Text>
 
-                <Row gap={1}>
-                  <Input
-                    id={"product-form-unit-price"}
-                    placeholder="Preço"
-                    defaultValue={product.unity?.price}
-                    error={!!errors.unity?.price}
-                    type={"number"}
-                    onChange={(it) =>
-                      setProduct(
-                        product.copy({
-                          unity: product.unity.copy({
-                            price: Number(it.currentTarget.value),
-                          }),
-                        }),
-                      )
-                    }
-                    slotProps={{
-                      input: {
-                        startAdornment: (
-                          <InputAdornment position="start">R$</InputAdornment>
-                        ),
-                      },
-                      htmlInput: {
-                        step: 0.01,
-                        min: 0,
-                      },
-                    }}
-                  />
-                  <Input
-                    id={"product-form-unit-quantity"}
-                    placeholder="Quantidade"
-                    defaultValue={product.unity?.quantity}
-                    error={!!errors.unity?.quantity}
-                    onChange={(it) =>
-                      setProduct(
-                        product.copy({
-                          unity: product.unity.copy({
-                            quantity: Number(it.currentTarget.value),
-                          }),
-                        }),
-                      )
-                    }
-                    type={"number"}
-                  />
-                </Row>
-              </Col>
-            </Col>
-          </Row>
+          <BoxSize height={2} />
+
+          <Col gap={1}>
+            <Row gap={1}>
+              <Input
+                id={"product-form-unit-name"}
+                placeholder={"Nome"}
+                defaultValue={product.unity?.name}
+                error={!!errors.unity?.name}
+                helperText={"Ex: Grande, média, pequena."}
+                onChange={(it) =>
+                  setProduct(
+                    product.copy({
+                      unity: product.unity.copy({
+                        name: it.currentTarget.value,
+                      }),
+                    }),
+                  )
+                }
+              />
+            </Row>
+
+            <Row gap={1}>
+              <Input
+                id={"product-form-unit-price"}
+                placeholder="Preço"
+                defaultValue={product.unity?.price}
+                error={!!errors.unity?.price}
+                type={"number"}
+                onChange={(it) =>
+                  setProduct(
+                    product.copy({
+                      unity: product.unity.copy({
+                        price: Number(it.currentTarget.value),
+                      }),
+                    }),
+                  )
+                }
+                slotProps={{
+                  input: {
+                    startAdornment: (
+                      <InputAdornment position="start">R$</InputAdornment>
+                    ),
+                  },
+                  htmlInput: {
+                    step: 0.01,
+                    min: 0,
+                  },
+                }}
+              />
+              <Input
+                id={"product-form-unit-quantity"}
+                placeholder="Quantidade"
+                type={"number"}
+                defaultValue={product.unity?.quantity}
+                error={!!errors.unity?.quantity}
+                onChange={(it) =>
+                  setProduct(
+                    product.copy({
+                      unity: product.unity.copy({
+                        quantity: Number(it.currentTarget.value),
+                      }),
+                    }),
+                  )
+                }
+              />
+            </Row>
+          </Col>
 
           {/*Category*/}
-          <Row justify={"center"}>
-            <Col width={900} padding={1} gap={1}>
-              <Text>
-                Adicione categorias para ajudar os clientes a encontrarem seu
-                produto mais facilmente.
-              </Text>
+          <BoxSize height={2} />
+          <Text>
+            Adicione categorias para ajudar os clientes a encontrarem seu
+            produto mais facilmente.
+          </Text>
+          <BoxSize height={2} />
 
-              <Row gap={1}>
-                <Input
-                  id={"product-form-category"}
-                  placeholder={"Categoria"}
-                  error={!!errors.categories}
-                  onChange={(e) => setCategory(e.currentTarget.value)}
+          <Col gap={1}>
+            <Row gap={1}>
+              <Input
+                id={"product-form-category"}
+                placeholder={"Categoria"}
+                error={!!errors.categories}
+                onChange={(e) => setCategory(e.currentTarget.value)}
+              />
+              <Button
+                variant="outlined"
+                color="primary"
+                startIcon={<AddIcon />}
+                onClick={() => handleSetCategory(category)}
+                sx={{ height: 37 }}
+              >
+                Adicionar
+              </Button>
+            </Row>
+
+            <Divider marginY={2} />
+
+            <Row gap={1} height={32}>
+              {product.categories?.map((category) => (
+                <Chip
+                  key={category}
+                  label={category}
+                  variant={"outlined"}
+                  color={"success"}
+                  onDelete={() => onDeleteCategory(category)}
                 />
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  startIcon={<AddIcon />}
-                  onClick={() => handleSetCategory(category)}
-                  sx={{ height: 37 }}
-                >
-                  Adicionar
-                </Button>
-              </Row>
+              ))}
+            </Row>
+          </Col>
 
-              <Divider />
-
-              <Row gap={1} height={32}>
-                {product.categories?.map((category) => (
-                  <Chip
-                    key={category}
-                    label={category}
-                    color={"info"}
-                    onDelete={() => onDeleteCategory(category)}
-                  />
-                ))}
-              </Row>
-            </Col>
-          </Row>
+          <BoxSize height={2} />
 
           {/*Images*/}
-          <Row justify={"center"}>
-            <Col width={900} padding={1} gap={1}>
-              <Row gap={1}>
-                <AddPhotoAlternateIcon />
-                <Text>Imagens</Text>
-              </Row>
-
-              <Text>
-                Adicione imagens de alta qualidade do seu produto. Recomendamos
-                pelo menos 3 imagens de diferentes ângulos.
-              </Text>
-
-              <Col align={"center"} gap={1}>
-                <AddPhotoAlternateIcon
-                  fontSize={"large"}
-                  color={getColorPrimaryOrError(errors)}
-                />
-                <InputFile
-                  id={"product-form-image"}
-                  color={getColorPrimaryOrError(errors)}
-                  onChange={handleImageUpload}
-                />
-              </Col>
-
-              <Divider />
-              <Slide slides={3}>
-                {images.map((img, i) => (
-                  <Deco
-                    key={`edit-image-${i.toString()}`}
-                    position={"relative"}
-                    padding={1}
-                  >
-                    <Img src={img.url} alt={""} width={250} height={150} />
-                    <IconButton
-                      onClick={() => handleDeleteFile(img)}
-                      sx={{ position: "absolute", right: 0 }}
-                    >
-                      <DeleteIcon color={"error"} />
-                    </IconButton>
-                  </Deco>
-                ))}
-              </Slide>
-            </Col>
+          <Row gap={2}>
+            <AddPhotoAlternateIcon color={"primary"} />
+            <Text weight={"bold"}>Imagens</Text>
           </Row>
+          <Text>
+            Adicione imagens de alta qualidade do seu produto. Recomendamos pelo
+            menos 3 imagens de diferentes ângulos.
+          </Text>
+
+          <BoxSize height={2} />
+
+          <Col align={"center"} gap={1}>
+            <AddPhotoAlternateIcon
+              fontSize={"large"}
+              color={getColorPrimaryOrError(errors.images)}
+            />
+            <InputFile
+              id={"product-form-image"}
+              color={getColorPrimaryOrError(errors.images)}
+              onChange={handleImageUpload}
+            />
+          </Col>
+
+          <Divider marginY={2} />
+
+          {/* Images show list */}
+          <Slide slides={3}>
+            {images.map((img, i) => (
+              <Deco
+                key={`edit-image-${i.toString()}`}
+                position={"relative"}
+                padding={1}
+              >
+                <Img src={img.url} width={250} height={150} alt={""} />
+                <IconButton
+                  onClick={() => handleDeleteFile(img)}
+                  sx={{ position: "absolute", right: 0 }}
+                >
+                  <DeleteIcon color={"error"} />
+                </IconButton>
+              </Deco>
+            ))}
+          </Slide>
         </Form>
       </ScrollCol>
     </Col>

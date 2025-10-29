@@ -156,7 +156,7 @@ export function ProductsAdd() {
       testId={"products-add-page"}
     >
       {/*Save*/}
-      <Row justify={"flex-end"} width={900}>
+      <Row justify={"flex-end"} width={900} height={36}>
         <Button
           onClick={onSave}
           variant={"contained"}
@@ -168,6 +168,7 @@ export function ProductsAdd() {
         </Button>
       </Row>
 
+      {/*Save Feedback*/}
       <Snackbar
         open={snack.open}
         onClose={snack.onClose}
@@ -179,6 +180,8 @@ export function ProductsAdd() {
           {snack.message}
         </Alert>
       </Snackbar>
+
+      <BoxSize height={1} />
 
       <ScrollCol>
         <Form direction={"column"} gap={1} width={900}>
@@ -296,6 +299,7 @@ export function ProductsAdd() {
             produto mais facilmente.
           </Text>
           <BoxSize height={2} />
+
           <Col gap={1}>
             <Row gap={1}>
               <Input
@@ -306,7 +310,6 @@ export function ProductsAdd() {
               />
               <Button
                 variant="outlined"
-                color={getColorPrimaryOrError(errors.categories)}
                 startIcon={<AddIcon />}
                 onClick={() => handleSetCategory(category)}
               >
@@ -330,6 +333,7 @@ export function ProductsAdd() {
           </Col>
 
           <BoxSize height={2} />
+
           {/*Images*/}
           <Row gap={2}>
             <AddPhotoAlternateIcon color={"primary"} />

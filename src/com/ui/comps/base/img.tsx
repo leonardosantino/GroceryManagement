@@ -9,7 +9,7 @@ type ImaProps = {
 
 export function Img(props: Readonly<ImaProps>) {
   return (
-    <Box {...props}>
+    <Box position={"relative"} {...props}>
       <Image src={props.src} alt={props.alt} fill />
     </Box>
   );
