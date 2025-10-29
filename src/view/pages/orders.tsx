@@ -277,9 +277,7 @@ export function Orders() {
             <Grid container spacing={3} sx={{ mt: 1 }}>
               <Grid size={6}>
                 <Text>Customer Information</Text>
-                <Text>
-                  <strong>Name:</strong> {selectedOrderData.customer}
-                </Text>
+                <Text>Name: {selectedOrderData.customer}</Text>
                 <Text>
                   <strong>Email:</strong> {selectedOrderData.email}
                 </Text>
@@ -306,7 +304,7 @@ export function Orders() {
                 </Text>
               </Grid>
               <Grid size={12}>
-                <Divider sx={{ my: 2 }} />
+                <Divider />
                 <Text>Order Items</Text>
                 <Text>
                   Order items would be displayed here with product details,

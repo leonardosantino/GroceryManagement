@@ -6,6 +6,7 @@ import {
   InventoryIcon,
   PeopleIcon,
   ShoppingCartIcon,
+  BoxSize,
 } from "@/com/ui/comps";
 
 import { Billing } from "@/view/comps/analytics/billing";
@@ -15,7 +16,8 @@ import { BestSellers } from "@/view/comps/analytics/sales";
 
 export function Analytics() {
   return (
-    <ScrollCol padding={2} gap={4} testId="analytics-page">
+    <ScrollCol padding={2} gap={2} testId="analytics-page">
+      <BoxSize height={1} />
       <Row justify={"space-between"} gap={2}>
         <Metric
           title="Vendas"
@@ -50,7 +52,7 @@ export function Analytics() {
         />
       </Row>
 
-      <Row justify={"space-between"} gap={2}>
+      <Row justify={"space-between"} gap={1}>
         <Col gap={2}>
           <Billing />
           <AnalyticsOrders />

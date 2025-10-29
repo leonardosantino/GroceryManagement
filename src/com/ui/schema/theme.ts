@@ -19,9 +19,6 @@ export const theme = createTheme({
         secondary: {
           main: ColorTheme.secondary,
         },
-        background: {
-          paper: ColorTheme.container,
-        },
       },
     },
     // dark: {

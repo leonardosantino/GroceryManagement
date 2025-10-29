@@ -43,7 +43,7 @@ import { toLocalDate } from "@/com/format/date";
 import { Api } from "@/clients/Api";
 import { isNull } from "@/com/validation";
 import { Slide } from "@/view/comps/slide/Slide";
-import { getColorForImagesError } from "@/com/format/color";
+import { getColorPrimaryOrError } from "@/com/format/color";
 
 export function ProductsEdit() {
   const router = useRouter();
@@ -385,11 +385,11 @@ export function ProductsEdit() {
               <Col align={"center"} gap={1}>
                 <AddPhotoAlternateIcon
                   fontSize={"large"}
-                  color={getColorForImagesError(errors)}
+                  color={getColorPrimaryOrError(errors)}
                 />
                 <InputFile
                   id={"product-form-image"}
-                  color={getColorForImagesError(errors)}
+                  color={getColorPrimaryOrError(errors)}
                   onChange={handleImageUpload}
                 />
               </Col>

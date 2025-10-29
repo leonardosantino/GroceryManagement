@@ -2,13 +2,13 @@ import { Col, Paper, Row, Text, Divider } from "@/com/ui/comps";
 
 export function BestSellers() {
   return (
-    <Paper padding={1} gap={2} direction={"column"}>
+    <Paper direction={"column"} padding={1}>
       <Text weight={"bold"}>Mais Vendidos</Text>
 
-      <Col padding={2} gap={2}>
+      <Col padding={4}>
         {data.map((product) => (
           <Col key={`best-seller-${product.id}`}>
-            <Row justify={"space-between"} align="center" gap={4}>
+            <Row justify={"space-between"} align="center">
               <Text size={"small"}>{product.name}</Text>
               <Text>{product.sales.toString()}</Text>
             </Row>

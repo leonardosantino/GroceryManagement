@@ -4,7 +4,6 @@ import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
 import {
-  Box,
   BusinessIcon,
   LogoutIcon,
   Collapse,
@@ -25,6 +24,7 @@ import {
   Col,
   IconButton,
   Tooltip,
+  BoxSize,
 } from "@/com/ui/comps";
 import { useSession } from "@/provider/data/SessionProvider";
 
@@ -57,7 +57,7 @@ export function Sidebar() {
           <Text>Ecom Soft Co.</Text>
         </Row>
 
-        <Box height={16} />
+        <BoxSize height={1} />
 
         <ListItemButton
           selected={isSelected("/")}
@@ -123,7 +123,9 @@ export function Sidebar() {
       </List>
       <Col padding={1}>
         <Divider />
-        <Box height={8} />
+
+        <BoxSize height={1} />
+
         <Row align={"center"} justify={"space-between"} gap={1}>
           <Text>Leonardo Santino</Text>
 

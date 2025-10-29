@@ -3,7 +3,7 @@ import { Col, Deco, Row, Text, DeleteIcon, IconButton } from "@/com/ui/comps";
 export function ProductUnit() {
   return (
     <Deco>
-      <Row justify={"space-between"} align={"center"} paddingY={1} paddingX={2}>
+      <Row justify={"space-between"} align={"center"}>
         <Text>Pizza de Calabresa</Text>
 
         <Text>Grande</Text>

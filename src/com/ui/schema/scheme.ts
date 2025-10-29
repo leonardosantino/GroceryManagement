@@ -21,10 +21,10 @@ export const ColorTheme = {
   warning: "#EF6C00",
   error: "#C62828",
 
-  outline: "#767680",
-  surface: "#FEFBFF",
+  container: "#fafaff",
+  outline: "#e6e6eb",
 
-  container: "#f5f5fa",
+  surface: "#ffffff",
 
   none: "#00000000",
 };
@@ -70,7 +70,8 @@ export const IconTheme = {
 };
 
 export const boxShadow = {
-  insetBottom: "inset 0 -9px 9px 0 #F5F5F5FF",
+  insetBottom: `inset 0 -9px 9px 0 ${ColorTheme.outline}`,
+  light: `0 0 1px 1px ${ColorTheme.outline}`,
 };
 
 export const breakpoint = {

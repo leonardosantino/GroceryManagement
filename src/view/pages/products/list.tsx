@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 
 import {
   Avatar,
-  Box,
   Button,
   Col,
   FilterListIcon,
@@ -150,23 +149,22 @@ export function ProductsList() {
       </TableContainer>
 
       {/*Pagination*/}
-      <Box justify={"center"}>
-        <Button
-          disabled={hasMoreItems()}
-          variant="outlined"
-          color="primary"
-          sx={{ width: 120 }}
-          onClick={() => {
-            setPage((prev) => ({
-              key: page.key,
-              last: data?.last ?? "",
-              products: prev.products.concat(data?.items ?? []),
-            }));
-          }}
-        >
-          Mais
-        </Button>
-      </Box>
+
+      <Button
+        disabled={hasMoreItems()}
+        variant="outlined"
+        color="primary"
+        sx={{ width: 120 }}
+        onClick={() => {
+          setPage((prev) => ({
+            key: page.key,
+            last: data?.last ?? "",
+            products: prev.products.concat(data?.items ?? []),
+          }));
+        }}
+      >
+        Mais
+      </Button>
     </Col>
   );
 }

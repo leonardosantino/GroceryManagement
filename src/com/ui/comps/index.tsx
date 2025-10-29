@@ -13,13 +13,14 @@ export { Button } from "@/com/ui/comps/base/button";
 export { Empty } from "@/com/ui/comps/base/empty";
 export { Conditional } from "@/com/ui/comps/base/Conditional";
 export { Container } from "@/com/ui/comps/base/container";
+export { Divider } from "@/com/ui/comps/base/divider";
+export { BoxSize } from "@/com/ui/comps/base/boxSize";
 
 // MUI Components
 import type { SelectChangeEvent } from "@mui/material/Select";
 import type { AlertColor } from "@mui/material/Alert";
 
 import Collapse from "@mui/material/Collapse";
-import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -55,7 +56,6 @@ import Tooltip from "@mui/material/Tooltip";
 
 export {
   Collapse,
-  Divider,
   IconButton,
   List,
   ListItem,
@@ -94,40 +94,40 @@ export {
 
 // MUI Icons
 import type { SvgIconComponent } from "@mui/icons-material";
-import BusinessIcon from "@mui/icons-material/BusinessRounded";
-import ExpandLessIcon from "@mui/icons-material/ExpandLessRounded";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMoreRounded";
-import InventoryIcon from "@mui/icons-material/InventoryRounded";
-import PeopleIcon from "@mui/icons-material/PeopleRounded";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCartRounded";
-import TrendingUpIcon from "@mui/icons-material/TrendingUpRounded";
-import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternateRounded";
-import CategoryIcon from "@mui/icons-material/CategoryRounded";
-import DeleteIcon from "@mui/icons-material/DeleteRounded";
-import SaveIcon from "@mui/icons-material/SaveRounded";
-import CloseIcon from "@mui/icons-material/CloseRounded";
+
 import AddIcon from "@mui/icons-material/AddRounded";
-import FilterListIcon from "@mui/icons-material/FilterListRounded";
-import MoreVertIcon from "@mui/icons-material/MoreVertRounded";
-import ContentCopyIcon from "@mui/icons-material/ContentCopyRounded";
-import EditIcon from "@mui/icons-material/EditRounded";
-import TrendingDownIcon from "@mui/icons-material/TrendingDownRounded";
-import MessageIcon from "@mui/icons-material/MessageRounded";
+import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternateRounded";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoneyRounded";
 import BlockIcon from "@mui/icons-material/BlockRounded";
-import EmailIcon from "@mui/icons-material/EmailRounded";
-import VisibilityIcon from "@mui/icons-material/VisibilityRounded";
-import RemoveIcon from "@mui/icons-material/RemoveRounded";
-import WarningIcon from "@mui/icons-material/WarningRounded";
+import BusinessIcon from "@mui/icons-material/BusinessRounded";
 import CancelIcon from "@mui/icons-material/CancelRounded";
+import CategoryIcon from "@mui/icons-material/CategoryRounded";
+import CloseIcon from "@mui/icons-material/CloseRounded";
+import ContentCopyIcon from "@mui/icons-material/ContentCopyRounded";
+import DeleteIcon from "@mui/icons-material/DeleteRounded";
+import EditIcon from "@mui/icons-material/EditRounded";
+import EmailIcon from "@mui/icons-material/EmailRounded";
+import ExpandLessIcon from "@mui/icons-material/ExpandLessRounded";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMoreRounded";
+import FilterListIcon from "@mui/icons-material/FilterListRounded";
+import InventoryIcon from "@mui/icons-material/InventoryRounded";
 import LocalShippingIcon from "@mui/icons-material/LocalShippingRounded";
+import LogoutIcon from "@mui/icons-material/LogoutRounded";
+import MessageIcon from "@mui/icons-material/MessageRounded";
+import MoreVertIcon from "@mui/icons-material/MoreVertRounded";
 import NotificationsIcon from "@mui/icons-material/NotificationsRounded";
 import PaymentIcon from "@mui/icons-material/PaymentRounded";
+import PeopleIcon from "@mui/icons-material/PeopleRounded";
+import RemoveIcon from "@mui/icons-material/RemoveRounded";
+import SaveIcon from "@mui/icons-material/SaveRounded";
 import SecurityIcon from "@mui/icons-material/SecurityRounded";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCartRounded";
 import StoreIcon from "@mui/icons-material/StoreRounded";
-import LogoutIcon from "@mui/icons-material/LogoutRounded";
+import TrendingDownIcon from "@mui/icons-material/TrendingDownRounded";
+import TrendingUpIcon from "@mui/icons-material/TrendingUpRounded";
+import VisibilityIcon from "@mui/icons-material/VisibilityRounded";
+import WarningIcon from "@mui/icons-material/WarningRounded";
 
-export type { SvgIconComponent };
 export {
   BusinessIcon,
   ExpandLessIcon,
@@ -161,4 +161,5 @@ export {
   SecurityIcon,
   StoreIcon,
   LogoutIcon,
+  SvgIconComponent,
 };

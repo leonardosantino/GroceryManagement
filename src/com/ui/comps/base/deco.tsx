@@ -1,26 +1,12 @@
-import { Box, BoxProps, BoxStyle } from "@/com/ui/comps/base/box";
-import { ColorTheme, ThemeColor } from "@/com/ui/schema/scheme";
+import { Box, BoxStyle, BoxProps } from "@/com/ui/comps/base/box";
+import { boxShadow } from "@/com/ui/schema/scheme";
 
-type Props = {
-  borderColor?: ThemeColor;
-  boxColor?: ThemeColor;
-  borderRadius?: number;
-} & BoxProps;
-
-export function Deco(props: Readonly<Props>) {
-  const { borderColor, borderRadius, boxColor, ...rest } = props;
-
-  const viewStyle: BoxStyle = {
-    borderWidth: 0.2,
+export function Deco(boxProps: Readonly<BoxProps>) {
+  const props: BoxStyle = {
     borderRadius: 1,
-    borderStyle: "solid",
-    borderColor: ColorTheme.outline,
+    boxShadow: boxShadow.light,
+    ...boxProps,
   };
 
-  if (boxColor) viewStyle.backgroundColor = ColorTheme[boxColor];
-  if (borderColor) viewStyle.borderColor = ColorTheme[borderColor];
-
-  if (borderRadius) viewStyle.borderRadius = borderRadius;
-
-  return <Box style={viewStyle} {...rest} />;
+  return <Box {...props} />;
 }

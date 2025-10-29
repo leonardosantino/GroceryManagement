@@ -11,7 +11,7 @@ import {
 
 export function Billing() {
   return (
-    <Paper direction={"column"} padding={1}>
+    <Paper direction={"column"} padding={1} flex={1}>
       <Text weight={"bold"}>Faturamento</Text>
 
       <TableContainer>

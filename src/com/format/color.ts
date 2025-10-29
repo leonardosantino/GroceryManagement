@@ -1,3 +1,3 @@
-export function getColorForImagesError(errors: { images?: string }) {
-  return errors.images ? "error" : "primary";
+export function getColorPrimaryOrError(it?: unknown) {
+  return it ? "error" : "primary";
 }

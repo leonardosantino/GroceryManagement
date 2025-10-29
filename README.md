@@ -26,6 +26,7 @@ UI:
 
 - Swiper: [Swiper react](https://swiperjs.com/element#usage-with-react)
 - MUI: [MUI React](https://mui.com/material-ui/all-components/)
+- Template: https://minimals.cc/dashboard
 
 TEST:
 

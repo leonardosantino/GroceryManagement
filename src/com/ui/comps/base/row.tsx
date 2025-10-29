@@ -1,13 +1,10 @@
 import { BoxProps, Box, BoxStyle } from "@/com/ui/comps/base/box";
 
 export function Row(props: Readonly<BoxProps>) {
-  const { wrap, ...rest } = props;
-
-  const viewStyle: BoxStyle = {
-    flexWrap: "wrap",
+  const style: BoxStyle = {
+    wrap: "wrap",
+    ...props,
   };
 
-  if (wrap) viewStyle.flexWrap = wrap;
-
-  return <Box style={viewStyle} {...rest} />;
+  return <Box {...style} />;
 }

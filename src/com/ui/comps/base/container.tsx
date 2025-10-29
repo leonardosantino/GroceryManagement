@@ -1,14 +1,11 @@
-import { BoxProps, Box, BoxStyle } from "@/com/ui/comps/base/box";
+import { BoxStyle, Box, BoxProps } from "@/com/ui/comps/base/box";
 
-export function Container(props: Readonly<BoxProps>) {
-  const { wrap, ...rest } = props;
-
-  const viewStyle: BoxStyle = {
+export function Container(boxProps: Readonly<BoxProps>) {
+  const props: BoxStyle = {
     height: "inherit",
-    flexWrap: "nowrap",
+    wrap: "nowrap",
+    ...boxProps,
   };
 
-  if (wrap) viewStyle.flexWrap = wrap;
-
-  return <Box style={viewStyle} {...rest} />;
+  return <Box {...props} />;
 }

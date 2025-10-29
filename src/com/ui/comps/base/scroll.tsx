@@ -1,11 +1,12 @@
-import { BoxProps, BoxStyle, Box } from "@/com/ui/comps/base/box";
+import { BoxStyle, Box, BoxProps } from "@/com/ui/comps/base/box";
 
 export function ScrollCol(props: Readonly<BoxProps>) {
-  const viewStyle: BoxStyle = {
-    flexDirection: "column",
+  const style: BoxStyle = {
+    direction: "column",
     overflow: "scroll",
     scrollbarWidth: "none",
+    ...props,
   };
 
-  return <Box style={viewStyle} {...props} />;
+  return <Box {...style} />;
 }

@@ -14,10 +14,6 @@ Do not implement responsive designs for mobile or tablet views.
 
 ## Guidelines for Styles, Components and Icons
 
-When generating code for this application, use exclusively components from the@mui/material library and icons from the @mui/icons-material library.
-All styling must be done using mui sx: SxProps.
-Do not use inline styles, CSS modules, styled-components, or other styling approaches.
-
 Prefer to use the custom components defined in `@/com/ui/comps` instead of basic HTML elements.
 This ensures consistent styling and behavior across the application.
 

@@ -1,22 +1,16 @@
-import { Box, BoxProps } from "@/com/ui/comps/base/box";
 import Image from "next/image";
+
+import { Box, BoxStyle } from "@/com/ui/comps/base/box";
 
 type ImaProps = {
   src: string;
   alt: string;
-  width: number;
-  height: number;
-} & BoxProps;
+} & BoxStyle;
 
 export function Img(props: Readonly<ImaProps>) {
   return (
     <Box {...props}>
-      <Image
-        src={props.src}
-        alt={props.alt}
-        width={props.width}
-        height={props.height}
-      />
+      <Image src={props.src} alt={props.alt} fill />
     </Box>
   );
 }

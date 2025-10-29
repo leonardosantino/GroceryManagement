@@ -1,7 +1,5 @@
 import { ReactNode } from "react";
-import { Property } from "csstype";
-
-import Typography from "@mui/material/Typography";
+import { Properties, Property } from "csstype";
 
 import {
   TextTheme,
@@ -12,34 +10,54 @@ import {
 
 type TextProps = {
   flex?: number;
-  maxLength?: number;
   size?: ThemeTextSize;
   color?: ThemeTextColor;
   align?: Property.TextAlign;
   weight?: ThemeTextWeight;
+  maxLength?: number;
+
   children: ReactNode;
 };
 
-export function Text(props: Readonly<TextProps>) {
-  const { flex, size, color, align, weight, maxLength = 0, ...rest } = props;
+export function Text(textProps: Readonly<TextProps>) {
+  const {
+    flex,
+    size,
+    color,
+    align,
+    weight,
+    maxLength = 0,
+    children,
+  } = textProps;
 
-  const viewStyle: Record<string, string | number> = {};
+  const style: Properties = {
+    wordWrap: "break-word",
+    textWrap: "wrap",
+    margin: 0,
+  };
 
-  if (flex) viewStyle.flex = flex;
-  if (size) viewStyle.fontSize = TextTheme[size];
-  if (color) viewStyle.color = TextTheme[color];
-  if (weight) viewStyle.fontWeight = TextTheme[weight];
-  if (align) viewStyle.textAlign = align;
+  if (flex) {
+    style.display = "flex";
+
+    style.flexGrow = flex;
+    style.flexShrink = 1;
+    style.flexBasis = 0;
+  }
+
+  if (size) style.fontSize = `${TextTheme[size]}px`;
+  if (color) style.color = TextTheme[color];
+  if (align) style.textAlign = align;
+  if (weight) style.fontWeight = TextTheme[weight];
 
   const str = getStr();
 
   function getStr() {
-    const children = props.children as string;
+    const str = children as string;
 
     if (maxLength) {
-      return strConcat(children);
+      return strConcat(str);
     }
-    return children;
+    return str;
   }
 
   function strConcat(str: string) {
@@ -52,16 +70,5 @@ export function Text(props: Readonly<TextProps>) {
     return str.substring(0, maxLength);
   }
 
-  return (
-    <Typography
-      sx={{
-        wordWrap: "break-word",
-        textWrap: "wrap",
-        ...viewStyle,
-      }}
-      {...rest}
-    >
-      {str}
-    </Typography>
-  );
+  return <p style={style}>{str}</p>;
 }

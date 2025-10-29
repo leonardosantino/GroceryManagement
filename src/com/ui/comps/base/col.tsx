@@ -1,9 +1,10 @@
-import { BoxProps, Box, BoxStyle } from "@/com/ui/comps/base/box";
+import { BoxStyle, Box, BoxProps } from "@/com/ui/comps/base/box";
 
 export function Col(props: Readonly<BoxProps>) {
-  const viewStyle: BoxStyle = {
-    flexDirection: "column",
+  const style: BoxStyle = {
+    direction: "column",
+    ...props,
   };
 
-  return <Box style={viewStyle} {...props} />;
+  return <Box {...style} />;
 }

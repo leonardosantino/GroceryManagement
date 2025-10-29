@@ -1,11 +1,5 @@
-import { Deco, Row, ScrollCol } from "@/com/ui/comps";
+import { Box } from "@/com/ui/comps";
 
 export default function EmptyPage() {
-  return (
-    <ScrollCol gap={2} wrap={"wrap"}>
-      <Row height={600}>
-        <Deco height={200} width={200} boxColor={"error"} />
-      </Row>
-    </ScrollCol>
-  );
+  return <Box>Empty Page</Box>;
 }
