@@ -28,8 +28,6 @@ import {
   Dialog,
   DialogActions,
   SaveIcon,
-  Snackbar,
-  AlertColor,
   BoxSize,
 } from "@/com/ui/comps";
 
@@ -47,6 +45,7 @@ import { Api } from "@/clients/Api";
 import { isNull } from "@/com/validation";
 import { Slide } from "@/view/comps/slide/Slide";
 import { getColorPrimaryOrError } from "@/com/format/color";
+import { Snack, SnackData, snackData } from "@/view/comps/snack/Snack";
 
 export function ProductsEdit() {
   const router = useRouter();
@@ -58,14 +57,7 @@ export function ProductsEdit() {
   const [images, setImages] = useState<{ url: string; file?: File }[]>([]);
 
   const [errors, setErrors] = useState({} as ProductFormErrors);
-  const [snack, setSnack] = useState<{
-    open: boolean;
-    onClose?: () => void;
-    severity?: AlertColor;
-    message?: string;
-  }>({
-    open: false,
-  });
+  const [snack, setSnack] = useState<SnackData>({ open: false });
 
   const [dialog, setDialog] = useState(false);
 
@@ -125,13 +117,20 @@ export function ProductsEdit() {
 
       setErrors({});
       setSnack({
-        open: true,
-        severity: "success",
-        message: "Atualizado com sucesso!",
-        onClose: () => setSnack({ open: false }),
+        ...snackData.updateProduct,
+        onClose: () => {
+          setSnack({ ...snackData.updateProduct, open: false });
+        },
       });
     } else {
       const formErrors = getProductFormIssues(form.error.issues);
+
+      setSnack({
+        ...snackData.requiredFieldsError,
+        onClose: () => {
+          setSnack({ ...snackData.requiredFieldsError, open: false });
+        },
+      });
 
       setErrors(formErrors);
     }
@@ -195,8 +194,12 @@ export function ProductsEdit() {
       {/*Save*/}
       <Row justify={"space-between"} width={900}>
         <Col>
-          <Text size={"small"}>Criado em: {toLocalDate(product.createdAt)}</Text>
-          <Text size={"small"}>Última atualização: {toLocalDate(product.updatedAt)}</Text>
+          <Text size={"small"}>
+            Criado em: {toLocalDate(product.createdAt)}
+          </Text>
+          <Text size={"small"}>
+            Última atualização: {toLocalDate(product.updatedAt)}
+          </Text>
         </Col>
 
         <Row gap={1}>
@@ -220,17 +223,7 @@ export function ProductsEdit() {
       </Row>
 
       {/*Save Feedback*/}
-      <Snackbar
-        open={snack.open}
-        onClose={snack.onClose}
-        autoHideDuration={6000}
-        message={snack.message}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-      >
-        <Alert severity={snack.severity} variant="filled">
-          {snack.message}
-        </Alert>
-      </Snackbar>
+      <Snack data={snack} />
 
       {/*Dialog Delete*/}
       <Dialog open={dialog} onClose={() => setDialog(false)}>

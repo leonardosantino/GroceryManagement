@@ -6,7 +6,6 @@ import { useMutation } from "@tanstack/react-query";
 import {
   AddIcon,
   AddPhotoAlternateIcon,
-  Alert,
   Button,
   Chip,
   Col,
@@ -24,8 +23,6 @@ import {
   ScrollCol,
   Text,
   InputAdornment,
-  Snackbar,
-  AlertColor,
   BoxSize,
 } from "@/com/ui/comps";
 
@@ -42,6 +39,7 @@ import { Slide } from "@/view/comps/slide/Slide";
 import { useRouter } from "next/navigation";
 import { isNull } from "@/com/validation";
 import { getColorPrimaryOrError } from "@/com/format/color";
+import { Snack, SnackData, snackData } from "@/view/comps/snack/Snack";
 
 export function ProductsAdd() {
   const router = useRouter();
@@ -51,14 +49,7 @@ export function ProductsAdd() {
   const [images, setImages] = useState<{ url: string; file?: File }[]>([]);
 
   const [errors, setErrors] = useState<ProductFormErrors>({});
-  const [snack, setSnack] = useState<{
-    open: boolean;
-    onClose?: () => void;
-    severity?: AlertColor;
-    message?: string;
-  }>({
-    open: false,
-  });
+  const [snack, setSnack] = useState<SnackData>({ open: false });
 
   const mutationCreate = useMutation({
     mutationFn: (it: Product) => Api.products.save(it),
@@ -91,18 +82,19 @@ export function ProductsAdd() {
       );
 
       setSnack({
-        open: true,
-        severity: "success",
-        message: "Produto criado com sucesso!",
-        onClose: () => router.push("/products/edit?id=".concat(response.id)),
+        ...snackData.addProduct,
+        onClose: () => {
+          setSnack({ ...snackData.addProduct, open: false });
+          router.push("/products/edit?id=".concat(response.id));
+        },
       });
     } else {
       const formErrors = getProductFormIssues(form.error?.issues);
       setSnack({
-        open: true,
-        severity: "error",
-        onClose: () => setSnack({ open: false }),
-        message: "Os campos obrigatórios não foram preenchidos.",
+        ...snackData.requiredFieldsError,
+        onClose: () => {
+          setSnack({ ...snackData.requiredFieldsError, open: false });
+        },
       });
       setErrors(formErrors);
     }
@@ -168,18 +160,7 @@ export function ProductsAdd() {
         </Button>
       </Row>
 
-      {/*Save Feedback*/}
-      <Snackbar
-        open={snack.open}
-        onClose={snack.onClose}
-        autoHideDuration={6000}
-        message={snack.message}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-      >
-        <Alert severity={snack.severity} variant="filled">
-          {snack.message}
-        </Alert>
-      </Snackbar>
+      <Snack data={snack} />
 
       <BoxSize height={1} />
 
