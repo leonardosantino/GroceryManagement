@@ -44,13 +44,6 @@ import { Snack, SnackData, snackData } from "@/view/comps/snack/Snack";
 export function ProductsAdd() {
   const router = useRouter();
 
-  const [product, setProduct] = useState(Product.default());
-  const [category, setCategory] = useState<string>();
-  const [images, setImages] = useState<{ url: string; file?: File }[]>([]);
-
-  const [errors, setErrors] = useState<ProductFormErrors>({});
-  const [snack, setSnack] = useState<SnackData>({ open: false });
-
   const mutationCreate = useMutation({
     mutationFn: (it: Product) => Api.products.save(it),
   });
@@ -58,6 +51,13 @@ export function ProductsAdd() {
   const mutationStorage = useMutation({
     mutationFn: (file: File) => Api.storage.upload(file),
   });
+
+  const [product, setProduct] = useState(Product.default());
+  const [category, setCategory] = useState<string>();
+  const [images, setImages] = useState<{ url: string; file?: File }[]>([]);
+
+  const [errors, setErrors] = useState<ProductFormErrors>({});
+  const [snack, setSnack] = useState<SnackData>({ open: false });
 
   async function onSave() {
     const imagesShema = images
@@ -84,7 +84,7 @@ export function ProductsAdd() {
       setSnack({
         ...snackData.addProduct,
         onClose: () => {
-          setSnack({ ...snackData.addProduct, open: false });
+          setSnack({ open: false });
           router.push("/products/edit?id=".concat(response.id));
         },
       });
@@ -93,7 +93,7 @@ export function ProductsAdd() {
       setSnack({
         ...snackData.requiredFieldsError,
         onClose: () => {
-          setSnack({ ...snackData.requiredFieldsError, open: false });
+          setSnack({ open: false });
         },
       });
       setErrors(formErrors);

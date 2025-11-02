@@ -8,7 +8,6 @@ import {
   AddIcon,
   Empty,
   AddPhotoAlternateIcon,
-  Alert,
   Button,
   Chip,
   Col,
@@ -52,34 +51,10 @@ export function ProductsEdit() {
   const params = useSearchParams();
   const id = params.get("id") as string;
 
-  const [product, setProduct] = useState(Product.default());
-  const [category, setCategory] = useState<string>();
-  const [images, setImages] = useState<{ url: string; file?: File }[]>([]);
-
-  const [errors, setErrors] = useState({} as ProductFormErrors);
-  const [snack, setSnack] = useState<SnackData>({ open: false });
-
-  const [dialog, setDialog] = useState(false);
-
-  const { isLoading } = useQuery({
+  const { data, isPending } = useQuery({
     queryKey: ["product", id],
-    queryFn: () =>
-      Api.products
-        .findById(id)
-        .then((it) => setItProduct(it))
-        .then((it) => setItImages(it)),
+    queryFn: () => Api.products.findById(id).then((it) => setItProduct(it)),
   });
-
-  function setItProduct(it: Product) {
-    setProduct(it);
-    return it;
-  }
-
-  function setItImages(it: Product) {
-    const imgs = it.images.map((it) => ({ url: it }));
-    setImages(imgs);
-    return it;
-  }
 
   const mutationUpdate = useMutation({
     mutationFn: (it: Product) => Api.products.update(it),
@@ -93,10 +68,24 @@ export function ProductsEdit() {
     mutationFn: () => Api.products.delete(id),
   });
 
+  const [product, setProduct] = useState(data as Product);
+  const [category, setCategory] = useState<string>();
+  const [images, setImages] = useState<{ url: string; file?: File }[]>([]);
+
+  const [errors, setErrors] = useState({} as ProductFormErrors);
+  const [snack, setSnack] = useState<SnackData>({ open: false });
+
+  const [dialogDelete, setDialogDelete] = useState(false);
+
+  function setItProduct(it: Product) {
+    const imgs = it.images.map((it) => ({ url: it }));
+    setImages(imgs);
+    setProduct(it);
+    return it;
+  }
+
   async function onSave() {
-    const imagesShema = images
-      .map((it) => it.file?.name)
-      .filter((it) => !isNull(it)) as string[];
+    const imagesShema = images.map((it) => it.url);
 
     const productSchema = product.copy({ images: imagesShema });
 
@@ -119,7 +108,7 @@ export function ProductsEdit() {
       setSnack({
         ...snackData.updateProduct,
         onClose: () => {
-          setSnack({ ...snackData.updateProduct, open: false });
+          setSnack({ open: false });
         },
       });
     } else {
@@ -128,7 +117,7 @@ export function ProductsEdit() {
       setSnack({
         ...snackData.requiredFieldsError,
         onClose: () => {
-          setSnack({ ...snackData.requiredFieldsError, open: false });
+          setSnack({ open: false });
         },
       });
 
@@ -181,7 +170,7 @@ export function ProductsEdit() {
     router.push("/products/list");
   }
 
-  if (isLoading) return <Empty />;
+  if (isPending) return <Empty />;
 
   return (
     <Col
@@ -206,7 +195,7 @@ export function ProductsEdit() {
           <Button
             variant="outlined"
             color={"error"}
-            onClick={() => setDialog(true)}
+            onClick={() => setDialogDelete(true)}
           >
             <DeleteIcon />
           </Button>
@@ -226,12 +215,12 @@ export function ProductsEdit() {
       <Snack data={snack} />
 
       {/*Dialog Delete*/}
-      <Dialog open={dialog} onClose={() => setDialog(false)}>
+      <Dialog open={dialogDelete} onClose={() => setDialogDelete(false)}>
         <DialogActions>
           <Button color={"error"} onClick={handleDeleteProduct}>
             Excluir
           </Button>
-          <Button onClick={() => setDialog(false)}>Cancelar</Button>
+          <Button onClick={() => setDialogDelete(false)}>Cancelar</Button>
         </DialogActions>
       </Dialog>
 
@@ -308,7 +297,7 @@ export function ProductsEdit() {
               <Input
                 id={"product-form-unit-price"}
                 placeholder="Preço"
-                defaultValue={product.unity?.price}
+                defaultValue={product.unity?.price.toFixed(2)}
                 error={!!errors.unity?.price}
                 type={"number"}
                 onChange={(it) =>

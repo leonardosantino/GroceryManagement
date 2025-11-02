@@ -4,13 +4,19 @@ import { Box, BoxStyle } from "@/com/ui/comps/base/box";
 
 type ImaProps = {
   src: string;
+  width: number;
   alt: string;
 } & BoxStyle;
 
 export function Img(props: Readonly<ImaProps>) {
   return (
     <Box position={"relative"} {...props}>
-      <Image src={props.src} alt={props.alt} fill />
+      <Image
+        src={props.src}
+        alt={props.alt}
+        sizes={props.width.toString()}
+        fill
+      />
     </Box>
   );
 }
