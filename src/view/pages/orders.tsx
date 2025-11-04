@@ -1,20 +1,9 @@
 "use client";
 
-import { MouseEvent, useState } from "react";
+import React, { useState } from "react";
 
 import {
-  Button,
-  CardContent,
   Chip,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Divider,
-  Grid,
-  IconButton,
-  Menu,
-  MenuItem,
   Table,
   TableBody,
   TableCell,
@@ -23,63 +12,78 @@ import {
   TableRow,
   Text,
   Input,
-  CancelIcon,
-  LocalShippingIcon,
-  EditIcon,
   FilterListIcon,
-  MoreVertIcon,
-  VisibilityIcon,
   Col,
-  Paper,
+  Row,
+  BoxSize,
+  Button,
 } from "@/com/ui/comps";
+
+import { ColorTheme, TextTheme } from "@/com/ui/schema/scheme";
+import { FilterInput } from "@/view/comps/FilterInput";
+import { isNullOrEmpty } from "@/com/validation";
+import { useQuery } from "@tanstack/react-query";
+import { Api } from "@/clients/Api";
+import { Order } from "@/model/entity/Order";
 
 const orders = [
   {
-    id: "#12345",
+    id: "6",
     customer: "John Doe",
     email: "john@example.com",
-    total: "$299.99",
-    status: "completed",
+    total: "R$ 109,90",
+    status: "Pendente",
+    paymentStatus: "paid",
+    date: "2024-01-15",
+    items: 3,
+  },
+
+  {
+    id: "1",
+    customer: "John Doe",
+    email: "john@example.com",
+    total: "R$ 109,90",
+    status: "Confirmado",
     paymentStatus: "paid",
     date: "2024-01-15",
     items: 3,
   },
   {
-    id: "#12346",
+    id: "2",
     customer: "Jane Smith",
     email: "jane@example.com",
-    total: "$149.50",
-    status: "processing",
+    total: "R$ 109,90",
+    status: "Em andamento",
     paymentStatus: "paid",
     date: "2024-01-15",
     items: 2,
   },
   {
-    id: "#12347",
+    id: "3",
     customer: "Bob Johnson",
     email: "bob@example.com",
-    total: "$89.99",
-    status: "shipped",
+    total: "R$ 109,90",
+    status: "Em entrega",
     paymentStatus: "paid",
     date: "2024-01-14",
     items: 1,
   },
   {
-    id: "#12348",
+    id: "4",
     customer: "Alice Brown",
     email: "alice@example.com",
-    total: "$199.99",
-    status: "pending",
+    total: "R$ 109,90",
+    status: "Completo",
     paymentStatus: "pending",
     date: "2024-01-14",
     items: 4,
   },
   {
-    id: "#12349",
+    id: "5",
     customer: "Charlie Wilson",
     email: "charlie@example.com",
-    total: "$349.99",
-    status: "cancelled",
+    total: "R$ 109,90",
+    status: "Cancelado",
     paymentStatus: "refunded",
     date: "2024-01-13",
     items: 2,
@@ -88,30 +92,15 @@ const orders = [
 
 const getStatusColor = (status: string) => {
   switch (status) {
-    case "completed":
+    case "Completo":
       return "success";
-    case "processing":
+    case "Em andamento":
       return "info";
-    case "shipped":
+    case "Em entrega":
       return "primary";
-    case "pending":
+    case "Pendente":
       return "warning";
-    case "cancelled":
-      return "error";
-    default:
-      return "default";
-  }
-};
-
-const getPaymentStatusColor = (status: string) => {
-  switch (status) {
-    case "paid":
-      return "success";
-    case "pending":
-      return "warning";
-    case "refunded":
-      return "info";
-    case "failed":
+    case "Cancelado":
       return "error";
     default:
       return "default";
@@ -119,206 +108,157 @@ const getPaymentStatusColor = (status: string) => {
 };
 
 export function Orders() {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [selectedOrder, setSelectedOrder] = useState<string | null>(null);
-  const [openDialog, setOpenDialog] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [status, setStatus] = useState<string>("");
 
-  const handleMenuClick = (event: MouseEvent<HTMLElement>, orderId: string) => {
-    setAnchorEl(event.currentTarget);
-    setSelectedOrder(orderId);
-  };
+  const [page, setPage] = useState({
+    key: "productsList",
+    last: "",
+    orders: [] as Order[],
+  });
 
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-    setSelectedOrder(null);
-  };
+  const { data } = useQuery({
+    queryKey: [page.key, page.last, status],
+    queryFn: () =>
+      Api.orders.pageable({
+        status: status,
+        last: page.last,
+        limit: "10",
+      }),
+  });
 
-  const handleViewOrder = () => {
-    setOpenDialog(true);
-    handleMenuClose();
-  };
+  function hasMoreItems() {
+    if (isNullOrEmpty(data?.last)) return true;
 
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
-  };
-
-  const filteredOrders = orders.filter(
-    (order) =>
-      order.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      order.customer.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      order.email.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
-
-  const selectedOrderData = orders.find((order) => order.id === selectedOrder);
+    return (data?.items.length as number) < 10;
+  }
 
   return (
-    <Col testId={"orders-page"}>
-      <Paper>
-        <CardContent>
-          <Col>
-            <Input
-              placeholder="Search orders..."
-              variant="outlined"
-              size="small"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              sx={{ flexGrow: 1 }}
-            />
-            <Button
-              variant="outlined"
-              startIcon={<FilterListIcon />}
-              sx={{ borderRadius: 2 }}
-            >
-              Filter
-            </Button>
-          </Col>
+    <Col flex={1} padding={2} gap={2} testId={"orders-page"}>
+      {/*Filter*/}
+      <Row justify={"space-between"}>
+        <Input placeholder="Pesquisar..." sx={{ flexGrow: 0.25 }} />
 
-          <TableContainer>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Order ID</TableCell>
-                  <TableCell>Customer</TableCell>
-                  <TableCell>Total</TableCell>
-                  <TableCell>Status</TableCell>
-                  <TableCell>Payment</TableCell>
-                  <TableCell>Date</TableCell>
-                  <TableCell>Items</TableCell>
-                  <TableCell align="right">Actions</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {filteredOrders.map((order) => (
-                  <TableRow key={order.id} hover>
-                    <TableCell>
-                      <Text>{order.id}</Text>
-                    </TableCell>
-                    <TableCell>
-                      <Col>
-                        <Text>{order.customer}</Text>
-                        <Text>{order.email}</Text>
-                      </Col>
-                    </TableCell>
-                    <TableCell>
-                      <Text>{order.total}</Text>
-                    </TableCell>
-                    <TableCell>
-                      <Chip
-                        label={order.status}
-                        color={getStatusColor(order.status)}
-                        size="small"
-                        sx={{ textTransform: "capitalize" }}
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <Chip
-                        label={order.paymentStatus}
-                        color={getPaymentStatusColor(order.paymentStatus)}
-                        size="small"
-                        variant="outlined"
-                        sx={{ textTransform: "capitalize" }}
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <Text>{order.date}</Text>
-                    </TableCell>
-                    <TableCell>
-                      <Text>{order.items}</Text>
-                    </TableCell>
-                    <TableCell align="right">
-                      <IconButton
-                        onClick={(e) => handleMenuClick(e, order.id)}
-                        size="small"
-                      >
-                        <MoreVertIcon />
-                      </IconButton>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </CardContent>
-      </Paper>
+        <Row align={"center"}>
+          <FilterInput label={"Status"} values={status} setValues={setStatus} />
+          <BoxSize width={4} />
+          <FilterListIcon fontSize={"large"} color={"info"} />
+        </Row>
+      </Row>
 
-      <Menu
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={handleMenuClose}
-      >
-        <MenuItem onClick={handleViewOrder}>
-          <VisibilityIcon sx={{ mr: 1, fontSize: 20 }} />
-          View Details
-        </MenuItem>
-        <MenuItem onClick={handleMenuClose}>
-          <EditIcon sx={{ mr: 1, fontSize: 20 }} />
-          Edit Order
-        </MenuItem>
-        <MenuItem onClick={handleMenuClose}>
-          <LocalShippingIcon sx={{ mr: 1, fontSize: 20 }} />
-          Update Shipping
-        </MenuItem>
-        <MenuItem onClick={handleMenuClose} sx={{ color: "error.main" }}>
-          <CancelIcon sx={{ mr: 1, fontSize: 20 }} />
-          Cancel Order
-        </MenuItem>
-      </Menu>
+      <TableContainer>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell
+                sx={{
+                  backgroundColor: ColorTheme.container,
+                  fontWeight: TextTheme.bold,
+                }}
+              >
+                Pedido
+              </TableCell>
+              <TableCell
+                sx={{
+                  backgroundColor: ColorTheme.container,
+                  fontWeight: TextTheme.bold,
+                }}
+              >
+                Status
+              </TableCell>
+              <TableCell
+                sx={{
+                  backgroundColor: ColorTheme.container,
+                  fontWeight: TextTheme.bold,
+                }}
+              >
+                Items
+              </TableCell>
+              <TableCell
+                sx={{
+                  backgroundColor: ColorTheme.container,
+                  fontWeight: TextTheme.bold,
+                }}
+              >
+                Total
+              </TableCell>
 
-      <Dialog
-        open={openDialog}
-        onClose={handleCloseDialog}
-        maxWidth="md"
-        fullWidth
-      >
-        <DialogTitle>Order Details - {selectedOrder}</DialogTitle>
-        <DialogContent>
-          {selectedOrderData && (
-            <Grid container spacing={3} sx={{ mt: 1 }}>
-              <Grid size={6}>
-                <Text>Customer Information</Text>
-                <Text>Name: {selectedOrderData.customer}</Text>
-                <Text>
-                  <strong>Email:</strong> {selectedOrderData.email}
-                </Text>
-                <Text>
-                  <strong>Order Date:</strong> {selectedOrderData.date}
-                </Text>
-              </Grid>
-              <Grid size={6}>
-                <Text>Order Summary</Text>
-                <Text>
-                  <strong>Total:</strong> {selectedOrderData.total}
-                </Text>
-                <Text>
-                  <strong>Items:</strong> {selectedOrderData.items}
-                </Text>
-                <Text>
-                  <strong>Status:</strong>
+              <TableCell
+                sx={{
+                  backgroundColor: ColorTheme.container,
+                  fontWeight: TextTheme.bold,
+                }}
+              >
+                Endereço
+              </TableCell>
+
+              <TableCell
+                sx={{
+                  backgroundColor: ColorTheme.container,
+                  fontWeight: TextTheme.bold,
+                }}
+              >
+                Data
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {orders.map((order) => (
+              <TableRow key={order.id} hover>
+                <TableCell>
+                  <Text>{order.id}</Text>
+                </TableCell>
+                <TableCell>
                   <Chip
-                    label={selectedOrderData.status}
-                    color={getStatusColor(selectedOrderData.status)}
+                    label={order.status}
+                    color={getStatusColor(order.status)}
                     size="small"
-                    sx={{ ml: 1, textTransform: "capitalize" }}
                   />
-                </Text>
-              </Grid>
-              <Grid size={12}>
-                <Divider />
-                <Text>Order Items</Text>
-                <Text>
-                  Order items would be displayed here with product details,
-                  quantities, and prices.
-                </Text>
-              </Grid>
-            </Grid>
-          )}
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDialog}>Close</Button>
-          <Button variant="contained">Update Order</Button>
-        </DialogActions>
-      </Dialog>
+                </TableCell>
+                <TableCell>
+                  <Col>
+                    <Text>Pizza Calabresa</Text>
+                    <Text>Refrigerante</Text>
+                  </Col>
+                </TableCell>
+                <TableCell>
+                  <Text>{order.total}</Text>
+                </TableCell>
+
+                <TableCell>
+                  <Col>
+                    <Text>Rua Lucerna, 156</Text>
+                    <Text>Dep. Jose Antonio Liberato</Text>
+                  </Col>
+                </TableCell>
+
+                <TableCell>
+                  <Text>{new Date().toISOString()}</Text>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+
+      {/*Pagination*/}
+
+      <Row justify={"center"}>
+        <Button
+          disabled={hasMoreItems()}
+          variant="outlined"
+          color="primary"
+          sx={{ width: 120 }}
+          onClick={() => {
+            setPage((prev) => ({
+              key: page.key,
+              last: data?.last ?? "",
+              orders: prev.orders.concat(data?.items ?? []),
+            }));
+          }}
+        >
+          Mais
+        </Button>
+      </Row>
     </Col>
   );
 }

@@ -4,36 +4,37 @@ import { isEmpty, isNullOrEmptyList } from "@/com/validation";
 const names = ["Pizza", "Refrigerante", "Hamburguer"];
 
 type Props = {
-  categories: string;
-  onChange: (categories: string) => void;
+  label: string;
+  values: string;
+  setValues: (values: string) => void;
 };
 
-export function CategoryFilter({ categories, onChange }: Readonly<Props>) {
+export function FilterInput({ label, values, setValues }: Readonly<Props>) {
   function handleChange(event: SelectChangeEvent<string[]>) {
     const value = event.target.value as string[];
 
-    onChange(value.toString());
+    setValues(value.toString());
   }
 
-  function getCategoriesList(): string[] {
-    if (isEmpty(categories)) return [];
+  function getValues(): string[] {
+    if (isEmpty(values)) return [];
 
-    return categories.split(",");
+    return values.split(",");
   }
 
   return (
     <Select
+      variant={"standard"}
       size="small"
       multiple
       displayEmpty
-      value={getCategoriesList()}
+      value={getValues()}
       onChange={handleChange}
       renderValue={(selected) => {
-        if (isNullOrEmptyList(selected)) return <>Categoria</>;
+        if (isNullOrEmptyList(selected)) return <>{label}</>;
 
         return selected.join(", ");
       }}
-      inputProps={{ "aria-label": "Without label" }}
       sx={{ width: 125 }}
     >
       {names.map((name) => (

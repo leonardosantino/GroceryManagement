@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 
 import {
   Avatar,
+  BoxSize,
   Button,
   Col,
   FilterListIcon,
@@ -27,7 +28,7 @@ import { currencyFromDouble } from "@/com/format/currency";
 import { isNullOrEmpty, isNullOrEmptyList } from "@/com/validation";
 
 import { Api } from "@/clients/Api";
-import { CategoryFilter } from "@/view/comps/CategoryFilter";
+import { FilterInput } from "@/view/comps/FilterInput";
 
 export function ProductsList() {
   const [page, setPage] = useState({
@@ -70,16 +71,20 @@ export function ProductsList() {
   return (
     <Col flex={1} padding={2} gap={2} testId={"products-list-page"}>
       {/*Filter*/}
-      <Row gap={2} justify={"space-between"} height={37}>
+      <Row gap={2} justify={"space-between"}>
         <Input
           placeholder="Pesquisar..."
           sx={{ flexGrow: 0.25 }}
           onChange={(it) => setSearchName(it.target.value)}
         />
         <Row gap={1} align={"center"}>
-          <FilterListIcon color={"info"} />
-          <Text color={"info"}>Filtros</Text>
-          <CategoryFilter categories={categories} onChange={setCategories} />
+          <FilterInput
+            label={"Categoria"}
+            values={categories}
+            setValues={setCategories}
+          />
+          <BoxSize width={4} />
+          <FilterListIcon fontSize={"large"} color={"info"} />
         </Row>
       </Row>
       <TableContainer
@@ -150,21 +155,23 @@ export function ProductsList() {
 
       {/*Pagination*/}
 
-      <Button
-        disabled={hasMoreItems()}
-        variant="outlined"
-        color="primary"
-        sx={{ width: 120 }}
-        onClick={() => {
-          setPage((prev) => ({
-            key: page.key,
-            last: data?.last ?? "",
-            products: prev.products.concat(data?.items ?? []),
-          }));
-        }}
-      >
-        Mais
-      </Button>
+      <Row justify={"center"}>
+        <Button
+          disabled={hasMoreItems()}
+          variant="outlined"
+          color="primary"
+          sx={{ width: 120 }}
+          onClick={() => {
+            setPage((prev) => ({
+              key: page.key,
+              last: data?.last ?? "",
+              products: prev.products.concat(data?.items ?? []),
+            }));
+          }}
+        >
+          Mais
+        </Button>
+      </Row>
     </Col>
   );
 }
