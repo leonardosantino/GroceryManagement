@@ -28,12 +28,12 @@ export function styleProperties(boxProps: BoxStyle): Properties {
     borderRadius,
     borderWidth,
 
-    ...otherStyle
+    ...commonStyle
   } = boxProps;
 
   const style: Properties = {
     display: "flex",
-    ...otherStyle,
+    ...commonStyle,
   };
 
   if (flex) {

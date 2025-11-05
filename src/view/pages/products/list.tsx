@@ -18,7 +18,6 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Text,
 } from "@/com/ui/comps";
 
 import { Product } from "@/model/entity/Product";
@@ -87,12 +86,10 @@ export function ProductsList() {
           <FilterListIcon fontSize={"large"} color={"info"} />
         </Row>
       </Row>
+
       <TableContainer
         sx={{
           flexGrow: 1,
-          flexShrink: 1,
-          flexBasis: 0,
-          backgroundColor: "transparent",
         }}
       >
         <Table stickyHeader>
@@ -154,7 +151,6 @@ export function ProductsList() {
       </TableContainer>
 
       {/*Pagination*/}
-
       <Row justify={"center"}>
         <Button
           disabled={hasMoreItems()}
@@ -179,16 +175,7 @@ export function ProductsList() {
 function ListProducts({ products }: Readonly<{ products: Product[] }>) {
   const router = useRouter();
 
-  const isEmpty = isNullOrEmptyList(products);
-
-  if (isEmpty)
-    return (
-      <TableRow>
-        <TableCell colSpan={6} align={"center"}>
-          Nenhum item encontrado
-        </TableCell>
-      </TableRow>
-    );
+  if (isNullOrEmptyList(products)) return <EmptyList />;
 
   return products.map((product: Product) => (
     <TableRow
@@ -207,4 +194,14 @@ function ListProducts({ products }: Readonly<{ products: Product[] }>) {
       <TableCell align={"center"}>{product.unity.quantity}</TableCell>
     </TableRow>
   ));
+}
+
+function EmptyList() {
+  return (
+    <TableRow>
+      <TableCell colSpan={6} align={"center"}>
+        Nenhum item encontrado
+      </TableCell>
+    </TableRow>
+  );
 }

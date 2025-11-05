@@ -1,8 +1,8 @@
-import { Box, BoxStyle, BoxProps } from "@/com/ui/comps/base/box";
+import { Box, BoxProps } from "@/com/ui/comps/base/box";
 import { boxShadow } from "@/com/ui/schema/scheme";
 
 export function Deco(boxProps: Readonly<BoxProps>) {
-  const props: BoxStyle = {
+  const props: BoxProps = {
     borderRadius: 1,
     boxShadow: boxShadow.light,
     ...boxProps,

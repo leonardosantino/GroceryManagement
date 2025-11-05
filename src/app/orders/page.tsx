@@ -2,7 +2,7 @@ import { Col, Container } from "@/com/ui/comps";
 import { Sidebar } from "@/view/comps/bar/side";
 import { NotificationBar } from "@/view/comps/bar/notification";
 
-import { Orders } from "@/view/pages/orders";
+import { OrdersList } from "@/view/pages/orders/ordersList";
 
 export default function OrdersPage() {
   return (
@@ -10,7 +10,7 @@ export default function OrdersPage() {
       <Sidebar />
       <Col flex={1}>
         <NotificationBar />
-        <Orders />
+        <OrdersList />
       </Col>
     </Container>
   );

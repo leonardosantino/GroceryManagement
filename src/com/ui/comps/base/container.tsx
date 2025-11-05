@@ -4,6 +4,7 @@ export function Container(boxProps: Readonly<BoxProps>) {
   const props: BoxStyle = {
     height: "inherit",
     wrap: "nowrap",
+    backgroundColor: "surface",
     ...boxProps,
   };
 

@@ -6,10 +6,9 @@ export type ThemeColor =
   | "success"
   | "warning"
   | "error"
-  | "outline"
-  | "surface"
   | "container"
-  | "none";
+  | "outline"
+  | "surface";
 
 export const ColorTheme = {
   primary: "#3f51b5",
@@ -21,12 +20,10 @@ export const ColorTheme = {
   warning: "#EF6C00",
   error: "#C62828",
 
-  container: "#fafaff",
-  outline: "#e6e6eb",
+  container: "#ffffff",
+  outline: "#e1e1e6",
 
-  surface: "#ffffff",
-
-  none: "#00000000",
+  surface: "#fafafa",
 };
 
 export type ThemeTextColor =
