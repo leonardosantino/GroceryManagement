@@ -29,16 +29,19 @@ import { useRouter } from "next/navigation";
 
 const getStatusColor = (status: string) => {
   switch (status) {
-    case "Completo":
-      return "success";
-    case "Em andamento":
-      return "info";
-    case "Em entrega":
-      return "primary";
-    case "Pendente":
+    case "PENDING":
       return "warning";
-    case "Cancelado":
+    case "ACCEPTED":
+      return "info";
+    case "PROCESSING":
+      return "primary";
+    case "DELIVERY":
+      return "secondary";
+    case "COMPLETED":
+      return "success";
+    case "CANCELED":
       return "error";
+
     default:
       return "default";
   }
@@ -57,8 +60,6 @@ export function OrdersList() {
     queryKey: [page.key, page.last, status],
     queryFn: () =>
       Api.orders.pageable({
-        status: status,
-        last: page.last,
         limit: "10",
       }),
   });
@@ -89,9 +90,11 @@ export function OrdersList() {
       <TableContainer
         sx={{
           flexGrow: 1,
+          flexShrink: 1,
+          flexBasis: 0,
         }}
       >
-        <Table>
+        <Table stickyHeader >
           <TableHead>
             <TableRow>
               <TableCell
@@ -186,11 +189,11 @@ function ListOrders({ orders }: Readonly<{ orders: Order[] }>) {
       sx={{ cursor: "pointer" }}
       onClick={() => router.push("/orders/edit?id=".concat(order.id))}
     >
-      <TableCell>{order.id}</TableCell>
+      <TableCell>{order.code}</TableCell>
       <TableCell>
         <Chip
-          label={order.status}
-          color={getStatusColor(order.status)}
+          label={order.status.description}
+          color={getStatusColor(order.status.name)}
           size="small"
         />
       </TableCell>

@@ -70,13 +70,13 @@ export function ProductsList() {
   return (
     <Col flex={1} padding={2} gap={2} testId={"products-list-page"}>
       {/*Filter*/}
-      <Row gap={2} justify={"space-between"}>
+      <Row  justify={"space-between"}>
         <Input
           placeholder="Pesquisar..."
           sx={{ flexGrow: 0.25 }}
           onChange={(it) => setSearchName(it.target.value)}
         />
-        <Row gap={1} align={"center"}>
+        <Row align={"center"}>
           <FilterInput
             label={"Categoria"}
             values={categories}
@@ -90,6 +90,8 @@ export function ProductsList() {
       <TableContainer
         sx={{
           flexGrow: 1,
+          flexShrink: 1,
+          flexBasis: 0,
         }}
       >
         <Table stickyHeader>

@@ -1,7 +1,0 @@
-export enum EStatus {
-  PENDING = "PENDING",
-  ACCEPTED = "ACCEPTED",
-  DELIVERY = "DELIVERY",
-  COMPLETED = "COMPLETED",
-  CANCELED = "CANCELED",
-}

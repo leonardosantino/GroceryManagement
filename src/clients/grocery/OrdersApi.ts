@@ -25,9 +25,11 @@ export class OrdersApi {
     status?: string;
     limit: string;
   }): Promise<{ items: Order[]; last?: string }> {
-    return this.client.get({ path: this.basePath, params }).then((resp) => ({
-      items: resp.items.map((it: Order) => Order.from(it)),
-      last: resp.last,
-    }));
+    return this.client
+      .get({ path: this.basePath.concat("/seller"), params })
+      .then((resp) => ({
+        items: resp.items.map((it: Order) => Order.from(it)),
+        last: resp.last,
+      }));
   }
 }
