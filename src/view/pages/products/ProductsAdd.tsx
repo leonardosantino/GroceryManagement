@@ -14,13 +14,13 @@ import {
   Divider,
   Form,
   IconButton,
-  Img,
+  Image,
   Input,
   InputFile,
   InventoryIcon,
   Row,
   SaveIcon,
-  ScrollCol,
+  Scroll,
   Text,
   InputAdornment,
   BoxSize,
@@ -164,7 +164,7 @@ export function ProductsAdd() {
 
       <BoxSize height={1} />
 
-      <ScrollCol>
+      <Scroll>
         <Form direction={"column"} gap={1} width={900}>
           {/*Basics*/}
           <Row gap={2} align={"flex-start"}>
@@ -349,7 +349,7 @@ export function ProductsAdd() {
                 position={"relative"}
                 padding={1}
               >
-                <Img src={img.url} width={250} height={150} alt={""} />
+                <Image src={img.url} width={250} height={150} alt={""} />
                 <IconButton
                   onClick={() => handleDeleteFile(img)}
                   sx={{ position: "absolute", right: 0 }}
@@ -360,7 +360,7 @@ export function ProductsAdd() {
             ))}
           </Slide>
         </Form>
-      </ScrollCol>
+      </Scroll>
     </Col>
   );
 }

@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Img from "next/image";
 
 import { Box, BoxStyle } from "@/com/ui/comps/base/box";
 
@@ -8,10 +8,10 @@ type ImaProps = {
   alt: string;
 } & BoxStyle;
 
-export function Img(props: Readonly<ImaProps>) {
+export function Image(props: Readonly<ImaProps>) {
   return (
     <Box position={"relative"} {...props}>
-      <Image
+      <Img
         src={props.src}
         alt={props.alt}
         sizes={props.width.toString()}

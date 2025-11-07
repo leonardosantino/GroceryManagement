@@ -1,6 +1,6 @@
 export class Payment {
   constructor(
-    public method: string,
+    public method: PaymentMethod,
     public items: number,
     public shipping: number,
     public amount: number,
@@ -19,4 +19,16 @@ export class Payment {
   }: Partial<Payment> = {}) {
     return new Payment(method, items, shipping, amount);
   }
+}
+
+export class PaymentMethod {
+  constructor(
+    public name: PaymentMethodType,
+    public description: string,
+  ) {}
+}
+
+export enum PaymentMethodType {
+  CASH = "CASH",
+  PIX = "PIX",
 }

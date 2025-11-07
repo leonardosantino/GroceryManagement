@@ -12,6 +12,12 @@ const updateProduct: SnackData = {
   message: "Produto atualizado com sucesso.",
 };
 
+const updateOrder: SnackData = {
+  open: true,
+  severity: "success",
+  message: "Pedido atualizado com sucesso.",
+};
+
 const requiredFieldsError: SnackData = {
   open: true,
   severity: "error",
@@ -21,5 +27,6 @@ const requiredFieldsError: SnackData = {
 export const snackData = {
   addProduct,
   updateProduct,
+  updateOrder,
   requiredFieldsError,
 };

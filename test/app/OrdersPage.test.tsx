@@ -1,6 +1,6 @@
 import { render } from "@/test/setup/render";
 
-import OrdersPage from "@/app/orders/page";
+import OrdersPage from "@/app/orders/list/page";
 
 describe("OrdersPage", () => {
   it("should render orders page", async () => {

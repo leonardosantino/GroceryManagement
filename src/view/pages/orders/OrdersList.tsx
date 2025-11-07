@@ -94,7 +94,7 @@ export function OrdersList() {
           flexBasis: 0,
         }}
       >
-        <Table stickyHeader >
+        <Table stickyHeader>
           <TableHead>
             <TableRow>
               <TableCell

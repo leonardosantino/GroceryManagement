@@ -1,7 +1,7 @@
 import {
   Col,
   Row,
-  ScrollCol,
+  Scroll,
   AttachMoneyIcon,
   InventoryIcon,
   PeopleIcon,
@@ -16,7 +16,7 @@ import { BestSellers } from "@/view/comps/analytics/sales";
 
 export function Analytics() {
   return (
-    <ScrollCol padding={2} gap={2} testId="analytics-page">
+    <Scroll padding={2} gap={2} testId="analytics-page">
       <BoxSize height={1} />
       <Row justify={"space-between"} gap={2}>
         <Metric
@@ -60,6 +60,6 @@ export function Analytics() {
 
         <BestSellers />
       </Row>
-    </ScrollCol>
+    </Scroll>
   );
 }

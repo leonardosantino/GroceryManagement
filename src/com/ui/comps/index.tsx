@@ -2,10 +2,10 @@ export { Col } from "@/com/ui/comps/base/col";
 export { Row } from "@/com/ui/comps/base/row";
 export { Box } from "@/com/ui/comps/base/box";
 export { Deco } from "@/com/ui/comps/base/deco";
-export { ScrollCol } from "@/com/ui/comps/base/scroll";
+export { Scroll } from "@/com/ui/comps/base/scroll";
 export { Paper } from "@/com/ui/comps/base/paper";
 export { Text } from "@/com/ui/comps/base/text";
-export { Img } from "@/com/ui/comps/base/img";
+export { Image } from "@/com/ui/comps/base/image";
 export { Form } from "@/com/ui/comps/base/form";
 export { Input } from "@/com/ui/comps/base/input/input";
 export { InputFile } from "@/com/ui/comps/base/input/file";
@@ -15,6 +15,8 @@ export { Conditional } from "@/com/ui/comps/base/Conditional";
 export { Container } from "@/com/ui/comps/base/container";
 export { Divider } from "@/com/ui/comps/base/divider";
 export { BoxSize } from "@/com/ui/comps/base/boxSize";
+export { Break } from "@/com/ui/comps/base/break";
+export { Space } from "@/com/ui/comps/base/space";
 
 // MUI Components
 import type { SelectChangeEvent } from "@mui/material/Select";

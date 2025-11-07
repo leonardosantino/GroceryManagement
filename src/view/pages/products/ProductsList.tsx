@@ -70,7 +70,7 @@ export function ProductsList() {
   return (
     <Col flex={1} padding={2} gap={2} testId={"products-list-page"}>
       {/*Filter*/}
-      <Row  justify={"space-between"}>
+      <Row justify={"space-between"}>
         <Input
           placeholder="Pesquisar..."
           sx={{ flexGrow: 0.25 }}

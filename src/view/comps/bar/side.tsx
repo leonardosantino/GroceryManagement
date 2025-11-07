@@ -30,6 +30,24 @@ import { useSession } from "@/provider/data/SessionProvider";
 
 const data = { isOpen: false };
 
+export const Page = {
+  analyses: "/",
+  products: {
+    base: "/products",
+    add: "/products/add",
+    list: "/products/list",
+  },
+  orders: {
+    base: "/orders",
+    edit: "/orders/edit",
+    list: "/orders/list",
+  },
+  customers: {
+    base: "/customers",
+    list: "/customers",
+  },
+};
+
 export function Sidebar() {
   const router = useRouter();
   const pathname = usePathname();
@@ -60,8 +78,8 @@ export function Sidebar() {
         <BoxSize height={1} />
 
         <ListItemButton
-          selected={isSelected("/")}
-          onClick={() => router.push("/")}
+          selected={isSelected(Page.analyses)}
+          onClick={() => router.push(Page.analyses)}
         >
           <ListItemIcon>
             <TrendingUpIcon />
@@ -70,7 +88,7 @@ export function Sidebar() {
         </ListItemButton>
 
         <ListItemButton
-          selected={isSection("/products")}
+          selected={isSection(Page.products.base)}
           onClick={() => setOpen(!open)}
         >
           <ListItemIcon>
@@ -84,16 +102,16 @@ export function Sidebar() {
           <List>
             <ListItem>
               <ListItemButton
-                selected={isSelected("/products/add")}
-                onClick={() => router.push("/products/add")}
+                selected={isSelected(Page.products.add)}
+                onClick={() => router.push(Page.products.add)}
               >
                 <Text>Adicionar produtos</Text>
               </ListItemButton>
             </ListItem>
             <ListItem>
               <ListItemButton
-                selected={isSelected("/products/list")}
-                onClick={() => router.push("/products/list")}
+                selected={isSelected(Page.products.list)}
+                onClick={() => router.push(Page.products.list)}
               >
                 <Text>Lista de produtos</Text>
               </ListItemButton>
@@ -102,8 +120,8 @@ export function Sidebar() {
         </Collapse>
 
         <ListItemButton
-          selected={isSelected("/orders")}
-          onClick={() => router.push("/orders")}
+          selected={isSelected(Page.orders.list)}
+          onClick={() => router.push(Page.orders.list)}
         >
           <ListItemIcon>
             <ShoppingCartIcon />
@@ -112,8 +130,8 @@ export function Sidebar() {
         </ListItemButton>
 
         <ListItemButton
-          selected={isSelected("/customers")}
-          onClick={() => router.push("/customers")}
+          selected={isSelected(Page.customers.list)}
+          onClick={() => router.push(Page.orders.list)}
         >
           <ListItemIcon>
             <PeopleIcon />

@@ -1,6 +1,6 @@
 import { render } from "@/test/setup/render";
 
-import SignInPage from "@/view/pages/signin";
+import SignInPage from "@/view/pages/SignIn";
 
 describe("SignInPage", () => {
   it("should render signin page", async () => {
