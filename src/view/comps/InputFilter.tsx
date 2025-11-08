@@ -1,15 +1,19 @@
 import { Select, MenuItem, SelectChangeEvent } from "@/com/ui/comps";
 import { isEmpty, isNullOrEmptyList } from "@/com/validation";
 
-const names = ["Pizza", "Refrigerante", "Hamburguer"];
-
 type Props = {
   label: string;
+  options: string[];
   values: string;
   setValues: (values: string) => void;
 };
 
-export function FilterInput({ label, values, setValues }: Readonly<Props>) {
+export function InputFilter({
+  label,
+  options,
+  values,
+  setValues,
+}: Readonly<Props>) {
   function handleChange(event: SelectChangeEvent<string[]>) {
     const value = event.target.value as string[];
 
@@ -37,9 +41,9 @@ export function FilterInput({ label, values, setValues }: Readonly<Props>) {
       }}
       sx={{ width: 125 }}
     >
-      {names.map((name) => (
-        <MenuItem key={name} value={name}>
-          {name}
+      {options.map((it) => (
+        <MenuItem key={it} value={it}>
+          {it}
         </MenuItem>
       ))}
     </Select>

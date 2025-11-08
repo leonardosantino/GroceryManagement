@@ -20,12 +20,13 @@ import {
 } from "@/com/ui/comps";
 
 import { ColorTheme, TextTheme } from "@/com/ui/schema/scheme";
-import { FilterInput } from "@/view/comps/FilterInput";
+import { InputFilter } from "@/view/comps/InputFilter";
 import { isNullOrEmpty, isNullOrEmptyList } from "@/com/validation";
 import { useQuery } from "@tanstack/react-query";
 import { Api } from "@/clients/Api";
 import { Order } from "@/model/entity/Order";
 import { useRouter } from "next/navigation";
+import { toLocalDayMonthHour } from "@/com/format/date";
 
 const getStatusColor = (status: string) => {
   switch (status) {
@@ -81,7 +82,12 @@ export function OrdersList() {
         <Input placeholder="Pesquisar..." sx={{ flexGrow: 0.25 }} />
 
         <Row align={"center"}>
-          <FilterInput label={"Status"} values={status} setValues={setStatus} />
+          <InputFilter
+            label={"Status"}
+            options={["Pendente", "Em andamento"]}
+            values={status}
+            setValues={setStatus}
+          />
           <BoxSize width={4} />
           <FilterListIcon fontSize={"large"} color={"info"} />
         </Row>
@@ -212,7 +218,7 @@ function ListOrders({ orders }: Readonly<{ orders: Order[] }>) {
         </Col>
       </TableCell>
 
-      <TableCell>{new Date().toISOString()}</TableCell>
+      <TableCell>{toLocalDayMonthHour(order.createdAt)}</TableCell>
     </TableRow>
   ));
 }

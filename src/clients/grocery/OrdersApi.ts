@@ -14,6 +14,13 @@ export class OrdersApi {
     });
   }
 
+  async update(request: Order): Promise<Order> {
+    return this.client.put({
+      path: this.basePath,
+      body: request,
+    });
+  }
+
   async findById(id: string): Promise<Order> {
     return this.client
       .get({ path: this.basePath.concat("/", id) })

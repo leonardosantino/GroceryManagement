@@ -40,7 +40,7 @@ export class Order {
       it.items,
       it.payment,
       it.address,
-      it.status,
+      OrderStatus.from(it.status),
       it.deliveryAt,
       it.createdAt,
       it.updatedAt,

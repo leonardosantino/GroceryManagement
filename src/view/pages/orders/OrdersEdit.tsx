@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 
 import {
@@ -9,7 +9,6 @@ import {
   Button,
   Col,
   Row,
-  Scroll,
   Text,
   BoxSize,
   Paper,
@@ -24,27 +23,25 @@ import { Snack, SnackData, snackData } from "@/view/comps/snack/Snack";
 
 import { currencyFromDouble } from "@/com/format/currency";
 import { OrderItem } from "@/view/comps/orders/OrderItem";
+import { InputSelect } from "@/view/comps/InputSelect";
+import { Order } from "@/model/entity/Order";
 
 export function OrdersEdit() {
   const params = useSearchParams();
   const id = params.get("id") as string;
 
-  const { data: order, isPending } = useQuery({
+  const { data, isPending } = useQuery({
     queryKey: ["order", id],
-    queryFn: () =>
-      Api.orders.findById(id).then((it) => {
-        setData(it);
-        return it;
-      }),
+    queryFn: () => Api.orders.findById(id),
   });
 
-  const [data, setData] = useState(order);
-
-  // const mutationUpdate = useMutation({
-  //   mutationFn: (it) => Api.orders.update(it),
-  // });
+  const mutationUpdateStatus = useMutation({
+    mutationFn: (it: Order) => Api.orders.update(it),
+  });
 
   const [snack, setSnack] = useState<SnackData>({ open: false });
+  const [status, setStatus] = useState(data?.status.description);
+  const [isStatusBtnDisabled, setIsStatusBtnDisabled] = useState(true);
 
   async function onSave() {
     setSnack({
@@ -53,6 +50,17 @@ export function OrdersEdit() {
         setSnack({ open: false });
       },
     });
+  }
+
+  function getStatus() {
+    return status ?? data?.status.description;
+  }
+
+  function onUpdateStatus(it: string) {
+    if (status !== it) {
+      setStatus(it);
+      setIsStatusBtnDisabled(false);
+    }
   }
 
   if (isPending) return <Empty />;
@@ -72,10 +80,24 @@ export function OrdersEdit() {
           </Text>
         </Col>
 
-        {/*Update Button*/}
-        <Button color={"warning"} onClick={onSave} variant="outlined">
-          Atualizar Status
-        </Button>
+        <Row gap={4}>
+          {/*Status Select*/}
+          <InputSelect
+            label={"Atualizar Status"}
+            options={["Pendente", "Em andamento"]}
+            value={getStatus()}
+            setValue={onUpdateStatus}
+          />
+          {/*Update Button*/}
+          <Button
+            disabled={isStatusBtnDisabled}
+            color={"warning"}
+            onClick={onSave}
+            variant="outlined"
+          >
+            Atualizar Status
+          </Button>
+        </Row>
       </Row>
 
       <BoxSize height={8} />

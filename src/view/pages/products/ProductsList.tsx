@@ -27,7 +27,7 @@ import { currencyFromDouble } from "@/com/format/currency";
 import { isNullOrEmpty, isNullOrEmptyList } from "@/com/validation";
 
 import { Api } from "@/clients/Api";
-import { FilterInput } from "@/view/comps/FilterInput";
+import { InputFilter } from "@/view/comps/InputFilter";
 
 export function ProductsList() {
   const [page, setPage] = useState({
@@ -77,7 +77,7 @@ export function ProductsList() {
           onChange={(it) => setSearchName(it.target.value)}
         />
         <Row align={"center"}>
-          <FilterInput
+          <InputFilter
             label={"Categoria"}
             values={categories}
             setValues={setCategories}

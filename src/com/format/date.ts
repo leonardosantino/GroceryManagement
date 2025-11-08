@@ -27,6 +27,20 @@ export function toLocalDayMonth(date?: string) {
     );
 }
 
+export function toLocalDayMonthHour(date?: string) {
+  const options: Intl.DateTimeFormatOptions = {
+    month: "short",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+  };
+
+  if (!isNullOrEmpty(date))
+    return new Intl.DateTimeFormat("pt-BR", options).format(
+      new Date(date as string),
+    );
+}
+
 export function toLocalDateTime(date?: string) {
   const options: Intl.DateTimeFormatOptions = {
     hour: "2-digit",
