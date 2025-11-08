@@ -20,6 +20,7 @@ export function styleProperties(boxProps: BoxStyle): Properties {
     maxWidth,
     padding,
     margin,
+    marginX,
     gap,
 
     backgroundColor,
@@ -57,6 +58,9 @@ export function styleProperties(boxProps: BoxStyle): Properties {
   if (maxWidth) style.maxWidth = getPx(maxWidth);
   if (padding) style.padding = get4xPx(padding);
   if (margin) style.margin = get4xPx(margin);
+  if (marginX) {
+    style.marginLeft = style.marginRight = get4xPx(marginX);
+  }
   if (gap) style.gap = get4xPx(gap);
 
   if (backgroundColor) style.backgroundColor = ColorTheme[backgroundColor];

@@ -20,6 +20,7 @@ export type BoxStyle = {
 
   padding?: number;
   margin?: number;
+  marginX?: number;
   gap?: number;
 
   backgroundColor?: ThemeColor;

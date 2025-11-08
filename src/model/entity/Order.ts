@@ -3,11 +3,24 @@ import { Address } from "@/model/entity/Address";
 import { Payment } from "@/model/objects/Payment";
 import { OrderStatus } from "@/model/objects/OrderStatus";
 
+export class OrderCustomer {
+  constructor(
+    public name: string,
+    public lastName: string,
+    public phone: {
+      countryCode: string;
+      stateCode: string;
+      number: string;
+    },
+  ) {}
+}
+
 export class Order {
   constructor(
     public id: string,
     public code: string,
-    public seller: string,
+    // public seller: string,
+    public customer: OrderCustomer,
     public items: OrderItem[],
     public payment: Payment,
     public address: Address,
@@ -22,7 +35,8 @@ export class Order {
     return new Order(
       it.id,
       it.code,
-      it.seller,
+      // it.seller,
+      it.customer,
       it.items,
       it.payment,
       it.address,
@@ -36,7 +50,8 @@ export class Order {
   copy({
     id = this.id,
     code = this.code,
-    seller = this.seller,
+    // seller = this.seller,
+    customer = this.customer,
     items = this.items,
     payment = this.payment,
     address = this.address,
@@ -48,7 +63,8 @@ export class Order {
     return new Order(
       id,
       code,
-      seller,
+      // seller,
+      customer,
       items,
       payment,
       address,

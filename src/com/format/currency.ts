@@ -7,7 +7,7 @@ export function currencyFromString({
 }) {
   if (value.length > maxLength) return value.substring(0, 9);
 
-  const digits = value.replace(/\D/g, "");
+  const digits = value.replaceAll(/\D/g, "");
 
   const number = Number(digits) / 100;
 
@@ -15,11 +15,11 @@ export function currencyFromString({
 }
 
 export function doubleFromCurrency(str: string) {
-  return Number(str.replace(/R\$/g, "").replace(/\./g, "").replace(",", "."));
+  return Number(str.replaceAll("R$", "").replaceAll(".", "").replace(",", "."));
 }
 
-export function currencyFromDouble(number: number) {
-  return number.toLocaleString("pt-BR", {
+export function currencyFromDouble(number?: number) {
+  return number?.toLocaleString("pt-BR", {
     style: "currency",
     currency: "BRL",
     minimumFractionDigits: 2,

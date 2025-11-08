@@ -7,7 +7,6 @@ export default function OrdersEditPage() {
   return (
     <Container>
       <Sidebar />
-
       <OrdersEdit />
     </Container>
   );

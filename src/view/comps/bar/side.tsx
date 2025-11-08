@@ -67,82 +67,84 @@ export function Sidebar() {
   }
 
   return (
-    <Paper direction={"column"} justify={"space-between"}>
-      <List>
-        {/* Title */}
-        <Row align={"center"} justify={"center"} gap={1} padding={1}>
+    <Paper direction={"column"}>
+      {/* Title */}
+      <Col flex={1}>
+        <Row align={"center"} justify={"center"} gap={1} height={36}>
           <BusinessIcon />
           <Text>Ecom Soft Co.</Text>
         </Row>
 
-        <BoxSize height={1} />
+        <BoxSize height={4} />
 
-        <ListItemButton
-          selected={isSelected(Page.analyses)}
-          onClick={() => router.push(Page.analyses)}
-        >
-          <ListItemIcon>
-            <TrendingUpIcon />
-          </ListItemIcon>
-          <Text>Análises</Text>
-        </ListItemButton>
+        <List>
+          <ListItemButton
+            selected={isSelected(Page.analyses)}
+            onClick={() => router.push(Page.analyses)}
+          >
+            <ListItemIcon>
+              <TrendingUpIcon />
+            </ListItemIcon>
+            <Text>Análises</Text>
+          </ListItemButton>
 
-        <ListItemButton
-          selected={isSection(Page.products.base)}
-          onClick={() => setOpen(!open)}
-        >
-          <ListItemIcon>
-            <InventoryIcon />
-          </ListItemIcon>
-          <Text>Produtos</Text>
-          {open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-        </ListItemButton>
+          <ListItemButton
+            selected={isSection(Page.products.base)}
+            onClick={() => setOpen(!open)}
+          >
+            <ListItemIcon>
+              <InventoryIcon />
+            </ListItemIcon>
+            <Text>Produtos</Text>
+            {open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+          </ListItemButton>
 
-        <Collapse in={open}>
-          <List>
-            <ListItem>
-              <ListItemButton
-                selected={isSelected(Page.products.add)}
-                onClick={() => router.push(Page.products.add)}
-              >
-                <Text>Adicionar produtos</Text>
-              </ListItemButton>
-            </ListItem>
-            <ListItem>
-              <ListItemButton
-                selected={isSelected(Page.products.list)}
-                onClick={() => router.push(Page.products.list)}
-              >
-                <Text>Lista de produtos</Text>
-              </ListItemButton>
-            </ListItem>
-          </List>
-        </Collapse>
+          <Collapse in={open}>
+            <List>
+              <ListItem>
+                <ListItemButton
+                  selected={isSelected(Page.products.add)}
+                  onClick={() => router.push(Page.products.add)}
+                >
+                  <Text>Adicionar produtos</Text>
+                </ListItemButton>
+              </ListItem>
+              <ListItem>
+                <ListItemButton
+                  selected={isSelected(Page.products.list)}
+                  onClick={() => router.push(Page.products.list)}
+                >
+                  <Text>Lista de produtos</Text>
+                </ListItemButton>
+              </ListItem>
+            </List>
+          </Collapse>
 
-        <ListItemButton
-          selected={isSelected(Page.orders.list)}
-          onClick={() => router.push(Page.orders.list)}
-        >
-          <ListItemIcon>
-            <ShoppingCartIcon />
-          </ListItemIcon>
-          <Text>Pedidos</Text>
-        </ListItemButton>
+          <ListItemButton
+            selected={isSelected(Page.orders.list)}
+            onClick={() => router.push(Page.orders.list)}
+          >
+            <ListItemIcon>
+              <ShoppingCartIcon />
+            </ListItemIcon>
+            <Text>Pedidos</Text>
+          </ListItemButton>
 
-        <ListItemButton
-          selected={isSelected(Page.customers.list)}
-          onClick={() => router.push(Page.orders.list)}
-        >
-          <ListItemIcon>
-            <PeopleIcon />
-          </ListItemIcon>
-          <Text>Clientes</Text>
-        </ListItemButton>
-      </List>
-      <Col padding={1}>
+          <ListItemButton
+            selected={isSelected(Page.customers.list)}
+            onClick={() => router.push(Page.orders.list)}
+          >
+            <ListItemIcon>
+              <PeopleIcon />
+            </ListItemIcon>
+            <Text>Clientes</Text>
+          </ListItemButton>
+        </List>
+      </Col>
+
+      {/*User*/}
+      <Col padding={1} gap={1}>
         <Divider />
-
-        <BoxSize height={1} />
 
         <Row align={"center"} justify={"space-between"} gap={1}>
           <Text>Leonardo Santino</Text>
