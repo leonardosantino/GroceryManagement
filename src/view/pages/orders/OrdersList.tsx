@@ -27,7 +27,7 @@ import { Api } from "@/clients/Api";
 import { Order } from "@/model/entity/Order";
 import { useRouter } from "next/navigation";
 import { toLocalDayMonthHour } from "@/com/format/date";
-import { ORDER_STATUS } from "@/com/consts/status";
+import { DataOrderStatus } from "@/com/consts/status";
 
 const getStatusColor = (status: string) => {
   switch (status) {
@@ -85,7 +85,7 @@ export function OrdersList() {
         <Row align={"center"}>
           <InputFilter
             label={"Status"}
-            options={ORDER_STATUS}
+            options={DataOrderStatus}
             values={status}
             setValues={setStatus}
           />

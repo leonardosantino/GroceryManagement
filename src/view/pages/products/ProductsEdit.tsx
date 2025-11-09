@@ -44,7 +44,7 @@ import { Api } from "@/clients/Api";
 import { isNull } from "@/com/validation";
 import { Slide } from "@/view/comps/slide/Slide";
 import { getColorPrimaryOrError } from "@/com/format/color";
-import { Snack, SnackData, snackData } from "@/view/comps/snack/Snack";
+import { Snack, SnackProps, DataSnack } from "@/view/comps/snack/Snack";
 
 export function ProductsEdit() {
   const router = useRouter();
@@ -73,7 +73,7 @@ export function ProductsEdit() {
   const [images, setImages] = useState<{ url: string; file?: File }[]>([]);
 
   const [errors, setErrors] = useState({} as ProductFormErrors);
-  const [snack, setSnack] = useState<SnackData>({ open: false });
+  const [snack, setSnack] = useState<SnackProps>({ data: { open: false } });
 
   const [dialogDelete, setDialogDelete] = useState(false);
 
@@ -106,18 +106,18 @@ export function ProductsEdit() {
 
       setErrors({});
       setSnack({
-        ...snackData.updateProduct,
+        data: DataSnack.updateProduct,
         onClose: () => {
-          setSnack({ open: false });
+          setSnack({ data: { open: false } });
         },
       });
     } else {
       const formErrors = getProductFormIssues(form.error.issues);
 
       setSnack({
-        ...snackData.requiredFieldsError,
+        data: DataSnack.requiredFieldsError,
         onClose: () => {
-          setSnack({ open: false });
+          setSnack({ data: { open: false } });
         },
       });
 
@@ -212,7 +212,7 @@ export function ProductsEdit() {
       </Row>
 
       {/*Save Feedback*/}
-      <Snack data={snack} />
+      <Snack {...snack} />
 
       {/*Dialog Delete*/}
       <Dialog open={dialogDelete} onClose={() => setDialogDelete(false)}>

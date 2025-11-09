@@ -19,21 +19,23 @@ import {
 import { toLocalDate } from "@/com/format/date";
 
 import { Api } from "@/clients/Api";
-import { Snack, SnackData, snackData } from "@/view/comps/snack/Snack";
+import { Snack, SnackProps, DataSnack } from "@/view/comps/snack/Snack";
 
 import { currencyFromDouble } from "@/com/format/currency";
 import { OrderItem } from "@/view/comps/orders/OrderItem";
 import { InputSelect } from "@/view/comps/InputSelect";
-import { ORDER_STATUS } from "@/com/consts/status";
+import { DataOrderStatus } from "@/com/consts/status";
 
 export function OrdersEdit() {
   const params = useSearchParams();
   const id = params.get("id") as string;
 
-  const { data, isPending } = useQuery({
+  const { data, isPending, refetch } = useQuery({
     queryKey: ["order", id],
     queryFn: () => Api.orders.findById(id),
   });
+
+  const [status, setStatus] = useState(data?.status.description);
 
   const { mutate } = useMutation({
     mutationFn: (it: { id?: string; status?: string }) =>
@@ -42,8 +44,7 @@ export function OrdersEdit() {
     onError: onError,
   });
 
-  const [snack, setSnack] = useState<SnackData>({ open: false });
-  const [status, setStatus] = useState(data?.status.description);
+  const [snack, setSnack] = useState<SnackProps>({ data: { open: false } });
   const [isStatusBtnDisabled, setIsStatusBtnDisabled] = useState(true);
 
   async function onSave() {
@@ -53,19 +54,17 @@ export function OrdersEdit() {
     setIsStatusBtnDisabled(true);
 
     setSnack({
-      ...snackData.updateOrder,
-      onClose: () => {
-        setSnack({ open: false });
-      },
+      data: DataSnack.updateOrderStatus,
+      onClose: () => setSnack({ data: { open: false } }),
     });
+
+    refetch();
   }
 
   function onError() {
     setSnack({
-      ...snackData.updateOrderStatusError,
-      onClose: () => {
-        setSnack({ open: false });
-      },
+      data: DataSnack.updateOrderStatusError,
+      onClose: () => setSnack({ data: { open: false } }),
     });
   }
 
@@ -85,7 +84,7 @@ export function OrdersEdit() {
   return (
     <Col flex={1} padding={1} marginX={12} testId={"orders-edit-page"}>
       {/*Save Feedback*/}
-      <Snack data={snack} />
+      <Snack {...snack} />
 
       {/*Header*/}
       <Row justify={"space-between"} gap={4}>
@@ -101,7 +100,7 @@ export function OrdersEdit() {
           {/*Status Select*/}
           <InputSelect
             label={"Status"}
-            options={ORDER_STATUS}
+            options={DataOrderStatus}
             value={getStatus()}
             setValue={onUpdateStatus}
           />

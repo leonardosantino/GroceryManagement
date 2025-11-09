@@ -39,7 +39,7 @@ import { Slide } from "@/view/comps/slide/Slide";
 import { useRouter } from "next/navigation";
 import { isNull } from "@/com/validation";
 import { getColorPrimaryOrError } from "@/com/format/color";
-import { Snack, SnackData, snackData } from "@/view/comps/snack/Snack";
+import { Snack, SnackProps, DataSnack } from "@/view/comps/snack/Snack";
 
 export function ProductsAdd() {
   const router = useRouter();
@@ -57,7 +57,7 @@ export function ProductsAdd() {
   const [images, setImages] = useState<{ url: string; file?: File }[]>([]);
 
   const [errors, setErrors] = useState<ProductFormErrors>({});
-  const [snack, setSnack] = useState<SnackData>({ open: false });
+  const [snack, setSnack] = useState<SnackProps>({ data: { open: false } });
 
   async function onSave() {
     const imagesShema = images
@@ -82,18 +82,18 @@ export function ProductsAdd() {
       );
 
       setSnack({
-        ...snackData.addProduct,
+        data: DataSnack.addProduct,
         onClose: () => {
-          setSnack({ open: false });
+          setSnack({ data: { open: false } });
           router.push("/products/edit?id=".concat(response.id));
         },
       });
     } else {
       const formErrors = getProductFormIssues(form.error?.issues);
       setSnack({
-        ...snackData.requiredFieldsError,
+        data: DataSnack.requiredFieldsError,
         onClose: () => {
-          setSnack({ open: false });
+          setSnack({ data: { open: false } });
         },
       });
       setErrors(formErrors);
@@ -160,7 +160,7 @@ export function ProductsAdd() {
         </Button>
       </Row>
 
-      <Snack data={snack} />
+      <Snack {...snack} />
 
       <BoxSize height={1} />
 

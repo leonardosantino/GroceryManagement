@@ -28,6 +28,7 @@ import { isNullOrEmpty, isNullOrEmptyList } from "@/com/validation";
 
 import { Api } from "@/clients/Api";
 import { InputFilter } from "@/view/comps/InputFilter";
+import { DataCategories } from "@/com/consts/status";
 
 export function ProductsList() {
   const [page, setPage] = useState({
@@ -79,6 +80,7 @@ export function ProductsList() {
         <Row align={"center"}>
           <InputFilter
             label={"Categoria"}
+            options={DataCategories}
             values={categories}
             setValues={setCategories}
           />

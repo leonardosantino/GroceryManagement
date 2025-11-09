@@ -1,36 +1,39 @@
 import { Alert, AlertColor, Snackbar } from "@/com/ui/comps";
 
-export { snackData } from "@/view/comps/snack/data";
+export { DataSnack } from "@/com/consts/snack";
 
-export type SnackData = {
-  open: boolean;
-  message?: string;
+export type SnackProps = {
+  data: {
+    open: boolean;
+    message?: string;
+    severity?: AlertColor;
+  };
   onClose?: () => void;
-  severity?: AlertColor;
 };
 
-const snack: { data: SnackData } = { data: { open: false } };
+const cache: { message?: string; severity?: AlertColor } = {};
 
-export function Snack({ data }: Readonly<{ data: SnackData }>) {
-  function onClose(_event?: unknown, reason?: unknown) {
-    if (reason === "clickaway") return;
-
-    snack.data.open = false;
-
-    if (data.onClose) data.onClose();
+export function Snack({ data, onClose }: Readonly<SnackProps>) {
+  if (data.open) {
+    cache.message = data.message;
+    cache.severity = data.severity;
   }
 
-  if (data.open) snack.data = data;
+  function onSnackClose(_event?: unknown, reason?: unknown) {
+    if (reason === "clickaway") return;
+
+    if (onClose) onClose();
+  }
 
   return (
     <Snackbar
-      open={snack.data.open}
-      onClose={onClose}
+      open={data.open}
+      onClose={onSnackClose}
       autoHideDuration={3000}
       anchorOrigin={{ vertical: "top", horizontal: "center" }}
     >
-      <Alert severity={snack.data.severity} variant="filled" onClose={onClose}>
-        {snack.data.message}
+      <Alert severity={cache.severity} variant="filled" onClose={onSnackClose}>
+        {cache.message}
       </Alert>
     </Snackbar>
   );
