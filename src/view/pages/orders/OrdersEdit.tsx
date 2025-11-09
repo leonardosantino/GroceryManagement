@@ -24,7 +24,7 @@ import { Snack, SnackData, snackData } from "@/view/comps/snack/Snack";
 import { currencyFromDouble } from "@/com/format/currency";
 import { OrderItem } from "@/view/comps/orders/OrderItem";
 import { InputSelect } from "@/view/comps/InputSelect";
-import { Order } from "@/model/entity/Order";
+import { ORDER_STATUS } from "@/com/consts/status";
 
 export function OrdersEdit() {
   const params = useSearchParams();
@@ -35,8 +35,11 @@ export function OrdersEdit() {
     queryFn: () => Api.orders.findById(id),
   });
 
-  const mutationUpdateStatus = useMutation({
-    mutationFn: (it: Order) => Api.orders.update(it),
+  const { mutate } = useMutation({
+    mutationFn: (it: { id?: string; status?: string }) =>
+      Api.orders.updateStatus(it),
+    onSuccess: onSuccess,
+    onError: onError,
   });
 
   const [snack, setSnack] = useState<SnackData>({ open: false });
@@ -44,8 +47,22 @@ export function OrdersEdit() {
   const [isStatusBtnDisabled, setIsStatusBtnDisabled] = useState(true);
 
   async function onSave() {
+    mutate({ id: data?.id, status });
+  }
+  function onSuccess() {
+    setIsStatusBtnDisabled(true);
+
     setSnack({
       ...snackData.updateOrder,
+      onClose: () => {
+        setSnack({ open: false });
+      },
+    });
+  }
+
+  function onError() {
+    setSnack({
+      ...snackData.updateOrderStatusError,
       onClose: () => {
         setSnack({ open: false });
       },
@@ -83,8 +100,8 @@ export function OrdersEdit() {
         <Row gap={4}>
           {/*Status Select*/}
           <InputSelect
-            label={"Atualizar Status"}
-            options={["Pendente", "Em andamento"]}
+            label={"Status"}
+            options={ORDER_STATUS}
             value={getStatus()}
             setValue={onUpdateStatus}
           />

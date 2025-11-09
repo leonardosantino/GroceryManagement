@@ -7,16 +7,9 @@ export class OrdersApi {
 
   private readonly basePath: string = "/orders";
 
-  async create(request: Order): Promise<Order> {
-    return this.client.post({
-      path: this.basePath,
-      body: request,
-    });
-  }
-
-  async update(request: Order): Promise<Order> {
-    return this.client.put({
-      path: this.basePath,
+  async updateStatus(request: OrderStatusUpdateRequest): Promise<Order> {
+    return this.client.patch({
+      path: this.basePath.concat("/status"),
       body: request,
     });
   }
@@ -39,4 +32,9 @@ export class OrdersApi {
         last: resp.last,
       }));
   }
+}
+
+export class OrderStatusUpdateRequest {
+  id?: string;
+  status?: string;
 }

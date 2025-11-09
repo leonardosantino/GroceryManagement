@@ -19,7 +19,7 @@ import {
   Button,
 } from "@/com/ui/comps";
 
-import { ColorTheme, TextTheme } from "@/com/ui/schema/scheme";
+import { ColorTheme, TextTheme } from "@/com/ui/theme/scheme";
 import { InputFilter } from "@/view/comps/InputFilter";
 import { isNullOrEmpty, isNullOrEmptyList } from "@/com/validation";
 import { useQuery } from "@tanstack/react-query";
@@ -27,6 +27,7 @@ import { Api } from "@/clients/Api";
 import { Order } from "@/model/entity/Order";
 import { useRouter } from "next/navigation";
 import { toLocalDayMonthHour } from "@/com/format/date";
+import { ORDER_STATUS } from "@/com/consts/status";
 
 const getStatusColor = (status: string) => {
   switch (status) {
@@ -84,7 +85,7 @@ export function OrdersList() {
         <Row align={"center"}>
           <InputFilter
             label={"Status"}
-            options={["Pendente", "Em andamento"]}
+            options={ORDER_STATUS}
             values={status}
             setValues={setStatus}
           />

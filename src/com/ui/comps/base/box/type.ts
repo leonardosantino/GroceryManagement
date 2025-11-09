@@ -1,6 +1,6 @@
 import { Property } from "csstype";
 
-import { ThemeColor } from "@/com/ui/schema/scheme";
+import { ThemeColor } from "@/com/ui/theme/scheme";
 import { ReactNode } from "react";
 
 export type BoxStyle = {

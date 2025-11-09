@@ -6,7 +6,7 @@ import {
   ThemeTextColor,
   ThemeTextSize,
   ThemeTextWeight,
-} from "@/com/ui/schema/scheme";
+} from "@/com/ui/theme/scheme";
 
 type TextProps = {
   flex?: number;

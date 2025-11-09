@@ -1,6 +1,6 @@
 import { Properties } from "csstype";
 
-import { ColorTheme } from "@/com/ui/schema/scheme";
+import { ColorTheme } from "@/com/ui/theme/scheme";
 import { get4xPx } from "@/com/ui/comps/base/box/fn";
 
 type Props = {

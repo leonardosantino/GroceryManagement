@@ -5,7 +5,7 @@ import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactNode, useState } from "react";
 
-import { theme } from "@/com/ui/schema/theme";
+import { theme } from "@/com/ui/theme/theme";
 import { CacheTime } from "@/clients/http/CacheTime";
 import { ProtectedProvider } from "@/provider/ProtectedProvider";
 import { SessionProvider } from "@/provider/data/SessionProvider";

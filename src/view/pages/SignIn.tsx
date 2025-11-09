@@ -17,7 +17,7 @@ import {
 
 import { User } from "@/model/entity/User";
 
-import { breakpoint } from "@/com/ui/schema/scheme";
+import { breakpoint } from "@/com/ui/theme/scheme";
 import { useSession } from "@/provider/data/SessionProvider";
 
 import { Api } from "@/clients/Api";

@@ -66,6 +66,22 @@ export class HttpClient {
     return this.errorResponse(response);
   }
 
+  async patch({ path, body }: { path: string; body: unknown }) {
+    const headers = { ...this.contentType, ...this.accept };
+
+    this.setAuthorizationHeader(headers);
+
+    const response = await fetch(this.baseUrl.concat(path), {
+      method: "PATCH",
+      headers: headers,
+      body: JSON.stringify(body),
+    });
+
+    if (response.ok) return response.json();
+
+    return this.errorResponse(response);
+  }
+
   async get(request: { path: string; params?: Record<string, string> }) {
     const headers = { ...this.accept };
     const params = this.getParams(request.params);

@@ -1,5 +1,5 @@
 import { Box, BoxProps } from "@/com/ui/comps/base/box";
-import { boxShadow } from "@/com/ui/schema/scheme";
+import { boxShadow } from "@/com/ui/theme/scheme";
 
 export function Paper(boxProps: Readonly<BoxProps>) {
   const props: BoxProps = {

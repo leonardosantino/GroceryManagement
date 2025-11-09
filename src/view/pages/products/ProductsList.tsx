@@ -21,7 +21,7 @@ import {
 } from "@/com/ui/comps";
 
 import { Product } from "@/model/entity/Product";
-import { ColorTheme, TextTheme } from "@/com/ui/schema/scheme";
+import { ColorTheme, TextTheme } from "@/com/ui/theme/scheme";
 
 import { currencyFromDouble } from "@/com/format/currency";
 import { isNullOrEmpty, isNullOrEmptyList } from "@/com/validation";

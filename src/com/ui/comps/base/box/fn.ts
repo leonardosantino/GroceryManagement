@@ -4,7 +4,7 @@ import { Properties } from "csstype";
 import { typeofNumber, typeofString } from "@/com/validation/typeof";
 
 import { BoxStyle, BoxProps } from "@/com/ui/comps/base/box/type";
-import { ColorTheme } from "@/com/ui/schema/scheme";
+import { ColorTheme } from "@/com/ui/theme/scheme";
 
 export function styleProperties(boxProps: BoxStyle): Properties {
   const {
