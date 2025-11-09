@@ -13,6 +13,8 @@ const eslintConfig = [
       "next-env.d.ts",
       "coverage/**",
     ],
+  },
+  {
     rules: {
       "react-hooks/exhaustive-deps": "off",
     },
