@@ -7,7 +7,7 @@ export class OrdersApi {
 
   private readonly basePath: string = "/orders";
 
-  async updateStatus(request: OrderStatusUpdateRequest): Promise<Order> {
+  async updateStatus(request: OrderStatusUpdateRequest): Promise<void> {
     return this.client.patch({
       path: this.basePath.concat("/status"),
       body: request,

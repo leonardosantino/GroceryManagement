@@ -20,7 +20,6 @@ export function doubleFromCurrency(str: string) {
 
 export function currencyFromDouble(number?: number) {
   return number?.toLocaleString("pt-BR", {
-    style: "currency",
     currency: "BRL",
     minimumFractionDigits: 2,
   });

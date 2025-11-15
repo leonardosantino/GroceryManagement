@@ -6,6 +6,7 @@ type Props = {
   options: string[];
   value?: string;
   setValue: (value: string) => void;
+  disabled?: boolean;
 };
 
 export function InputSelect({
@@ -13,6 +14,7 @@ export function InputSelect({
   options,
   value,
   setValue,
+  disabled,
 }: Readonly<Props>) {
   function handleChange(event: SelectChangeEvent) {
     const value = event.target.value;
@@ -32,7 +34,8 @@ export function InputSelect({
 
         return selected;
       }}
-      sx={{ width: 150 }}
+      disabled={disabled}
+      sx={{ width: 150, color: "warning.main" }}
     >
       {options.map((it) => (
         <MenuItem key={it} value={it}>

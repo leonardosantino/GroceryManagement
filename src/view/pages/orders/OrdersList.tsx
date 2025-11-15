@@ -28,6 +28,7 @@ import { Order } from "@/model/entity/Order";
 import { useRouter } from "next/navigation";
 import { toLocalDayMonthHour } from "@/com/format/date";
 import { DataOrderStatus } from "@/com/consts/status";
+import { currencyFromDouble } from "@/com/format/currency";
 
 const getStatusColor = (status: string) => {
   switch (status) {
@@ -210,7 +211,7 @@ function ListOrders({ orders }: Readonly<{ orders: Order[] }>) {
           <Text>Refrigerante</Text>
         </Col>
       </TableCell>
-      <TableCell>{order.payment.amount}</TableCell>
+      <TableCell>{currencyFromDouble(order.payment.amount)}</TableCell>
 
       <TableCell>
         <Col>

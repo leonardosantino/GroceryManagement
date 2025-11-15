@@ -1,6 +1,9 @@
 import { ErrorResponse } from "@/clients/http/ErrorResponse";
 import { SessionStorage } from "@/clients/storage/SessionStorage";
-import { isStatusNotAuthorized } from "@/clients/http/status";
+import {
+  isStatusNoContent,
+  isStatusNotAuthorized,
+} from "@/clients/http/status";
 
 export class HttpClient {
   private readonly baseUrl = process.env.NEXT_PUBLIC_API_URL as string;
@@ -77,6 +80,7 @@ export class HttpClient {
       body: JSON.stringify(body),
     });
 
+    if (isStatusNoContent(response.status)) return;
     if (response.ok) return response.json();
 
     return this.errorResponse(response);

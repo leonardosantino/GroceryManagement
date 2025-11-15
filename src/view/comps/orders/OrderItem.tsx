@@ -4,16 +4,18 @@ import { OrderItem as Item } from "@/model/aggregate/OrderItem";
 
 export function OrderItem({ item }: Readonly<{ item: Item }>) {
   return (
-    <Row align={"center"} gap={8}>
+    <Row align={"center"} gap={3}>
       <Text>{item.unity.quantity}</Text>
 
       <Image height={50} width={50} src={item.image} alt={item.name} />
 
       <Col flex={1}>
-        <Text>{item.name}</Text>
-        <Text>{item.unity.name}</Text>
+        <Text size={"small"}>{item.name}</Text>
+        <Text size={"small"}>{item.unity.name}</Text>
       </Col>
-      <Text>{currencyFromDouble(item.unity.quantity * item.unity.price)}</Text>
+      <Text size={"small"}>
+        {currencyFromDouble(item.unity.quantity * item.unity.price)}
+      </Text>
     </Row>
   );
 }

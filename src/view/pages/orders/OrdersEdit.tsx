@@ -50,6 +50,7 @@ export function OrdersEdit() {
   async function onSave() {
     mutate({ id: data?.id, status });
   }
+
   function onSuccess() {
     setIsStatusBtnDisabled(true);
 
@@ -70,6 +71,10 @@ export function OrdersEdit() {
 
   function getStatus() {
     return status ?? data?.status.description;
+  }
+
+  function isUpdateStatusBtnDisabled() {
+    return data?.status.description == "Concluído" || status == "Cancelado";
   }
 
   function onUpdateStatus(it: string) {
@@ -103,6 +108,7 @@ export function OrdersEdit() {
             options={DataOrderStatus}
             value={getStatus()}
             setValue={onUpdateStatus}
+            disabled={isUpdateStatusBtnDisabled()}
           />
           {/*Update Button*/}
           <Button
@@ -119,6 +125,28 @@ export function OrdersEdit() {
       <BoxSize height={8} />
 
       <Row justify={"space-between"} gap={4}>
+        <Col gap={4}>
+          {/*Order Code*/}
+          <Col gap={3}>
+            <Text size={"large"} weight={"bold"}>
+              Pedido
+            </Text>
+            <Text>{data?.code}</Text>
+          </Col>
+
+          {/*Items*/}
+          <Col gap={3}>
+            <Text size={"large"} weight={"bold"}>
+              Itens
+            </Text>
+
+            <Paper padding={2}>
+              {data?.items.map((item) => (
+                <OrderItem key={"product-".concat(item.id)} item={item} />
+              ))}
+            </Paper>
+          </Col>
+        </Col>
         <Col gap={4}>
           {/*Customer*/}
           <Col gap={2}>
@@ -168,27 +196,17 @@ export function OrdersEdit() {
 
               <Row gap={4} justify={"space-between"}>
                 <Text>Entrega:</Text>
-                <Text>{data?.payment.shipping}</Text>
+                <Text>{currencyFromDouble(data?.payment.shipping)}</Text>
               </Row>
+
+              <BoxSize height={4} />
+
               <Row gap={4} justify={"space-between"}>
                 <Text>Total:</Text>
                 <Text>{currencyFromDouble(data?.payment.amount)}</Text>
               </Row>
             </Col>
           </Col>
-        </Col>
-
-        {/*Items*/}
-        <Col gap={3}>
-          <Text size={"large"} weight={"bold"}>
-            Itens
-          </Text>
-
-          <Paper padding={2}>
-            {data?.items.map((item) => (
-              <OrderItem key={"product-".concat(item.id)} item={item} />
-            ))}
-          </Paper>
         </Col>
       </Row>
     </Col>
