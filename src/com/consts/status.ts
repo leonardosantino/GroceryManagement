@@ -5,7 +5,6 @@ export const DataOrderStatus = [
   "Em entrega",
   "Concluído",
   "Cancelado",
-  "Invalid",
 ];
 
 export const DataCategories = ["Pizza", "Refrigerante"];

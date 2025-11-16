@@ -17,6 +17,19 @@ export function toLocalDate(date?: string) {
 
 export function toLocalDayMonth(date?: string) {
   const options: Intl.DateTimeFormatOptions = {
+    month: "long",
+    day: "2-digit",
+  };
+
+  if (!isNullOrEmpty(date))
+    return new Intl.DateTimeFormat("pt-BR", options).format(
+      new Date(date as string),
+    );
+}
+
+export function toLocalDayMonthYear(date?: string) {
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
     month: "short",
     day: "2-digit",
   };

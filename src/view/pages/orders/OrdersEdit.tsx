@@ -73,8 +73,9 @@ export function OrdersEdit() {
     return status ?? data?.status.description;
   }
 
-  function isUpdateStatusBtnDisabled() {
-    return data?.status.description == "Concluído" || status == "Cancelado";
+  function isSelectStatusDisabled() {
+    const statusDescription = data?.status.description;
+    return statusDescription == "Concluído" || statusDescription == "Cancelado";
   }
 
   function onUpdateStatus(it: string) {
@@ -108,7 +109,7 @@ export function OrdersEdit() {
             options={DataOrderStatus}
             value={getStatus()}
             setValue={onUpdateStatus}
-            disabled={isUpdateStatusBtnDisabled()}
+            disabled={isSelectStatusDisabled()}
           />
           {/*Update Button*/}
           <Button
@@ -131,7 +132,7 @@ export function OrdersEdit() {
             <Text size={"large"} weight={"bold"}>
               Pedido
             </Text>
-            <Text>{data?.code}</Text>
+            <Text>Nº {data?.code}</Text>
           </Col>
 
           {/*Items*/}

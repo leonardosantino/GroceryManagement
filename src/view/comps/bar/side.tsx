@@ -44,7 +44,7 @@ export const Page = {
   },
   customers: {
     base: "/customers",
-    list: "/customers",
+    list: "/customers/list",
   },
 };
 
@@ -132,7 +132,7 @@ export function Sidebar() {
 
           <ListItemButton
             selected={isSelected(Page.customers.list)}
-            onClick={() => router.push(Page.orders.list)}
+            onClick={() => router.push(Page.customers.list)}
           >
             <ListItemIcon>
               <PeopleIcon />
