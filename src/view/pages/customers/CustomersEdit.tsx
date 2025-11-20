@@ -11,35 +11,35 @@ import {
   Row,
   Text,
   BoxSize,
-  Paper,
   Break,
   Space,
 } from "@/com/ui/comps";
 
+import { InputSelect } from "@/view/comps/InputSelect";
+import { Snack, SnackProps, DataSnack } from "@/view/comps/snack/Snack";
 import { toLocalDate } from "@/com/format/date";
 
 import { Api } from "@/clients/Api";
-import { Snack, SnackProps, DataSnack } from "@/view/comps/snack/Snack";
 
-import { currencyFromDouble } from "@/com/format/currency";
-import { OrderItem } from "@/view/comps/orders/OrderItem";
-import { InputSelect } from "@/view/comps/InputSelect";
-import { DataOrderStatus } from "@/com/consts/status";
-
-export function OrdersEdit() {
+export function CustomersEdit() {
   const params = useSearchParams();
   const id = params.get("id") as string;
 
   const { data, isPending, refetch } = useQuery({
-    queryKey: ["order", id],
-    queryFn: () => Api.orders.findById(id),
+    queryKey: ["customer", id],
+    queryFn: () => Api.customers.findById(id),
+  });
+
+  const { data: address } = useQuery({
+    queryKey: ["address", id],
+    queryFn: () => Api.addresses.findByCustomerId(id),
   });
 
   const [status, setStatus] = useState(data?.status.description);
 
   const { mutate } = useMutation({
     mutationFn: (it: { id: string; description: string }) =>
-      Api.orders.updateStatus(it),
+      Api.customers.updateStatus(it),
     onSuccess: onSuccess,
     onError: onError,
   });
@@ -75,7 +75,7 @@ export function OrdersEdit() {
 
   function isSelectStatusDisabled() {
     const statusDescription = data?.status.description;
-    return statusDescription == "Concluído" || statusDescription == "Cancelado";
+    return statusDescription == "Inativo";
   }
 
   function onUpdateStatus(it: string) {
@@ -88,13 +88,12 @@ export function OrdersEdit() {
   if (isPending) return <Empty />;
 
   return (
-    <Col flex={1} padding={1} marginLeft={12} testId={"orders-edit-page"}>
-      {/*Save Feedback*/}
+    <Col flex={1} padding={1} marginLeft={12} testId={"customers-edit-page"}>
+      {/*FEEDBACK ON SAVE*/}
       <Snack {...snack} />
 
-      {/*Header*/}
       <Row justify={"space-between"} gap={4}>
-        {/* Data */}
+        {/* DATES */}
         <Col>
           <Text size={"small"}>Criado em: {toLocalDate(data?.createdAt)}</Text>
           <Text size={"small"}>
@@ -106,7 +105,7 @@ export function OrdersEdit() {
           {/*Status Select*/}
           <InputSelect
             label={"Status"}
-            options={DataOrderStatus}
+            options={["Ativo", "Bloqueado"]}
             value={getStatus()}
             setValue={onUpdateStatus}
             disabled={isSelectStatusDisabled()}
@@ -127,28 +126,6 @@ export function OrdersEdit() {
 
       <Row justify={"space-between"} gap={4}>
         <Col gap={4}>
-          {/*Order Code*/}
-          <Col gap={3}>
-            <Text size={"large"} weight={"bold"}>
-              Pedido
-            </Text>
-            <Text>Nº {data?.code}</Text>
-          </Col>
-
-          {/*Items*/}
-          <Col gap={3}>
-            <Text size={"large"} weight={"bold"}>
-              Itens
-            </Text>
-
-            <Paper padding={2}>
-              {data?.items.map((item) => (
-                <OrderItem key={"product-".concat(item.id)} item={item} />
-              ))}
-            </Paper>
-          </Col>
-        </Col>
-        <Col gap={4}>
           {/*Customer*/}
           <Col gap={2}>
             <Text size={"large"} weight={"bold"}>
@@ -157,12 +134,12 @@ export function OrdersEdit() {
 
             <Col>
               <Row gap={1}>
-                <Text>{data?.customer.name}</Text>
-                <Text>{data?.customer.lastName}</Text>
+                <Text>{data?.name}</Text>
+                <Text>{data?.lastName}</Text>
               </Row>
               <Row gap={1}>
-                <Text>{data?.customer.phone.stateCode}</Text>
-                <Text>{data?.customer.phone.number}</Text>
+                <Text>{data?.phone.stateCode}</Text>
+                <Text>{data?.phone.number}</Text>
               </Row>
             </Col>
           </Col>
@@ -174,39 +151,12 @@ export function OrdersEdit() {
             </Text>
 
             <Text>
-              Rua {data?.address.street}, {data?.address.number}
+              Rua {address?.street}, {address?.number}
               <Space />
-              {data?.address.complement}
+              {address?.complement}
               <Break />
-              {data?.address.district} - {data?.address.city}
+              {address?.district} - {address?.city}
             </Text>
-          </Col>
-          {/*Payment*/}
-          <Col gap={2}>
-            <Text size={"large"} weight={"bold"}>
-              Pagamento
-            </Text>
-
-            <Text>{data?.payment.method.description}</Text>
-
-            <Col>
-              <Row gap={4} justify={"space-between"}>
-                <Text>Subtotal:</Text>
-                <Text>{currencyFromDouble(data?.payment.amount)}</Text>
-              </Row>
-
-              <Row gap={4} justify={"space-between"}>
-                <Text>Entrega:</Text>
-                <Text>{currencyFromDouble(data?.payment.shipping)}</Text>
-              </Row>
-
-              <BoxSize height={4} />
-
-              <Row gap={4} justify={"space-between"}>
-                <Text>Total:</Text>
-                <Text>{currencyFromDouble(data?.payment.amount)}</Text>
-              </Row>
-            </Col>
           </Col>
         </Col>
       </Row>

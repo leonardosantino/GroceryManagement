@@ -140,15 +140,12 @@ export function ProductsAdd() {
   }
 
   return (
-    <Col
-      flex={1}
-      gap={1}
-      padding={1}
-      align={"center"}
-      testId={"products-add-page"}
-    >
-      {/*Save*/}
-      <Row justify={"flex-end"} width={900} height={36}>
+    <Col flex={1} padding={1} marginLeft={12} testId={"products-add-page"}>
+      {/*FEEDBACK*/}
+      <Snack {...snack} />
+
+      {/*HEADER*/}
+      <Row justify={"flex-end"} height={36}>
         <Button
           onClick={onSave}
           variant={"contained"}
@@ -160,14 +157,12 @@ export function ProductsAdd() {
         </Button>
       </Row>
 
-      <Snack {...snack} />
-
-      <BoxSize height={1} />
+      <BoxSize height={8} />
 
       <Scroll>
-        <Form direction={"column"} gap={1} width={900}>
+        <Form direction={"column"} gap={1}>
           {/*Basics*/}
-          <Row gap={2} align={"flex-start"}>
+          <Row align={"flex-start"} gap={3}>
             <InventoryIcon color={"primary"} />
             <Text weight={"bold"}>Informações Básicas</Text>
           </Row>
@@ -210,7 +205,7 @@ export function ProductsAdd() {
           <BoxSize height={2} />
 
           <Col gap={1}>
-            <Row gap={1}>
+            <Row>
               <Input
                 id={"product-form-unit-name"}
                 placeholder={"Nome"}
@@ -281,7 +276,7 @@ export function ProductsAdd() {
           </Text>
           <BoxSize height={2} />
 
-          <Col gap={1}>
+          <Col>
             <Row gap={1}>
               <Input
                 id={"product-form-category"}
@@ -300,7 +295,7 @@ export function ProductsAdd() {
 
             <Divider marginY={2} />
 
-            <Row gap={1} minHeight={32}>
+            <Row minHeight={32}>
               {product.categories?.map((category, index) => (
                 <Chip
                   variant={"outlined"}
@@ -316,7 +311,7 @@ export function ProductsAdd() {
           <BoxSize height={2} />
 
           {/*Images*/}
-          <Row gap={2}>
+          <Row gap={3}>
             <AddPhotoAlternateIcon color={"primary"} />
             <Text weight={"bold"}>Imagens</Text>
           </Row>
@@ -327,7 +322,7 @@ export function ProductsAdd() {
 
           <BoxSize height={2} />
 
-          <Col align={"center"} gap={1}>
+          <Col align={"center"} gap={3}>
             <AddPhotoAlternateIcon
               fontSize={"large"}
               color={getColorPrimaryOrError(errors.images)}

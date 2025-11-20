@@ -26,13 +26,8 @@ import { InputFilter } from "@/view/comps/InputFilter";
 import { Customer } from "@/model/entity/Customer";
 
 import { isNullOrEmpty, isNullOrEmptyList } from "@/com/validation";
-import {
-  toLocalDayMonth,
-  toLocalDayMonthHour,
-  toLocalDayMonthYear,
-} from "@/com/format/date";
+import { toLocalDayMonthYear } from "@/com/format/date";
 
-import { DataOrderStatus } from "@/com/consts/status";
 import { ColorTheme, TextTheme } from "@/com/ui/theme/scheme";
 
 import { Api } from "@/clients/Api";
@@ -82,7 +77,7 @@ export function CustomersList() {
   }
 
   return (
-    <Col flex={1} padding={2} gap={2} testId={"orders-page"}>
+    <Col flex={1} padding={2} gap={2} testId={"customers-list-page"}>
       {/*Filter*/}
       <Row justify={"space-between"}>
         <Input placeholder="Pesquisar..." sx={{ flexGrow: 0.25 }} />
@@ -90,7 +85,7 @@ export function CustomersList() {
         <Row align={"center"}>
           <InputFilter
             label={"Status"}
-            options={DataOrderStatus}
+            options={["Ativo", "Inativo", "Bloqueado"]}
             values={status}
             setValues={setStatus}
           />

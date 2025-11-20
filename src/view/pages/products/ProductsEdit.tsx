@@ -173,15 +173,22 @@ export function ProductsEdit() {
   if (isPending) return <Empty />;
 
   return (
-    <Col
-      flex={1}
-      gap={1}
-      padding={1}
-      align={"center"}
-      testId={"products-edit-page"}
-    >
-      {/*Save*/}
-      <Row justify={"space-between"} width={900}>
+    <Col flex={1} padding={1} marginLeft={12} testId={"products-edit-page"}>
+      {/*FEEDBACK*/}
+      <Snack {...snack} />
+
+      {/*DIALOG ON DELETE*/}
+      <Dialog open={dialogDelete} onClose={() => setDialogDelete(false)}>
+        <DialogActions>
+          <Button color={"error"} onClick={handleDeleteProduct}>
+            Excluir
+          </Button>
+          <Button onClick={() => setDialogDelete(false)}>Cancelar</Button>
+        </DialogActions>
+      </Dialog>
+
+      {/*HEADER*/}
+      <Row justify={"space-between"}>
         <Col>
           <Text size={"small"}>
             Criado em: {toLocalDate(product.createdAt)}
@@ -211,28 +218,16 @@ export function ProductsEdit() {
         </Row>
       </Row>
 
-      {/*Save Feedback*/}
-      <Snack {...snack} />
-
-      {/*Dialog Delete*/}
-      <Dialog open={dialogDelete} onClose={() => setDialogDelete(false)}>
-        <DialogActions>
-          <Button color={"error"} onClick={handleDeleteProduct}>
-            Excluir
-          </Button>
-          <Button onClick={() => setDialogDelete(false)}>Cancelar</Button>
-        </DialogActions>
-      </Dialog>
-
-      <BoxSize height={1} />
+      <BoxSize height={9} />
 
       <Scroll>
-        <Form direction={"column"} gap={1} width={900}>
+        <Form direction={"column"} gap={1}>
           {/*Basics*/}
-          <Row gap={2} align={"flex-start"}>
+          <Row align={"flex-start"} gap={3}>
             <InventoryIcon color={"primary"} />
             <Text weight={"bold"}>Informações Básicas</Text>
           </Row>
+
           <Text>Adicione nome e descrição do produto.</Text>
 
           <BoxSize height={2} />
@@ -274,7 +269,7 @@ export function ProductsEdit() {
           <BoxSize height={2} />
 
           <Col gap={1}>
-            <Row gap={1}>
+            <Row>
               <Input
                 id={"product-form-unit-name"}
                 placeholder={"Nome"}
@@ -348,7 +343,7 @@ export function ProductsEdit() {
           </Text>
           <BoxSize height={2} />
 
-          <Col gap={1}>
+          <Col>
             <Row gap={1}>
               <Input
                 id={"product-form-category"}
@@ -361,7 +356,6 @@ export function ProductsEdit() {
                 color="primary"
                 startIcon={<AddIcon />}
                 onClick={() => handleSetCategory(category)}
-                sx={{ height: 37 }}
               >
                 Adicionar
               </Button>
@@ -369,7 +363,7 @@ export function ProductsEdit() {
 
             <Divider marginY={2} />
 
-            <Row gap={1} height={32}>
+            <Row height={32}>
               {product.categories?.map((category) => (
                 <Chip
                   key={category}
@@ -385,7 +379,7 @@ export function ProductsEdit() {
           <BoxSize height={2} />
 
           {/*Images*/}
-          <Row gap={2}>
+          <Row gap={3}>
             <AddPhotoAlternateIcon color={"primary"} />
             <Text weight={"bold"}>Imagens</Text>
           </Row>
@@ -396,7 +390,7 @@ export function ProductsEdit() {
 
           <BoxSize height={2} />
 
-          <Col align={"center"} gap={1}>
+          <Col align={"center"} gap={3}>
             <AddPhotoAlternateIcon
               fontSize={"large"}
               color={getColorPrimaryOrError(errors.images)}

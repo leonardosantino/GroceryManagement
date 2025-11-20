@@ -1,7 +1,7 @@
 "use client";
 
 import {
-  Row,
+  Col,
   MessageIcon,
   NotificationsIcon,
   Badge,
@@ -10,18 +10,18 @@ import {
 
 export function NotificationBar() {
   return (
-    <Row gap={2} padding={2} justify={"flex-end"}>
+    <Col gap={1} padding={1} marginX={2}>
       <IconButton>
-        <Badge badgeContent={2} color={"error"}>
-          <MessageIcon />
+        <Badge badgeContent={3} color={"error"}>
+          <NotificationsIcon />
         </Badge>
       </IconButton>
 
       <IconButton>
-        <Badge color={"error"}>
-          <NotificationsIcon />
+        <Badge badgeContent={5} color={"error"}>
+          <MessageIcon />
         </Badge>
       </IconButton>
-    </Row>
+    </Col>
   );
 }

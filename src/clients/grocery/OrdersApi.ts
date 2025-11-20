@@ -5,11 +5,11 @@ import { Order } from "@/model/entity/Order";
 export class OrdersApi {
   private readonly client = new HttpClient();
 
-  private readonly basePath: string = "/orders";
+  private readonly basePath: string = "/seller/orders";
 
   async updateStatus(request: OrderStatusUpdateRequest): Promise<void> {
     return this.client.patch({
-      path: this.basePath.concat("/status"),
+      path: this.basePath.concat("/", request.id, "/status"),
       body: request,
     });
   }
@@ -25,16 +25,14 @@ export class OrdersApi {
     status?: string;
     limit: string;
   }): Promise<{ items: Order[]; last?: string }> {
-    return this.client
-      .get({ path: this.basePath.concat("/seller"), params })
-      .then((resp) => ({
-        items: resp.items.map((it: Order) => Order.from(it)),
-        last: resp.last,
-      }));
+    return this.client.get({ path: this.basePath, params }).then((resp) => ({
+      items: resp.items.map((it: Order) => Order.from(it)),
+      last: resp.last,
+    }));
   }
 }
 
 export class OrderStatusUpdateRequest {
-  id?: string;
-  status?: string;
+  id: string;
+  description: string;
 }

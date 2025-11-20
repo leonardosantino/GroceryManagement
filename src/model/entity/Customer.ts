@@ -12,6 +12,7 @@ export class Customer {
     public dateOfBirth: string,
     public phone: Phone,
     public createdAt: string,
+    public updatedAt: string,
   ) {}
 
   static from(user: Partial<Customer>) {
@@ -24,6 +25,7 @@ export class Customer {
       it.dateOfBirth,
       it.phone,
       it.createdAt,
+      it.updatedAt,
     );
   }
 
@@ -36,6 +38,7 @@ export class Customer {
       "",
       new Phone("", "", ""),
       "",
+      "",
     );
   }
 
@@ -47,6 +50,7 @@ export class Customer {
     dateOfBirth = this.dateOfBirth,
     phone = this.phone,
     createdAt = this.createdAt,
+    updatedAt = this.updatedAt,
   }: Partial<Customer> = {}) {
     return new Customer(
       id,
@@ -56,6 +60,7 @@ export class Customer {
       dateOfBirth,
       phone,
       createdAt,
+      updatedAt,
     );
   }
 }

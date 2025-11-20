@@ -1,13 +1,12 @@
+import { CustomersEdit } from "@/view/pages/customers/CustomersEdit";
 import { Container } from "@/com/ui/comps";
 import { Sidebar } from "@/view/comps/bar/side";
 
-import { ProductsList } from "@/view/pages/products/ProductsList";
-
-export default function ProductsListPage() {
+export default function CustomersEditPage() {
   return (
     <Container>
       <Sidebar />
-      <ProductsList />
+      <CustomersEdit />
     </Container>
   );
 }

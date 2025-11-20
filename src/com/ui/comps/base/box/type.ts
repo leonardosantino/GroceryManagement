@@ -21,6 +21,7 @@ export type BoxStyle = {
   padding?: number;
   margin?: number;
   marginX?: number;
+  marginLeft?: number;
   gap?: number;
 
   backgroundColor?: ThemeColor;

@@ -3,8 +3,6 @@ import {
   Row,
   Paper,
   Text,
-  Avatar,
-  SvgIconComponent,
   TrendingDownIcon,
   TrendingUpIcon,
 } from "@/com/ui/comps";
@@ -13,17 +11,9 @@ type Props = {
   title: string;
   value: string;
   percent: number;
-  color: string;
-  Icon: SvgIconComponent;
 };
 
-export function Metric({
-  title,
-  value,
-  percent,
-  Icon,
-  color,
-}: Readonly<Props>) {
+export function Metric({ title, value, percent }: Readonly<Props>) {
   return (
     <Paper
       flex={1}
@@ -50,10 +40,6 @@ export function Metric({
           </Row>
         </Col>
       </Col>
-
-      <Avatar sx={{ bgcolor: color, width: 56, height: 56 }}>
-        <Icon />
-      </Avatar>
     </Paper>
   );
 }

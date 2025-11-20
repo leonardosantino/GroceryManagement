@@ -6,7 +6,7 @@ describe("OrdersPage", () => {
   it("should render orders page", async () => {
     const { findByTestId } = render(<OrdersPage />);
 
-    const page = await findByTestId("orders-page");
+    const page = await findByTestId("orders-list-page");
 
     expect(page).toBeInTheDocument();
   });
