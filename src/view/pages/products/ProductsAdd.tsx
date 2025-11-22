@@ -140,7 +140,7 @@ export function ProductsAdd() {
   }
 
   return (
-    <Col flex={1} padding={1} marginLeft={12} testId={"products-add-page"}>
+    <Col flex={1} padding={1} marginX={12} testId={"products-add-page"}>
       {/*FEEDBACK*/}
       <Snack {...snack} />
 

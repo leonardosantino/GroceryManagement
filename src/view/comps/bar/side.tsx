@@ -113,7 +113,7 @@ export function Sidebar() {
           </Collapse>
 
           <ListItemButton
-            selected={isSelected(Page.orders.list)}
+            selected={isSection(Page.orders.base)}
             onClick={() => router.push(Page.orders.list)}
           >
             <ListItemIcon>
@@ -123,7 +123,7 @@ export function Sidebar() {
           </ListItemButton>
 
           <ListItemButton
-            selected={isSelected(Page.customers.list)}
+            selected={isSection(Page.customers.base)}
             onClick={() => router.push(Page.customers.list)}
           >
             <ListItemIcon>

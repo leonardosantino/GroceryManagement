@@ -77,7 +77,13 @@ export function CustomersList() {
   }
 
   return (
-    <Col flex={1} padding={2} gap={2} testId={"customers-list-page"}>
+    <Col
+      flex={1}
+      padding={1}
+      marginX={12}
+      gap={1}
+      testId={"customers-list-page"}
+    >
       {/*Filter*/}
       <Row justify={"space-between"}>
         <Input placeholder="Pesquisar..." sx={{ flexGrow: 0.25 }} />

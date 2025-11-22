@@ -28,12 +28,12 @@ export function Billing() {
           </TableHead>
           <TableBody>
             <TableRow key={"order-1"} sx={{ "& td": { border: "none" } }}>
-              <TableCell>1</TableCell>
-              <TableCell>1</TableCell>
-              <TableCell>1</TableCell>
-              <TableCell>1</TableCell>
-              <TableCell>1</TableCell>
-              <TableCell>1</TableCell>
+              <TableCell>0</TableCell>
+              <TableCell>0</TableCell>
+              <TableCell>0</TableCell>
+              <TableCell>0</TableCell>
+              <TableCell>0</TableCell>
+              <TableCell>0</TableCell>
             </TableRow>
           </TableBody>
         </Table>

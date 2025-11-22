@@ -69,7 +69,13 @@ export function ProductsList() {
   }
 
   return (
-    <Col flex={1} padding={2} gap={2} testId={"products-list-page"}>
+    <Col
+      flex={1}
+      padding={1}
+      marginX={12}
+      gap={1}
+      testId={"products-list-page"}
+    >
       {/*Filter*/}
       <Row justify={"space-between"}>
         <Input

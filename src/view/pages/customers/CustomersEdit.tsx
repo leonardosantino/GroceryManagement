@@ -88,7 +88,7 @@ export function CustomersEdit() {
   if (isPending) return <Empty />;
 
   return (
-    <Col flex={1} padding={1} marginLeft={12} testId={"customers-edit-page"}>
+    <Col flex={1} padding={1} marginX={12} testId={"customers-edit-page"}>
       {/*FEEDBACK ON SAVE*/}
       <Snack {...snack} />
 

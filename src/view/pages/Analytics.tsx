@@ -15,13 +15,10 @@ export function Analytics() {
       testId="analytics-page"
     >
       <Row justify={"space-between"} gap={2}>
-        <Metric title="Vendas" value="R$ 4.231,00" percent={12.5} />
-
-        <Metric title="Pedidos" value="1.234" percent={8.2} />
-
-        <Metric title="Clientes" value="892" percent={-2.1} />
-
-        <Metric title="Produtos" value="456" percent={5.7} />
+        <Metric title="Vendas" value="R$ 00,00" percent={0} />
+        <Metric title="Pedidos" value="0" percent={0} />
+        <Metric title="Clientes" value="0" percent={0} />
+        <Metric title="Produtos" value="0" percent={0} />
       </Row>
 
       <Row justify={"space-between"} gap={2}>
@@ -29,7 +26,6 @@ export function Analytics() {
           <Billing />
           <AnalyticsOrders />
         </Col>
-
         <BestSellers />
       </Row>
     </Scroll>
