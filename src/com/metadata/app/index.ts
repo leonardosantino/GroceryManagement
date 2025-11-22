@@ -7,12 +7,12 @@ export const appViewport: Viewport = {
 };
 
 export const appMetadata: Metadata = {
-  title: "Opção Supermercado",
-  description: "Sistema de gerenciamento",
+  title: "Ecom Soft Co.",
+  description: "Ecom Management",
   manifest: "/manifest.json",
 
   appleWebApp: {
-    title: "Opção Supermercado",
+    title: "Ecom Soft Co.",
     statusBarStyle: "default",
     startupImage: {
       url: "/images/screen-720-1280.png",

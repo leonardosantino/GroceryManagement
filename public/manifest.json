@@ -1,8 +1,8 @@
 {
   "id": "/",
-  "name": "Opção Supermercado",
-  "short_name": "Opção",
-  "description": "Sistema de Gerenciamento",
+  "name": "Ecom Soft Co.",
+  "short_name": "Ecom",
+  "description": "Ecom Management",
   "theme_color": "#F8F9F9",
   "background_color": "#FFFFFF",
   "display": "standalone",

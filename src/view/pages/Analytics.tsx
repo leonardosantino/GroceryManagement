@@ -1,3 +1,7 @@
+"use client";
+
+import { useEffect } from "react";
+
 import { Col, Row, Scroll } from "@/com/ui/comps";
 
 import { Billing } from "@/view/comps/analytics/billing";
@@ -5,7 +9,19 @@ import { Metric } from "@/view/comps/analytics/metric";
 import { AnalyticsOrders } from "@/view/comps/analytics/orders";
 import { BestSellers } from "@/view/comps/analytics/sales";
 
+import { webSocketClient } from "@/clients/webSocketClient";
+
 export function Analytics() {
+  useEffect(() => {
+    if (Notification.permission !== "granted") Notification.requestPermission();
+
+    webSocketClient.activate();
+
+    return () => {
+      webSocketClient.deactivate();
+    };
+  }, []);
+
   return (
     <Scroll
       flex={1}
