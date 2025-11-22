@@ -153,7 +153,7 @@ export function OrdersList() {
                   fontWeight: TextTheme.bold,
                 }}
               >
-                Data
+                Data de Criação
               </TableCell>
             </TableRow>
           </TableHead>

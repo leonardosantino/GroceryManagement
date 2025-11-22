@@ -9,7 +9,11 @@ type Data = {
 type DataState = {
   session: Data;
   isLoading: boolean;
-  setSession: (session: { id: string; token: string }) => void;
+  setSession: (session: {
+    id: string;
+    token: string;
+    isPersistent: boolean;
+  }) => void;
   deleteSession: () => void;
 };
 
@@ -32,7 +36,11 @@ export function SessionProvider({
     queryFn: () => getSession().then(() => data),
   });
 
-  function setSession(session: { id: string; token: string }) {
+  function setSession(session: {
+    id: string;
+    token: string;
+    isPersistent: boolean;
+  }) {
     Storage.session.setSession(session);
 
     setData({ ...session, isAuth: true });

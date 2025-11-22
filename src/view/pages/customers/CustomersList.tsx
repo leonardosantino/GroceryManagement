@@ -33,7 +33,6 @@ import { ColorTheme, TextTheme } from "@/com/ui/theme/scheme";
 import { Api } from "@/clients/Api";
 
 function getStatusColor(status: string) {
-  console.log(status);
   switch (status) {
     case "ACTIVE":
       return "success";

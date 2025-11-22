@@ -26,15 +26,16 @@ export default function SignIn() {
   const { setSession } = useSession();
 
   const [user, setUser] = useState(User.default());
+  const [isPersistent, setIsPersistent] = useState(false);
 
   const mutationSignIn = useMutation({
     mutationFn: () => Api.users.signIn(user),
   });
 
   async function handleSignIn() {
-    const response = await mutationSignIn.mutateAsync();
+    const { id, token } = await mutationSignIn.mutateAsync();
 
-    setSession(response);
+    setSession({ id, token, isPersistent });
   }
 
   return (
@@ -74,7 +75,11 @@ export default function SignIn() {
           />
 
           <Row align={"center"} gap={1}>
-            <Checkbox value="remember" color="primary" />
+            <Checkbox
+              value="remember"
+              color="primary"
+              onChange={(e) => setIsPersistent(e.currentTarget.checked)}
+            />
             Lembrar-me
           </Row>
 
