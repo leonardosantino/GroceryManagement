@@ -24,6 +24,7 @@ export class CustomersApi {
 
   async pageable(params: {
     name?: string;
+    status?: string;
     last?: string;
     limit: string;
   }): Promise<{ items: Customer[]; last?: string }> {

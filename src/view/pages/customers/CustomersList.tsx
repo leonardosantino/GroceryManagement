@@ -52,15 +52,15 @@ export function CustomersList() {
   const [status, setStatus] = useState<string>("");
 
   const [page, setPage] = useState({
-    key: "customersList",
     last: "",
     customers: [] as Customer[],
   });
 
   const { data } = useQuery({
-    queryKey: [page.key, page.last, status],
+    queryKey: ["customers", page.last, status],
     queryFn: () =>
       Api.customers.pageable({
+        status: status,
         limit: "10",
       }),
   });
@@ -168,7 +168,6 @@ export function CustomersList() {
           sx={{ width: 120 }}
           onClick={() => {
             setPage((prev) => ({
-              key: page.key,
               last: data?.last ?? "",
               customers: prev.customers.concat(data?.items ?? []),
             }));
