@@ -1,19 +1,25 @@
 import { App } from "@/schema/app";
 
-import { isNullOrEmpty } from "@/com/validation";
+import { isEmpty, isNull } from "@/com/validation";
 
 export class SessionStorage {
-  private readonly KEY = App.schema.concat(".auth.session");
+  readonly KEY = App.schema.concat(".auth.session");
 
   getSession() {
-    const token = localStorage.getItem(this.KEY);
-    const isAuth = !isNullOrEmpty(token);
+    const str = localStorage.getItem(this.KEY);
 
-    return { token, isAuth };
+    if (isNull(str)) return { isAuth: false };
+
+    const { id, token } = JSON.parse(str);
+    const isAuth = !isEmpty(token);
+
+    return { id, token, isAuth };
   }
 
-  setSession(session: string) {
-    localStorage.setItem(this.KEY, session);
+  setSession(session: { id: string; token: string }) {
+    const str = JSON.stringify(session);
+
+    localStorage.setItem(this.KEY, str);
   }
 
   deleteSession() {

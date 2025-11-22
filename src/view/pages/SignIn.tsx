@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation} from "@tanstack/react-query";
 
 import {
   BusinessIcon,
@@ -27,14 +27,14 @@ export default function SignIn() {
 
   const [user, setUser] = useState(User.default());
 
-  const mutationSignin = useMutation({
+  const mutationSignIn = useMutation({
     mutationFn: () => Api.users.signIn(user),
   });
 
   async function handleSignIn() {
-    const response = await mutationSignin.mutateAsync();
+    const response = await mutationSignIn.mutateAsync();
 
-    setSession(response.token);
+    setSession(response);
   }
 
   return (

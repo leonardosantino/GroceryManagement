@@ -1,6 +1,7 @@
 import { useContext, createContext, ReactNode, useState } from "react";
 
 type Data = {
+  id?: string;
   token?: string | null;
   isAuth: boolean;
 };
@@ -8,7 +9,7 @@ type Data = {
 type DataState = {
   session: Data;
   isLoading: boolean;
-  setSession: (session: string) => void;
+  setSession: (session: { id: string; token: string }) => void;
   deleteSession: () => void;
 };
 
@@ -27,25 +28,26 @@ export function SessionProvider({
   const [data, setData] = useState<Data>({ isAuth: false });
 
   const { isLoading } = useQuery({
-    queryKey: [`auth.session.storage`],
+    queryKey: [Storage.session.KEY],
     queryFn: () => getSession().then(() => data),
   });
 
-  function setSession(token: string) {
-    Storage.session.setSession(token);
-    const session = Storage.session.getSession();
-    setData(session);
+  function setSession(session: { id: string; token: string }) {
+    Storage.session.setSession(session);
+
+    setData({ ...session, isAuth: true });
   }
 
   async function getSession() {
     const session = Storage.session.getSession();
+
     setData(session);
   }
 
   function deleteSession() {
     Storage.session.deleteSession();
-    const session = Storage.session.getSession();
-    setData(session);
+
+    setData({ isAuth: false });
   }
 
   return (

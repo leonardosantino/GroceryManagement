@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { usePathname, useRouter } from "next/navigation";
+import { useSession } from "@/provider/data/SessionProvider";
 
 import {
   BusinessIcon,
@@ -26,33 +28,23 @@ import {
   Tooltip,
   BoxSize,
 } from "@/com/ui/comps";
-import { useSession } from "@/provider/data/SessionProvider";
+
+import { Page } from "@/com/consts/page";
+import { Api } from "@/clients/Api";
 
 const data = { isOpen: false };
-
-export const Page = {
-  analyses: "/",
-  products: {
-    base: "/products",
-    add: "/products/add",
-    list: "/products/list",
-  },
-  orders: {
-    base: "/orders",
-    edit: "/orders/edit",
-    list: "/orders/list",
-  },
-  customers: {
-    base: "/customers",
-    list: "/customers/list",
-  },
-};
 
 export function Sidebar() {
   const router = useRouter();
   const pathname = usePathname();
 
-  const { deleteSession } = useSession();
+  const { session, deleteSession } = useSession();
+
+  const { data: seller } = useQuery({
+    queryKey: ["seller"],
+    queryFn: () => Api.sellers.findById(session.id as string),
+    staleTime: Infinity,
+  });
 
   const [open, setOpen] = useState(data.isOpen);
 
@@ -147,7 +139,7 @@ export function Sidebar() {
         <Divider />
 
         <Row align={"center"} justify={"space-between"} gap={1}>
-          <Text>Leonardo Santino</Text>
+          <Text>{seller?.name}</Text>
 
           <Tooltip title="Sair">
             <IconButton color={"error"} onClick={() => deleteSession()}>
