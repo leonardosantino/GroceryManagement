@@ -13,11 +13,13 @@ export type SnackProps = {
 
 const cache: { message?: string; severity?: AlertColor } = {};
 
+function setCache(it: { message?: string; severity?: AlertColor }) {
+  cache.message = it.message;
+  cache.severity = it.severity;
+}
+
 export function Snack({ data, onClose }: Readonly<SnackProps>) {
-  if (data.open) {
-    cache.message = data.message;
-    cache.severity = data.severity;
-  }
+  if (data.open) setCache(data);
 
   function onSnackClose(_event?: unknown, reason?: unknown) {
     if (reason === "clickaway") return;

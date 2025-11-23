@@ -33,4 +33,7 @@ TEST:
 - Jest: [Jest](https://jestjs.io/docs/getting-started)
 - Testing library: [Testing library](https://testing-library.com/docs/react-testing-library/intro/)
 
+CLI:
+- next upgrade
+
 Multi Sizes: 1, 2, 3 | 6, 9, 12

@@ -34,6 +34,10 @@ import { Api } from "@/clients/Api";
 
 const data = { isOpen: false };
 
+function setIsOpen(value: boolean) {
+  data.isOpen = value;
+}
+
 export function Sidebar() {
   const router = useRouter();
   const pathname = usePathname();
@@ -53,7 +57,7 @@ export function Sidebar() {
   }
 
   function isSection(name: string) {
-    data.isOpen = open;
+    setIsOpen(open);
 
     return pathname?.startsWith(name);
   }

@@ -9,25 +9,30 @@ import { Metric } from "@/view/comps/analytics/metric";
 import { AnalyticsOrders } from "@/view/comps/analytics/orders";
 import { BestSellers } from "@/view/comps/analytics/sales";
 
-import { webSocketClient } from "@/clients/webSocketClient";
+import { ws } from "@/clients/webSocketClient";
+import { notificationPermission } from "@/com/global/notificationPermission";
+import { notification } from "@/com/global/notification";
+
+ws.onConnect = () => {
+  ws.subscribe("/topic/orders", (message) => {
+    console.log(message);
+    notification({
+      title: "Novo Pedido",
+      message: "Um novo pedido foi realizado.",
+    });
+  });
+};
 
 export function Analytics() {
   useEffect(() => {
     notificationPermission();
 
-    webSocketClient.activate();
+    ws.activate();
 
     return () => {
-      webSocketClient.deactivate();
+      ws.deactivate();
     };
   }, []);
-
-  function notificationPermission() {
-    if (!globalThis.Notification) return;
-
-    if (globalThis.Notification.permission !== "granted")
-      Notification.requestPermission();
-  }
 
   return (
     <Scroll
