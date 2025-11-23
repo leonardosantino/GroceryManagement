@@ -1,6 +1,18 @@
-export function notification(params: { title: string; message: string }) {
-  new Notification(params.title, {
+export function notification(params: {
+  title: string;
+  message: string;
+  onclick: () => void;
+}) {
+  const notify = new Notification(params.title, {
     body: params.message,
-    silent: false,
   });
+
+  notify.addEventListener("click", () => params.onclick());
+}
+
+export function notificationPermission() {
+  if (!globalThis.Notification) return;
+
+  if (globalThis.Notification.permission !== "granted")
+    Notification.requestPermission();
 }

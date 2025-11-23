@@ -6,7 +6,7 @@ type Props = {
   childrenAlt?: ReactNode;
 };
 
-export function Conditional({ bool, children, childrenAlt }: Props) {
+export function Conditional({ bool, children, childrenAlt = null }: Props) {
   if (bool) return children;
 
   return childrenAlt;

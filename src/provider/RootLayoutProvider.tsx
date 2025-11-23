@@ -7,7 +7,7 @@ import { ReactNode, useState } from "react";
 
 import { theme } from "@/com/ui/theme/theme";
 import { CacheTime } from "@/clients/http/CacheTime";
-import { ProtectedProvider } from "@/provider/ProtectedProvider";
+import { ProtectedProvider } from "@/provider/protected/ProtectedProvider";
 import { SessionProvider } from "@/provider/data/SessionProvider";
 
 const queryClient = new QueryClient({
