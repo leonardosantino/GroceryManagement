@@ -15,3 +15,11 @@ jest.mock("swiper/react", () => ({
 jest.mock("swiper/modules", () => ({
   Autoplay: jest.fn(),
 }));
+
+jest.mock("@stomp/stompjs", () => ({
+  Client: class StompClientMock {
+    activate = jest.fn();
+    deactivate = jest.fn();
+    subscribe = jest.fn();
+  },
+}));

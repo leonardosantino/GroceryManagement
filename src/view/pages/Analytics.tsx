@@ -13,7 +13,7 @@ import { webSocketClient } from "@/clients/webSocketClient";
 
 export function Analytics() {
   useEffect(() => {
-    if (Notification.permission !== "granted") Notification.requestPermission();
+    notificationPermission();
 
     webSocketClient.activate();
 
@@ -21,6 +21,13 @@ export function Analytics() {
       webSocketClient.deactivate();
     };
   }, []);
+
+  function notificationPermission() {
+    if (!globalThis.Notification) return;
+
+    if (globalThis.Notification.permission !== "granted")
+      Notification.requestPermission();
+  }
 
   return (
     <Scroll
