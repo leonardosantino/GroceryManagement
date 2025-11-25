@@ -99,6 +99,8 @@ export function CustomersList() {
         </Row>
       </Row>
 
+      <BoxSize height={8} />
+
       <TableContainer
         sx={{
           flexGrow: 1,

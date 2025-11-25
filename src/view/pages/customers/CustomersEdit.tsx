@@ -5,18 +5,18 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 
 import {
-  Empty,
-  Button,
-  Col,
-  Row,
-  Text,
   BoxSize,
   Break,
+  Button,
+  Col,
+  Empty,
+  Row,
   Space,
+  Text,
 } from "@/com/ui/comps";
 
 import { InputSelect } from "@/view/comps/InputSelect";
-import { Snack, SnackProps, DataSnack } from "@/view/comps/snack/Snack";
+import { DataSnack, Snack, SnackProps } from "@/view/comps/snack/Snack";
 import { toLocalDate } from "@/com/format/date";
 
 import { Api } from "@/clients/Api";
@@ -30,12 +30,12 @@ export function CustomersEdit() {
     queryFn: () => Api.customers.findById(id),
   });
 
+  const [status, setStatus] = useState(data?.status.description);
+
   const { data: address } = useQuery({
     queryKey: ["address", id],
     queryFn: () => Api.addresses.findByCustomerId(id),
   });
-
-  const [status, setStatus] = useState(data?.status.description);
 
   const { mutate } = useMutation({
     mutationFn: (it: { id: string; description: string }) =>
@@ -45,15 +45,12 @@ export function CustomersEdit() {
   });
 
   const [snack, setSnack] = useState<SnackProps>({ data: { open: false } });
-  const [isStatusBtnDisabled, setIsStatusBtnDisabled] = useState(true);
 
   async function onSave() {
     mutate({ id, description: status as string });
   }
 
   function onSuccess() {
-    setIsStatusBtnDisabled(true);
-
     setSnack({
       data: DataSnack.updateOrderStatus,
       onClose: () => setSnack({ data: { open: false } }),
@@ -79,10 +76,13 @@ export function CustomersEdit() {
   }
 
   function onUpdateStatus(it: string) {
-    if (status !== it) {
-      setStatus(it);
-      setIsStatusBtnDisabled(false);
-    }
+    if (status !== it) setStatus(it);
+  }
+
+  function isStatusBtnDisabled() {
+    if (!status) return true;
+
+    return status === data?.status.description;
   }
 
   if (isPending) return <Empty />;
@@ -112,7 +112,7 @@ export function CustomersEdit() {
           />
           {/*Update Button*/}
           <Button
-            disabled={isStatusBtnDisabled}
+            disabled={isStatusBtnDisabled()}
             color={"warning"}
             onClick={onSave}
             variant="outlined"

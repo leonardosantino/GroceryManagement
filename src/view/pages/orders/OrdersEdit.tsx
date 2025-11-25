@@ -45,15 +45,12 @@ export function OrdersEdit() {
   });
 
   const [snack, setSnack] = useState<SnackProps>({ data: { open: false } });
-  const [isStatusBtnDisabled, setIsStatusBtnDisabled] = useState(true);
 
   async function onSave() {
     mutate({ id, description: status as string });
   }
 
   function onSuccess() {
-    setIsStatusBtnDisabled(true);
-
     setSnack({
       data: DataSnack.updateOrderStatus,
       onClose: () => setSnack({ data: { open: false } }),
@@ -79,10 +76,13 @@ export function OrdersEdit() {
   }
 
   function onUpdateStatus(it: string) {
-    if (status !== it) {
-      setStatus(it);
-      setIsStatusBtnDisabled(false);
-    }
+    if (status !== it) setStatus(it);
+  }
+
+  function isStatusBtnDisabled() {
+    if (!status) return true;
+
+    return status === data?.status.description;
   }
 
   if (isPending) return <Empty />;
@@ -113,7 +113,7 @@ export function OrdersEdit() {
           />
           {/*Update Button*/}
           <Button
-            disabled={isStatusBtnDisabled}
+            disabled={isStatusBtnDisabled()}
             color={"warning"}
             onClick={onSave}
             variant="outlined"
