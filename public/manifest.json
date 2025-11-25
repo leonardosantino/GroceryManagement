@@ -3,8 +3,8 @@
   "name": "Ecom Soft Co.",
   "short_name": "Ecom",
   "description": "Ecom Management",
-  "theme_color": "#F8F9F9",
-  "background_color": "#FFFFFF",
+  "theme_color": "#ffffff",
+  "background_color": "#fafafa",
   "display": "standalone",
   "lang": "pt",
   "dir": "ltr",
@@ -21,12 +21,12 @@
   "categories": ["food", "delivery"],
   "screenshots": [
     {
-      "src": "/screen/720-1280.png",
+      "src": "/screen/720x1280.png",
       "sizes": "720x1280",
       "type": "image/png"
     },
     {
-      "src": "/screen/1280-720.png",
+      "src": "/screen/1280x720.png",
       "sizes": "1280x720",
       "type": "image/png",
       "form_factor": "wide"
@@ -115,7 +115,9 @@
       "icons": [
         {
           "src": "/shortcuts/192.png",
-          "sizes": "192x192"
+          "sizes": "192x192",
+          "type": "image/png",
+          "purpose": "any"
         }
       ]
     }

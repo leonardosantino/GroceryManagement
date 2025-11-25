@@ -3,7 +3,7 @@ import type { Metadata, Viewport } from "next";
 import { ColorTheme } from "@/com/ui/theme/scheme";
 
 export const appViewport: Viewport = {
-  themeColor: ColorTheme.primary,
+  themeColor: ColorTheme.container,
 };
 
 export const appMetadata: Metadata = {
@@ -15,7 +15,7 @@ export const appMetadata: Metadata = {
     title: "Ecom Soft Co.",
     statusBarStyle: "default",
     startupImage: {
-      url: "/images/screen-720-1280.png",
+      url: "/screen/1280x720.png",
     },
   },
 
