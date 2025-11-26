@@ -39,3 +39,9 @@ CLI:
 - next build
 
 Multi Sizes: 1, 2, 3 | 6, 9, 12
+
+DOCKER:
+
+```bash
+docker run -d -p 80:80 --name grocerymanagement leonardosantino/grocerymanagement:0.0.13
+```
