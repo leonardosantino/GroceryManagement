@@ -40,12 +40,12 @@ export default function SignIn() {
 
   return (
     <Container justify="center" align={"center"} testId="singin-page">
-      <Paper direction={"column"} padding={3} width={breakpoint.small}>
-        <Row align={"center"} justify={"center"} gap={1} padding={1}>
+      <Paper direction={"column"} width={breakpoint.small}>
+        <Row align={"center"} justify={"center"} gap={1} padding={3}>
           <BusinessIcon />
           <Text size={"xLarge"}>Ecom Soft Co.</Text>
         </Row>
-        <Col gap={3} padding={3}>
+        <Col gap={3} padding={12}>
           <Input
             id="grocery-management-signin-email"
             name="grocery-management-signin-email"

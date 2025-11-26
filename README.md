@@ -36,5 +36,6 @@ TEST:
 CLI:
 
 - next upgrade
+- next build
 
 Multi Sizes: 1, 2, 3 | 6, 9, 12

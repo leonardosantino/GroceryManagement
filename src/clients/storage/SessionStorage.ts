@@ -1,9 +1,9 @@
-import { App } from "@/schema/app";
+import { app } from "@/schema/app";
 
 import { isEmpty } from "@/com/validation";
 
 export class SessionStorage {
-  readonly KEY = App.schema.concat(".auth.session");
+  readonly KEY = app.schema.concat(".auth.session");
 
   getSession() {
     const strSession = sessionStorage.getItem(this.KEY);

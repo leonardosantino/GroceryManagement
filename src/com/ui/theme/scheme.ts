@@ -20,8 +20,8 @@ export const ColorTheme = {
   warning: "#EF6C00",
   error: "#C62828",
 
-  container: "#ffffff",
   outline: "#e1e1e6",
+  container: "#ffffff",
 
   surface: "#fafafa",
 };

@@ -1,4 +1,4 @@
-import { App } from "@/schema/app";
+import { app } from "@/schema/app";
 import { Client } from "@stomp/stompjs";
 
 import { topicOrders } from "@/clients/socket/handlers/topicOrders";
@@ -8,7 +8,7 @@ export const ws = new Client({
 
   onConnect: () => {
     ws.subscribe(
-      "/topic/sellers/".concat(App.Seller.id, "/order"),
+      "/topic/sellers/".concat(app.seller.id, "/order"),
       ({ body }) => topicOrders(body),
     );
   },

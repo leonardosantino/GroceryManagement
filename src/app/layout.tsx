@@ -2,7 +2,7 @@ import "@/app/global.css";
 
 import { ReactNode } from "react";
 
-import { appMetadata, appViewport } from "@/com/metadata/app";
+import { appMetadata, appViewport } from "@/app/metadata";
 import { RootLayoutProvider } from "@/provider/RootLayoutProvider";
 import { defaultFont } from "@/com/ui/theme/theme";
 
