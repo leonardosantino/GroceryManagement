@@ -1,3 +1,5 @@
+import { Storage } from "@/clients/Storage";
+import { useQuery } from "@tanstack/react-query";
 import { useContext, createContext, ReactNode, useState } from "react";
 
 type Data = {
@@ -16,9 +18,6 @@ type DataState = {
   }) => void;
   deleteSession: () => void;
 };
-
-import { Storage } from "@/clients/Storage";
-import { useQuery } from "@tanstack/react-query";
 
 const SessionContext = createContext({} as DataState);
 
