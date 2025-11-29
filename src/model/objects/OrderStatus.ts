@@ -1,3 +1,5 @@
+import { OrderStatusType } from "@/model/objects/OrderStatusType";
+
 export class OrderStatus {
   constructor(
     public name: OrderStatusType,
@@ -15,14 +17,4 @@ export class OrderStatus {
   }: Partial<OrderStatus> = {}) {
     return new OrderStatus(name, description);
   }
-}
-
-export enum OrderStatusType {
-  PENDING = "PENDING",
-  ACCEPTED = "ACCEPTED",
-  PROCESSING = "PROCESSING",
-  READY = "READY",
-  DELIVERY = "DELIVERY",
-  COMPLETED = "COMPLETED",
-  CANCELED = "CANCELED",
 }

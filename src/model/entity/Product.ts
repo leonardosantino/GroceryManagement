@@ -15,7 +15,7 @@ export class Product {
   ) {}
 
   static default() {
-    return new Product("", "", "", "", [], [], new Unity("", 0, 0), "", "");
+    return new Product("", "", "", "", [], [], Unity.default(), "", "");
   }
 
   static from(product: Partial<Product>) {
@@ -27,7 +27,7 @@ export class Product {
       it.description,
       it.categories,
       it.images,
-      it.unity,
+      Unity.from(it.unity),
       it.updatedAt,
       it.createdAt,
     );

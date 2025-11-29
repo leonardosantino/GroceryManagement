@@ -51,10 +51,28 @@ export function ProductsEdit() {
   const params = useSearchParams();
   const id = params.get("id") as string;
 
-  const { data, isPending } = useQuery({
+  const [product, setProduct] = useState<Product>(Product.default());
+  const [category, setCategory] = useState<string>();
+  const [images, setImages] = useState<{ url: string; file?: File }[]>([]);
+
+  const { isPending } = useQuery({
     queryKey: ["product", id],
-    queryFn: () => Api.products.findById(id).then((it) => setItProduct(it)),
+    queryFn: () =>
+      Api.products
+        .findById(id)
+        .then(productSet)
+        .then(() => product),
   });
+
+  function productSet(it: Product) {
+    setProduct(it);
+    imageSet(it);
+  }
+
+  function imageSet(it: Product) {
+    const imgs = it.images.map((it) => ({ url: it }));
+    setImages(imgs);
+  }
 
   const mutationUpdate = useMutation({
     mutationFn: (it: Product) => Api.products.update(it),
@@ -68,25 +86,12 @@ export function ProductsEdit() {
     mutationFn: () => Api.products.delete(id),
   });
 
-  const [product, setProduct] = useState(data as Product);
-  const [category, setCategory] = useState<string>();
-  const [images, setImages] = useState<{ url: string; file?: File }[]>([]);
-
   const [errors, setErrors] = useState({} as ProductFormErrors);
   const [snack, setSnack] = useState<SnackProps>({ data: { open: false } });
-
   const [dialogDelete, setDialogDelete] = useState(false);
-
-  function setItProduct(it: Product) {
-    const imgs = it.images.map((it) => ({ url: it }));
-    setImages(imgs);
-    setProduct(it);
-    return it;
-  }
 
   async function onSave() {
     const imagesShema = images.map((it) => it.url);
-
     const productSchema = product.copy({ images: imagesShema });
 
     const form = ProductSchema.safeParse(productSchema);
@@ -96,11 +101,9 @@ export function ProductsEdit() {
         .filter((it) => !isNull(it.file))
         .map((it) => it.file) as File[];
       const imgs = images.filter((it) => isNull(it.file)).map((it) => it.url);
-
       const promises = files.map((it) => mutationStorage.mutateAsync(it));
-      const data = await Promise.all(promises);
-
-      const urls = data.map((it) => it.url);
+      const response = await Promise.all(promises);
+      const urls = response.map((it) => it.url);
 
       mutationUpdate.mutate(product.copy({ images: imgs.concat(urls) }));
 
@@ -144,7 +147,6 @@ export function ProductsEdit() {
   function handleImageUpload(e: ChangeEvent<HTMLInputElement>) {
     const file = e.currentTarget.files?.[0] as File;
     const img = URL.createObjectURL(file);
-
     const imgs = new Set(images);
 
     imgs.add({ url: img, file });

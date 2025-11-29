@@ -4,7 +4,7 @@ import { Product } from "@/model/entity/Product";
 export class ProductsApi {
   private readonly client = new HttpClient();
 
-  private readonly basePath: string = "/products";
+  private readonly basePath: string = "/seller/products";
 
   async save(product: Product): Promise<Product> {
     return this.client

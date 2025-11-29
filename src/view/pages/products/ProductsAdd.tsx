@@ -44,6 +44,10 @@ import { Snack, SnackProps, DataSnack } from "@/view/comps/snack/Snack";
 export function ProductsAdd() {
   const router = useRouter();
 
+  const [product, setProduct] = useState(Product.default());
+  const [category, setCategory] = useState<string>();
+  const [images, setImages] = useState<{ url: string; file?: File }[]>([]);
+
   const mutationCreate = useMutation({
     mutationFn: (it: Product) => Api.products.save(it),
   });
@@ -51,10 +55,6 @@ export function ProductsAdd() {
   const mutationStorage = useMutation({
     mutationFn: (file: File) => Api.storage.upload(file),
   });
-
-  const [product, setProduct] = useState(Product.default());
-  const [category, setCategory] = useState<string>();
-  const [images, setImages] = useState<{ url: string; file?: File }[]>([]);
 
   const [errors, setErrors] = useState<ProductFormErrors>({});
   const [snack, setSnack] = useState<SnackProps>({ data: { open: false } });

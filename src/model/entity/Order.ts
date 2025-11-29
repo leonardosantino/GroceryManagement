@@ -2,18 +2,7 @@ import { OrderItem } from "@/model/aggregate/OrderItem";
 import { Address } from "@/model/entity/Address";
 import { Payment } from "@/model/objects/Payment";
 import { OrderStatus } from "@/model/objects/OrderStatus";
-
-export class OrderCustomer {
-  constructor(
-    public name: string,
-    public lastName: string,
-    public phone: {
-      countryCode: string;
-      stateCode: string;
-      number: string;
-    },
-  ) {}
-}
+import { OrderCustomer } from "@/model/objects/OrderCustomer";
 
 export class Order {
   constructor(
