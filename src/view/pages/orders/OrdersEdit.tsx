@@ -16,7 +16,7 @@ import {
   Space,
 } from "@/com/ui/comps";
 
-import { toLocalDate } from "@/com/format/date";
+import { toYearMonthDayHourMinute } from "@/com/format/date";
 
 import { Api } from "@/clients/Api";
 import { Snack, SnackProps, DataSnack } from "@/view/comps/snack/Snack";
@@ -96,9 +96,11 @@ export function OrdersEdit() {
       <Row justify={"space-between"} gap={4}>
         {/* Data */}
         <Col>
-          <Text size={"small"}>Criado em: {toLocalDate(data?.createdAt)}</Text>
           <Text size={"small"}>
-            Última atualização: {toLocalDate(data?.updatedAt)}
+            Criado em: {toYearMonthDayHourMinute(data?.createdAt)}
+          </Text>
+          <Text size={"small"}>
+            Última atualização: {toYearMonthDayHourMinute(data?.updatedAt)}
           </Text>
         </Col>
 

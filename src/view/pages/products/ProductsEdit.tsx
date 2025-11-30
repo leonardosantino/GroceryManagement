@@ -38,7 +38,7 @@ import {
   ProductSchema,
 } from "@/model/schema/product";
 
-import { toLocalDate } from "@/com/format/date";
+import { toYearMonthDayHourMinute } from "@/com/format/date";
 
 import { Api } from "@/clients/Api";
 import { isNull } from "@/com/validation";
@@ -193,10 +193,10 @@ export function ProductsEdit() {
       <Row justify={"space-between"}>
         <Col>
           <Text size={"small"}>
-            Criado em: {toLocalDate(product.createdAt)}
+            Criado em: {toYearMonthDayHourMinute(product.createdAt)}
           </Text>
           <Text size={"small"}>
-            Última atualização: {toLocalDate(product.updatedAt)}
+            Última atualização: {toYearMonthDayHourMinute(product.updatedAt)}
           </Text>
         </Col>
 

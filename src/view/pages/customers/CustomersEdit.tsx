@@ -17,7 +17,7 @@ import {
 
 import { InputSelect } from "@/view/comps/InputSelect";
 import { DataSnack, Snack, SnackProps } from "@/view/comps/snack/Snack";
-import { toLocalDate } from "@/com/format/date";
+import { toYearMonthDayHourMinute } from "@/com/format/date";
 
 import { Api } from "@/clients/Api";
 
@@ -95,9 +95,11 @@ export function CustomersEdit() {
       <Row justify={"space-between"} gap={4}>
         {/* DATES */}
         <Col>
-          <Text size={"small"}>Criado em: {toLocalDate(data?.createdAt)}</Text>
           <Text size={"small"}>
-            Última atualização: {toLocalDate(data?.updatedAt)}
+            Criado em: {toYearMonthDayHourMinute(data?.createdAt)}
+          </Text>
+          <Text size={"small"}>
+            Última atualização: {toYearMonthDayHourMinute(data?.updatedAt)}
           </Text>
         </Col>
 

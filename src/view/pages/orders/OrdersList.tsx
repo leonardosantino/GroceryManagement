@@ -26,7 +26,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Api } from "@/clients/Api";
 import { Order } from "@/model/entity/Order";
 import { useRouter } from "next/navigation";
-import { toLocalDayMonthHour } from "@/com/format/date";
+import { toMonthDayHourMinute } from "@/com/format/date";
 import { DataOrderStatus } from "@/com/consts/status";
 import { currencyFromDouble } from "@/com/format/currency";
 
@@ -222,7 +222,7 @@ function ListOrders({ orders }: Readonly<{ orders: Order[] }>) {
         </Col>
       </TableCell>
 
-      <TableCell>{toLocalDayMonthHour(order.createdAt)}</TableCell>
+      <TableCell>{toMonthDayHourMinute(order.createdAt)}</TableCell>
     </TableRow>
   ));
 }

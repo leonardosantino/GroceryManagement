@@ -26,7 +26,7 @@ import { InputFilter } from "@/view/comps/InputFilter";
 import { Customer } from "@/model/entity/Customer";
 
 import { isNullOrEmpty, isNullOrEmptyList } from "@/com/validation";
-import { toLocalDayMonthYear } from "@/com/format/date";
+import { toYearMonthDay } from "@/com/format/date";
 
 import { ColorTheme, TextTheme } from "@/com/ui/theme/scheme";
 
@@ -217,7 +217,7 @@ function ListOrders({ customers }: Readonly<{ customers: Customer[] }>) {
         </Col>
       </TableCell>
 
-      <TableCell>{toLocalDayMonthYear(customer.createdAt)}</TableCell>
+      <TableCell>{toYearMonthDay(customer.createdAt)}</TableCell>
     </TableRow>
   ));
 }
