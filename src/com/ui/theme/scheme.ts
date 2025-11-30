@@ -34,6 +34,7 @@ export type ThemeTextColor =
   | "success"
   | "warning"
   | "error";
+
 export type ThemeTextSize = "xSmall" | "small" | "large" | "xLarge";
 export type ThemeTextWeight = "light" | "bold";
 
@@ -56,16 +57,6 @@ export const TextTheme = {
   bold: "bold",
 };
 
-export type ThemeIconSize = "xSmall" | "small" | "medium" | "large" | "xLarge";
-
-export const IconTheme = {
-  xSmall: 16,
-  small: 24,
-  medium: 32,
-  large: 40,
-  xLarge: 56,
-};
-
 export const boxShadow = {
   insetBottom: `inset 0 -9px 9px 0 ${ColorTheme.outline}`,
   light: `0 0 1px 1px ${ColorTheme.outline}`,
@@ -77,4 +68,14 @@ export const breakpoint = {
   medium: 900,
   large: 1200,
   xLarge: 1536,
+};
+
+export type ThemeIconSize = "xSmall" | "small" | "medium" | "large" | "xLarge";
+
+export const IconTheme = {
+  xSmall: 16,
+  small: 24,
+  medium: 32,
+  large: 40,
+  xLarge: 56,
 };
