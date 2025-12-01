@@ -1,11 +1,11 @@
 import { Select, MenuItem, SelectChangeEvent } from "@/com/ui/comps";
-import { isEmpty, isNullOrEmptyList } from "@/com/validation";
+import { isEmptyList, isNullOrEmptyList } from "@/com/validation";
 
 type Props = {
   label: string;
   options: string[];
-  values: string;
-  setValues: (values: string) => void;
+  values: string[];
+  setValues: (values: string[]) => void;
 };
 
 export function InputFilter({
@@ -17,13 +17,13 @@ export function InputFilter({
   function handleChange(event: SelectChangeEvent<string[]>) {
     const value = event.target.value as string[];
 
-    setValues(value.toString());
+    setValues(value);
   }
 
   function getValues(): string[] {
-    if (isEmpty(values)) return [];
+    if (isEmptyList(values)) return [];
 
-    return values.split(",");
+    return values;
   }
 
   return (
@@ -37,7 +37,7 @@ export function InputFilter({
       renderValue={(selected) => {
         if (isNullOrEmptyList(selected)) return <>{label}</>;
 
-        return selected.join(", ");
+        return selected;
       }}
       sx={{ width: 125 }}
     >

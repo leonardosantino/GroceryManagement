@@ -24,7 +24,7 @@ export class OrdersApi {
     last?: string;
     status?: string;
     limit: string;
-  }): Promise<{ items: Order[]; last?: string }> {
+  }): Promise<{ items: Order[]; last?: string, first?: string }> {
     return this.client.get({ path: this.basePath, params }).then((resp) => ({
       items: resp.items.map((it: Order) => Order.from(it)),
       last: resp.last,

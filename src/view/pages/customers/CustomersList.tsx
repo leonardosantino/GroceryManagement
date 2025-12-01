@@ -49,7 +49,7 @@ function getStatusColor(status: string) {
 }
 
 export function CustomersList() {
-  const [status, setStatus] = useState<string>("");
+  const [status, setStatus] = useState<string[]>([]);
 
   const [page, setPage] = useState({
     last: "",
@@ -60,7 +60,7 @@ export function CustomersList() {
     queryKey: ["customers", page.last, status],
     queryFn: () =>
       Api.customers.pageable({
-        status: status,
+        status: status.toString(),
         limit: "10",
       }),
   });

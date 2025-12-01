@@ -38,14 +38,14 @@ export function ProductsList() {
   });
 
   const [name, setName] = useState("");
-  const [categories, setCategories] = useState<string>("");
+  const [categories, setCategories] = useState<string[]>([]);
 
   const { data } = useQuery({
     queryKey: [page.key, page.last, name, categories],
     queryFn: () =>
       Api.products.pageable({
         name: name,
-        categories: categories,
+        categories: categories.toString(),
         last: page.last,
         limit: "10",
       }),

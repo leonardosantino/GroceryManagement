@@ -5,11 +5,11 @@ import { Address } from "@/model/entity/Address";
 export class AddressesApi {
   private readonly client = new HttpClient();
 
-  private readonly basePath: string = "/addresses";
+  private readonly basePath: string = "/seller/addresses";
 
-  async findByCustomerId(id: string): Promise<Address> {
+  async findByUser(id: string): Promise<Address> {
     return this.client
-      .get({ path: this.basePath, params: { id } })
+      .get({ path: this.basePath.concat("/", id) })
       .then((resp) => Address.from(resp));
   }
 }

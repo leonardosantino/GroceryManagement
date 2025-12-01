@@ -17,11 +17,16 @@ import {
   Row,
   BoxSize,
   Button,
+  Conditional,
 } from "@/com/ui/comps";
 
 import { ColorTheme, TextTheme } from "@/com/ui/theme/scheme";
 import { InputFilter } from "@/view/comps/InputFilter";
-import { isNullOrEmpty, isNullOrEmptyList } from "@/com/validation";
+import {
+  isEmptyList,
+  isNullOrEmpty,
+  isNullOrEmptyList,
+} from "@/com/validation";
 import { useQuery } from "@tanstack/react-query";
 import { Api } from "@/clients/Api";
 import { Order } from "@/model/entity/Order";
@@ -51,25 +56,45 @@ const getStatusColor = (status: string) => {
 };
 
 export function OrdersList() {
-  const [status, setStatus] = useState<string>("");
+  const [status, setStatus] = useState<string[]>([]);
+  const [last, setLast] = useState<string>("");
 
-  const [page, setPage] = useState({
-    last: "",
-    orders: [] as Order[],
-  });
+  const [orders, setOrders] = useState<Order[]>([]);
 
   const { data } = useQuery({
-    queryKey: ["orders", status],
+    queryKey: ["orders", last],
     queryFn: () =>
-      Api.orders.pageable({
-        status: status,
-        last: page.last,
-        limit: "10",
-      }),
+      Api.orders
+        .pageable({
+          last: last,
+          limit: "10",
+        })
+        .then((it) => setMore(it)),
   });
 
+  function setMore(data: { items: Order[]; last?: string }) {
+    const more = orders.concat(data.items);
+
+    setOrders(more);
+
+    return data;
+  }
   function getOrders() {
-    return page.orders.concat(data?.items ?? []);
+    const ordersByStatus = filterOrdersByStatus(orders);
+
+    return ordersByStatus;
+  }
+
+  function filterOrdersByStatus(it: Order[]) {
+    if (isEmptyList(status)) return it;
+    return orders.filter((it) => status.includes(it.status.description));
+  }
+
+  function orderByCreatedAtDesc(it: Order[]) {
+    return it.sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+    );
   }
 
   function hasMoreItems() {
@@ -173,12 +198,7 @@ export function OrdersList() {
           variant="outlined"
           color="primary"
           sx={{ width: 120 }}
-          onClick={() => {
-            setPage((prev) => ({
-              last: data?.last ?? "",
-              orders: prev.orders.concat(data?.items ?? []),
-            }));
-          }}
+          onClick={() => setLast(data?.last ?? "")}
         >
           Mais
         </Button>
@@ -194,7 +214,7 @@ function ListOrders({ orders }: Readonly<{ orders: Order[] }>) {
 
   return orders.map((order: Order) => (
     <TableRow
-      key={order.id}
+      key={"order".concat(order.id)}
       hover
       sx={{ cursor: "pointer" }}
       onClick={() => router.push("/orders/edit?id=".concat(order.id))}
@@ -209,16 +229,35 @@ function ListOrders({ orders }: Readonly<{ orders: Order[] }>) {
       </TableCell>
       <TableCell>
         <Col>
-          <Text>Pizza Calabresa</Text>
-          <Text>Refrigerante</Text>
+          {order.items
+            .map((item) => (
+              <Text
+                key={"order-item".concat(order.id, item.id)}
+                color={"secondary"}
+                size={"xSmall"}
+              >
+                {item.unity.quantity} {item.name}
+              </Text>
+            ))
+            .slice(0, 3)}
+          <Conditional bool={order.items.length > 3}>
+            <Row>
+              <BoxSize width={2} />
+              <Text color={"secondary"} size={"xSmall"}>
+                Mais
+              </Text>
+            </Row>
+          </Conditional>
         </Col>
       </TableCell>
       <TableCell>{currencyFromDouble(order.payment.amount)}</TableCell>
 
       <TableCell>
         <Col>
-          <Text>Rua Lucerna, 156</Text>
-          <Text>Dep. Jose Antonio Liberato</Text>
+          <Text>
+            {order.address.street}, {order.address.number}
+          </Text>
+          <Text>{order.address.district}</Text>
         </Col>
       </TableCell>
 

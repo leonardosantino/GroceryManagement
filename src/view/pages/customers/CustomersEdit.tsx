@@ -34,7 +34,7 @@ export function CustomersEdit() {
 
   const { data: address } = useQuery({
     queryKey: ["address", id],
-    queryFn: () => Api.addresses.findByCustomerId(id),
+    queryFn: () => Api.addresses.findByUser(id),
   });
 
   const { mutate } = useMutation({

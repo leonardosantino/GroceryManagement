@@ -11,7 +11,6 @@ import {
   Row,
   Text,
   BoxSize,
-  Paper,
   Break,
   Space,
 } from "@/com/ui/comps";
@@ -143,11 +142,11 @@ export function OrdersEdit() {
               Itens
             </Text>
 
-            <Paper padding={2}>
+            <Col direction={"column"} gap={2}>
               {data?.items.map((item) => (
                 <OrderItem key={"product-".concat(item.id)} item={item} />
               ))}
-            </Paper>
+            </Col>
           </Col>
         </Col>
         <Col gap={4}>
